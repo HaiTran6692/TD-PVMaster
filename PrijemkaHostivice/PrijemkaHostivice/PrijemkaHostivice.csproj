@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Alecive-Flatwoken-Apps-Libreoffice-Impress-B.ico" />
+    <None Include="Resources\Apps-Search-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
