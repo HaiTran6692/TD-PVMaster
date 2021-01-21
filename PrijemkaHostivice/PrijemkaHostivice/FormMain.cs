@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace PrijemkaHostivice
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
-        public Form1()
+        public FormMain()
         {
             InitializeComponent();
             //this.WindowState = FormWindowState.Maximized;
@@ -20,7 +20,7 @@ namespace PrijemkaHostivice
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.WindowState= FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
             dateTimePicker1from.CustomFormat = "dd.MM.yyyy";
             dateTimePicker1from.Value = DateTime.Today;
@@ -169,7 +169,14 @@ namespace PrijemkaHostivice
                 TB = DataOracle.Instance.ExecuteQuery(sqlLoadPrijemky);
                 if (TB.Rows.Count > 0)
                 {
-                    dataGridView1.DataSource = TB;                    
+                    dataGridView1.DataSource = TB;
+                    dataGridView1.Columns[0].HeaderText = "Číslo objednávky";
+                    dataGridView1.Columns[1].HeaderText = "Dodavatel";
+                    dataGridView1.Columns[2].HeaderText = "Stav";
+                    dataGridView1.Columns[3].HeaderText = "Čas příjmu";
+                    dataGridView1.Columns[4].HeaderText = "Čas celkem";
+                    dataGridView1.Columns[5].HeaderText = "Consignment";
+                    dataGridView1.Columns[6].HeaderText = "Stock";
                 }
                 else
                 {
