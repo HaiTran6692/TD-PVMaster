@@ -28,7 +28,6 @@ namespace PrijemkaHostivice
             dateTimePicker2to.Format = DateTimePickerFormat.Custom;
             dateTimePicker2to.CustomFormat = "dd.MM.yyyy";
             dateTimePicker2to.Value = DateTime.Today;
-
             
             LoadPrijemky();
         }
@@ -37,58 +36,50 @@ namespace PrijemkaHostivice
         {
             if (e.KeyCode == Keys.Enter)
             {
-                TimTheoSoDon(placeHolderTextBox1.Text);
+                TimTheoSoDon(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
             }
         }
         private void pictureBox3_Click(object sender, EventArgs e)
         {
-            TimTheoSoDon(placeHolderTextBox1.Text);
+            TimTheoSoDon(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
         }
-        private void TimTheoSoDon(string inputOBJ)
+        private void TimTheoSoDon(string inputOBJ, string inputPrijemka)
         {
             crystalReportViewer1.ReportSource = null;
-            _List.Clear();
-            string sqlOracle1 = $@"select --ol_nligof as stt
-                                           -- ,oe_numorc as cislo_stock
-                                            to_char(oe_dtlivp,'dd.MM.yyyy') as datum_prijmu --0
-                                           -- ,oe_ncdefo as prijemka
-                                            ,oe_fourn as cislo_dodavatel --1
-                                            ,oe_librs as dodavatel --2
-                                            ,ol_cproin as kod_zbozi --3
-                                            ,ar_libpro as nazev_zbozi  --4
-                                           -- ,ol_qteup
-                                            ,nvl(ol_qteuvc, 0) as objednano --5
-                                            ,nvl(ol_uvcrec, 0) as prijato  --6
-                                            ,to_number(nvl(ol_uvcrec, 0)) - to_number(nvl(ol_qteuvc, 0)) as rozdil
-                                            --,ol_datmod as datum_modify
-                                            from tb_lrec tb1 left
-                                            join tb_erec tb2 on tb1.ol_cincde = tb2.oe_ncdefo
-
-                                       left
-                                            join tb_art tb3 on tb1.ol_cproin = tb3.ar_cproin
-                                            where oe_ncdefo = '{inputOBJ}'
-                                            order by to_number(ol_nligof)";
-            DataTable TB_oracle = new DataTable();
+            _List.Clear();     
+            string sqlERP1 = $@"select 
+                            format(p.created,'dd.MM.yyyy') as datum_prijmu --0
+                            ,f.dodavatel--1
+                            ,f.cislo--2
+                            ,kod_zbozi--3
+                            ,nazev--4
+                            ,dph --5
+                            ,convert(int,mnozstvi) as prijato --6
+                            from [OrdersManager].[dbo].[FakPol] p 
+                            left join [OrdersManager].[dbo].[Faktury] f on p.cisloobj=f.cisloobj
+                            where p.cisloobj='{inputOBJ}' and f.cislo='{inputPrijemka}'
+                            order by  p.id ";
+            DataTable TB_erp = new DataTable();
             try
             {
-                TB_oracle = DataOracle.Instance.ExecuteQuery(sqlOracle1);
-                if (TB_oracle.Rows.Count < 1)
+                TB_erp = DataProvider.Instance.ExecuteQuery(sqlERP1);
+                if (TB_erp.Rows.Count < 1)
                 {
                     MessageBox.Show("Không có đơn hàng này!");
                 }
                 else
                 {
-                    for (int i = 0; i < TB_oracle.Rows.Count; i++)
+                    for (int i = 0; i < TB_erp.Rows.Count; i++)
                     {
                         _List.Add(new InvoiceDetail
                         {
-                            kod_zbozi = TB_oracle.Rows[i][3].ToString(),
-                            nazev = TB_oracle.Rows[i][4].ToString(),
-                            objednano = TB_oracle.Rows[i][5].ToString(),
-                            prjato = TB_oracle.Rows[i][6].ToString()
+                            kod_zbozi = TB_erp.Rows[i][3].ToString(),
+                            nazev = TB_erp.Rows[i][4].ToString(),
+                            objednano = TB_erp.Rows[i][5].ToString(),
+                            prjato = TB_erp.Rows[i][6].ToString()
                         });
                     }
-                    int cisloDodavatele = int.Parse(TB_oracle.Rows[0][1].ToString().Substring(1, TB_oracle.Rows[0][1].ToString().Length - 1));
+                    int cisloDodavatele = int.Parse(TB_erp.Rows[0][1].ToString().Substring(1, TB_erp.Rows[0][1].ToString().Length - 1));
                     string sql1 = $@"SELECT cislodod, nazev, ico, dic, street, city, zip    
                                  FROM [TDF Database].dbo.dodavatele 
                                  WHERE CONVERT(int,cislodod)='{cisloDodavatele}'";
@@ -106,7 +97,7 @@ namespace PrijemkaHostivice
                         string city = TB.Rows[0][6].ToString() + " " + TB.Rows[0][5].ToString();
                         string obj = "Objednávka č."+inputOBJ;
                         string prijemka = "PŘÍJEMKA: "+inputOBJ;
-                        string datumPrijmuD = TB_oracle.Rows[0][0].ToString();
+                        string datumPrijmuD = TB_erp.Rows[0][0].ToString();
                         Zen.Barcode.Code128BarcodeDraw bar1 = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
                         bar1.Draw(inputOBJ,40).Save(Application.StartupPath + "\\cache\\file_EAN_obj.png");
 
@@ -138,54 +129,43 @@ namespace PrijemkaHostivice
         }
         private void LoadPrijemky()
         {
-            string sqlLoadPrijemky = $@"SELECT        --substr(es_adrqre, 5, 2) AS rampa,
-                                                      oe_ncdefo AS order_num,
-                                                      oe_librs   AS dodavatel,
-                                                      CASE WHEN ma_starr = 0 THEN
-                                                                        'INITIALISE'
-                                                           WHEN ma_starr = 1 THEN
-                                                                        'ON DOCK'
-                                                           WHEN ma_starr = 2 THEN
-                                                                        'Kontroluje'
-                                                           WHEN ma_starr = 3 THEN
-                                                                        'HOTOVO!'
-                                                           END as Status,
-                                                       TO_CHAR(nvl(ma_dtrecr, ma_datrec), 'DD/MM HH24:MI') AS Recep_date,
-                                                       -- TO_CHAR(ma_datclo, 'DD/MM HH24:MI') AS Close_date, 
-                                                       (trunc(24 *(SYSDATE - ma_dtrecr) - 24 *(trunc(SYSDATE - ma_dtrecr))))||'h:'||TO_CHAR(trunc(60 * 24 *(sysdate - ma_dtrecr)) - 60 *(trunc(24 *(SYSDATE - ma_dtrecr))),'00') AS celkem_cas,
-                                                       --  ma_starr   AS status_num,
-                                                        ml_numarr AS consignment_num,
-                                                        ml_numorc AS stock_num
-                                          FROM  tb_lrdv left join tb_erdv ON ml_numarr = ma_numarr
-                                          LEFT join tb_erec ON ml_numorc = oe_numorc
-                                          LEFT JOIN tb_eslrec ON ml_numarr = es_numarr
-                                          WHERE ma_starr !=0 
-                                                AND TO_CHAR(nvl(ma_dtrecr, ma_datrec), 'YYYYMMdd') >= '{dateTimePicker1from.Value.ToString("yyyyMMdd")}'
-                                                AND TO_CHAR(nvl(ma_dtrecr, ma_datrec), 'YYYYMMdd') <= '{dateTimePicker2to.Value.ToString("yyyyMMdd")}'
-                                          ORDER BY TO_CHAR(nvl(ma_dtrecr, ma_datrec), 'YYYYMMDDHH24MISS') DESC";
+            string sqlLoadPrijemky = $@"SELECT      
+                                      f.cislo as Cislo_prijemky
+                                      ,f.cisloobj as Cislo_objednavky      
+                                      ,f.[Casti]      
+                                      ,FORMAT(ISNULL(f.datum_prijemky,f.[datakt]),'dd.MM.yyyy HH:mm') as Datum_cas_prijemky 
+                                      ,d.Nazev
+                                      ,IIF([dodavatelske_cislo] like 'DL%',[dodavatelske_cislo],'') as Cislo_dodaciho_listu	  
+	                                  ,IIF([dodavatelske_cislo] not like 'DL%',[dodavatelske_cislo],'') as Cislo_faktury	 
+	                                  ,ISNULL(f.interni_cislo_prijemky, f.cisloobj) as [Index]
+                                  FROM [OrdersManager].[dbo].[Faktury] f
+                                  LEFT JOIN [TDF Database].dbo.dodavatele d  ON d.cislodod = f.dodavatel
+                                  WHERE  datediff(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104),ISNULL(f.datum_prijemky,f.[datakt]))>=0
+                                  ORDER by f.cislo,f.[Casti]  ";
             DataTable TB = new DataTable();
             try
             {
-                TB = DataOracle.Instance.ExecuteQuery(sqlLoadPrijemky);
+                TB = DataProvider.Instance.ExecuteQuery(sqlLoadPrijemky);
                 if (TB.Rows.Count > 0)
                 {
                     dataGridView1.DataSource = TB;
-                    dataGridView1.Columns[0].HeaderText = "Číslo objednávky";
-                    dataGridView1.Columns[1].HeaderText = "Dodavatel";
-                    dataGridView1.Columns[2].HeaderText = "Stav";
-                    dataGridView1.Columns[3].HeaderText = "Čas příjmu";
-                    dataGridView1.Columns[4].HeaderText = "Čas celkem";
-                    dataGridView1.Columns[5].HeaderText = "Consignment";
-                    dataGridView1.Columns[6].HeaderText = "Stock";
+                    dataGridView1.Columns[0].HeaderText = "Číslo příjemky";
+                    dataGridView1.Columns[1].HeaderText = "Číslo objednávky";
+                    dataGridView1.Columns[2].HeaderText = "Části";
+                    dataGridView1.Columns[3].HeaderText = "Datum příjmu";
+                    dataGridView1.Columns[4].HeaderText = "Název";
+                    dataGridView1.Columns[5].HeaderText = "Dodací list";
+                    dataGridView1.Columns[6].HeaderText = "Faktura";
+                    dataGridView1.Columns[7].HeaderText = "Index";
                 }
                 else
                 {
                     MessageBox.Show("Không có đơn hàng nào!");
                 }
             }
-            catch (Exception)
+            catch (Exception )
             {
-                MessageBox.Show("Xảy ra lỗi");
+                MessageBox.Show(sqlLoadPrijemky);
             }        
 
         }
@@ -196,7 +176,7 @@ namespace PrijemkaHostivice
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            TimTheoSoDon(textBox1.Text);
+            TimTheoSoDon(textBox1.Text, textBox2.Text);
         }
 
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
@@ -205,7 +185,8 @@ namespace PrijemkaHostivice
             {
                 DataGridViewRow row = new DataGridViewRow();               
                 row = dataGridView1.Rows[e.RowIndex];
-                textBox1.Text = row.Cells[0].Value.ToString();               
+                textBox2.Text= row.Cells[0].Value.ToString();
+                textBox1.Text = row.Cells[1].Value.ToString();               
             }
             catch (Exception)
             {

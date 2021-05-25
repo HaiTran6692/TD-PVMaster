@@ -21,18 +21,10 @@ namespace PrijemkaHostivice
 
         private void loadFormMain()
         {
-            if (LoadSttUser(textBox1.Text, textBox2.Text) != null)
-            {
-                this.Hide();
-                var fm = new FormMain();
-                fm.Closed += (s, args) => this.Close();
-                fm.Show();
-            }
-            else
-            {
-                textBox2.Clear();
-                textBox2.Focus();
-            }
+            this.Hide();
+            var fm = new FormMain();
+            fm.Closed += (s, args) => this.Close();
+            fm.Show();
         }
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
