@@ -43,11 +43,12 @@ namespace PrijemkaHostivice
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.placeHolderTextBox2 = new PrijemkaHostivice.PlaceHolderTextBox();
-            this.placeHolderTextBox1 = new PrijemkaHostivice.PlaceHolderTextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.placeHolderTextBox1 = new PrijemkaHostivice.PlaceHolderTextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -152,7 +153,7 @@ namespace PrijemkaHostivice
             // pictureBox3
             // 
             this.pictureBox3.Image = global::PrijemkaHostivice.Properties.Resources.Apps_Dialog_Apply_icon;
-            this.pictureBox3.Location = new System.Drawing.Point(1026, 6);
+            this.pictureBox3.Location = new System.Drawing.Point(1005, 6);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(48, 48);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -164,7 +165,7 @@ namespace PrijemkaHostivice
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(1442, 37);
+            this.textBox1.Location = new System.Drawing.Point(1418, 38);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(109, 13);
@@ -177,6 +178,7 @@ namespace PrijemkaHostivice
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.placeHolderTextBox2);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.textBox2);
             this.panel1.Controls.Add(this.textBox1);
@@ -193,34 +195,46 @@ namespace PrijemkaHostivice
             this.panel1.Size = new System.Drawing.Size(1897, 69);
             this.panel1.TabIndex = 7;
             // 
+            // placeHolderTextBox2
+            // 
+            this.placeHolderTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
+            this.placeHolderTextBox2.ForeColor = System.Drawing.Color.Gray;
+            this.placeHolderTextBox2.Location = new System.Drawing.Point(804, 34);
+            this.placeHolderTextBox2.Name = "placeHolderTextBox2";
+            this.placeHolderTextBox2.PlaceHolderText = "Číslo příjemky...";
+            this.placeHolderTextBox2.Size = new System.Drawing.Size(195, 20);
+            this.placeHolderTextBox2.TabIndex = 8;
+            this.placeHolderTextBox2.Text = "Číslo příjemky...";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(1562, 38);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(62, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Příjemka č.";
+            // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1359, 37);
+            this.label4.Location = new System.Drawing.Point(1340, 38);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(77, 13);
             this.label4.TabIndex = 7;
             this.label4.Text = "Objednávka č.";
             // 
-            // label3
+            // textBox2
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(2, 81);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(135, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Double click to see detail ↓";
-            // 
-            // placeHolderTextBox2
-            // 
-            this.placeHolderTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
-            this.placeHolderTextBox2.ForeColor = System.Drawing.Color.Gray;
-            this.placeHolderTextBox2.Location = new System.Drawing.Point(842, 34);
-            this.placeHolderTextBox2.Name = "placeHolderTextBox2";
-            this.placeHolderTextBox2.PlaceHolderText = null;
-            this.placeHolderTextBox2.Size = new System.Drawing.Size(157, 20);
-            this.placeHolderTextBox2.TabIndex = 8;
+            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Location = new System.Drawing.Point(1630, 38);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(129, 13);
+            this.textBox2.TabIndex = 6;
             // 
             // placeHolderTextBox1
             // 
@@ -234,15 +248,14 @@ namespace PrijemkaHostivice
             this.placeHolderTextBox1.Text = "Nhập số đơn hàng / Zadejte číslo objednávky...";
             this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
             // 
-            // textBox2
+            // label3
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(1557, 37);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(129, 13);
-            this.textBox2.TabIndex = 6;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(2, 81);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(135, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Double click to see detail ↓";
             // 
             // FormMain
             // 
@@ -256,7 +269,7 @@ namespace PrijemkaHostivice
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PrijemkaHostivice v1b.21,01.2021";
+            this.Text = "PrijemkaHostivice v2a.25.05.2021";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -288,6 +301,7 @@ namespace PrijemkaHostivice
         private System.Windows.Forms.Label label4;
         private PlaceHolderTextBox placeHolderTextBox2;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label5;
     }
 }
 
