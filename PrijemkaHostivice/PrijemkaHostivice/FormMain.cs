@@ -17,33 +17,23 @@ namespace PrijemkaHostivice
             InitializeComponent();
             //this.WindowState = FormWindowState.Maximized;
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
             dateTimePicker1from.CustomFormat = "dd.MM.yyyy";
-            dateTimePicker1from.Value = DateTime.Today;
+            dateTimePicker1from.Value = DateTime.Today.AddDays(-1);
 
             dateTimePicker2to.Format = DateTimePickerFormat.Custom;
             dateTimePicker2to.CustomFormat = "dd.MM.yyyy";
             dateTimePicker2to.Value = DateTime.Today;
 
-            LoadPrijemky();
+            LoadPrijemky_od_cisloobj();
+           // LoadReport(dataGridView1.Rows[0].Cells[1].Value.ToString(), dataGridView1.Rows[0].Cells[0].Value.ToString());
         }
         List<InvoiceDetail> _List = new List<InvoiceDetail>();
-        private void placeHolderTextBox1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                TimTheoSoDon(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
-            }
-        }
-        private void pictureBox3_Click(object sender, EventArgs e)
-        {
-            TimTheoSoDon(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
-        }
-        private void TimTheoSoDon(string inputOBJ, string inputPrijemka)
+           
+        private void LoadReport(string inputOBJ, string inputPrijemka)
         {
             crystalReportViewer1.ReportSource = null;
             _List.Clear();
@@ -56,8 +46,9 @@ namespace PrijemkaHostivice
                             ,dph --5
                             ,convert(int,mnozstvi) as prijato --6
                             from [OrdersManager].[dbo].[FakPol] p 
-                            left join [OrdersManager].[dbo].[Faktury] f on p.cisloobj=f.cisloobj
-                            where p.cisloobj='{inputOBJ}' and f.cislo='{inputPrijemka}'
+                            left join [OrdersManager].[dbo].[Faktury] f on p.cisloobj=f.cisloobj and p.casti=f.casti
+                            where --p.cisloobj='{inputOBJ}' and 
+                            f.cislo='{inputPrijemka}'
                             order by  p.id ";
             DataTable TB_erp = new DataTable();
             try
@@ -65,7 +56,7 @@ namespace PrijemkaHostivice
                 TB_erp = DataProvider.Instance.ExecuteQuery(sqlERP1);
                 if (TB_erp.Rows.Count < 1)
                 {
-                    MessageBox.Show("Không có đơn hàng này!");
+                    //MessageBox.Show("Không có đơn hàng này!");
                 }
                 else
                 {
@@ -114,47 +105,57 @@ namespace PrijemkaHostivice
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmuD);
 
                         crystalReportViewer1.ReportSource = cr12;
+                       // crystalReportViewer1.Zoom(80);
                     }
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Xảy ra lỗi");
+               // MessageBox.Show("Xảy ra lỗi");
             }
 
         }
-        private void pictureBox4_Click(object sender, EventArgs e)
+        private void LoadPrijemky_od_cisloobj(string cisloobj_input = "", string cislo_prijemky = "")
         {
-            crystalReportViewer1.PrintReport();
-        }
-        private void LoadPrijemky()
-        {
-            string sqlLoadPrijemky = $@"SELECT      
+            string sqlLoadPrijemky_od_cisloobj = $@"SELECT      
                                       f.cislo as Cislo_prijemky
                                       ,f.cisloobj as Cislo_objednavky --  ,f.[Casti]      
                                       ,FORMAT(ISNULL(f.datum_prijemky,f.[datakt]),'dd.MM.yyyy HH:mm') as Datum_cas_prijemky 
-                                      ,d.Nazev
+                                      ,d.Nazev,f.casti
                                       ,IIF([dodavatelske_cislo] like 'DL%',[dodavatelske_cislo],'') as Cislo_dodaciho_listu	  
 	                                  ,IIF([dodavatelske_cislo] not like 'DL%',[dodavatelske_cislo],'') as Cislo_faktury	 
-	                                  ,ISNULL(f.interni_cislo_prijemky, f.cisloobj) as [Index]
+	                                  --,ISNULL(f.interni_cislo_prijemky, f.cisloobj) as [Index]
                                   FROM [OrdersManager].[dbo].[Faktury] f
                                   LEFT JOIN [TDF Database].dbo.dodavatele d  ON d.cislodod = f.dodavatel
-                                  WHERE  datediff(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104),ISNULL(f.datum_prijemky,f.[datakt]))>=0
+                                  WHERE f.cisloobj like '%{cisloobj_input}%' AND  f.cislo like '%{cislo_prijemky}%' 
+                                  AND datediff(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104),ISNULL(f.datum_prijemky,f.[datakt]))>=0
+                                  AND datediff(day,ISNULL(f.datum_prijemky,f.[datakt]),convert(datetime,'{dateTimePicker2to.Value.ToString("dd.MM.yyyy")}',104))>=0
                                   ORDER by f.cislo ,f.cisloobj  ";
             DataTable TB = new DataTable();
             try
             {
-                TB = DataProvider.Instance.ExecuteQuery(sqlLoadPrijemky);
+                TB = DataProvider.Instance.ExecuteQuery(sqlLoadPrijemky_od_cisloobj);
                 if (TB.Rows.Count > 0)
                 {
+                    dataGridView1.Columns.Clear();
+
+
                     dataGridView1.DataSource = TB;
                     dataGridView1.Columns[0].HeaderText = "Číslo příjemky";
                     dataGridView1.Columns[1].HeaderText = "Číslo objednávky";
                     dataGridView1.Columns[2].HeaderText = "Datum příjmu";
                     dataGridView1.Columns[3].HeaderText = "Název";
-                    dataGridView1.Columns[4].HeaderText = "Dodací list";
-                    dataGridView1.Columns[5].HeaderText = "Faktura";
-                    dataGridView1.Columns[6].HeaderText = "Index";
+                    dataGridView1.Columns[4].HeaderText = "Části";
+                    dataGridView1.Columns[5].HeaderText = "Dodací list";
+                    dataGridView1.Columns[6].HeaderText = "Faktura";
+
+                    DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+                    dataGridView1.Columns.Add(btn);
+                    btn.HeaderText = "Details";
+                    btn.Text = "Detail";
+                    btn.Name = "btn";
+                    btn.UseColumnTextForButtonValue = true;
+
 
                     for (int i = 0; i < dataGridView1.Columns.Count - 1; i++)
                     {
@@ -166,7 +167,7 @@ namespace PrijemkaHostivice
                 }
                 else
                 {
-                    MessageBox.Show("Không có đơn hàng nào!");
+                    //  MessageBox.Show("Không có đơn hàng nào!");
                 }
             }
             catch (Exception ex)
@@ -175,28 +176,60 @@ namespace PrijemkaHostivice
             }
 
         }
-        private void pictureBox1_Click_1(object sender, EventArgs e)
+
+        private void pictureBox4_Click(object sender, EventArgs e) // picture in
         {
-            LoadPrijemky();
+            crystalReportViewer1.PrintReport();
+        }
+        private void pictureBox3_Click(object sender, EventArgs e) // picture tim kiem xanh la
+        {
+            LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
             MessageBox.Show($"Có {dataGridView1.Rows.Count} đơn hàng");
         }
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void pictureBox1_Click_1(object sender, EventArgs e) // picture tim kiem xanh duong
         {
-            TimTheoSoDon(textBox1.Text, textBox2.Text);
+            LoadPrijemky_od_cisloobj();
+            MessageBox.Show($"Có {dataGridView1.Rows.Count} đơn hàng");
+        }                                
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 7)
+            {
+                try
+                {
+                    DataGridViewRow row = new DataGridViewRow();
+                    row = dataGridView1.Rows[e.RowIndex];
+                    textBox2.Text = row.Cells[0].Value.ToString();
+                    textBox1.Text = row.Cells[1].Value.ToString();
+                    LoadReport(row.Cells[1].Value.ToString(), row.Cells[0].Value.ToString());
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+        private void placeHolderTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
+            }
         }
 
-        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        private void placeHolderTextBox1_TextChanged(object sender, EventArgs e)
         {
-            try
+            if (placeHolderTextBox1.TextLength>=4)
             {
-                DataGridViewRow row = new DataGridViewRow();
-                row = dataGridView1.Rows[e.RowIndex];
-                textBox2.Text = row.Cells[0].Value.ToString();
-                textBox1.Text = row.Cells[1].Value.ToString();
+                LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
             }
-            catch (Exception)
-            {
+        }
 
+        private void placeHolderTextBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (placeHolderTextBox2.TextLength >= 4)
+            {
+                LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
             }
         }
     }

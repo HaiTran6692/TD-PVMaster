@@ -9,7 +9,7 @@ namespace PrijemkaHostivice
 {
     public class DataProvider
     {
-        private string connectSTR = @"Data Source=192.168.99.100,1434;Initial Catalog=TDManagement;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+        private string connectSTR = @"Data Source=192.168.89.100,1434;Initial Catalog=TDManagement;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
         private static DataProvider instance;
         public static DataProvider Instance
         {
