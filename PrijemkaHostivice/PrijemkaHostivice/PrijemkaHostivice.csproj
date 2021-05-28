@@ -7,7 +7,7 @@
     <ProjectGuid>{38263E92-B5E3-4265-8B4A-4740B2ED2F18}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>PrijemkaHostivice</RootNamespace>
-    <AssemblyName>PrijemkaHostivice</AssemblyName>
+    <AssemblyName>PV_Report</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
