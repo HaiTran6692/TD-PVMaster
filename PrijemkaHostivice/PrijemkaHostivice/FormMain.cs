@@ -17,8 +17,18 @@ namespace PrijemkaHostivice
             InitializeComponent();
             //this.WindowState = FormWindowState.Maximized;
         }
+
+        private string sendToFormMain;
+
+        public string SendToFormMain
+        {
+            get { return sendToFormMain; }
+            set { sendToFormMain = value; }
+        }
+               
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.Text = "PV_Report v2a.280521 "+ SendToFormMain.ToString();
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
             dateTimePicker1from.CustomFormat = "dd.MM.yyyy";
@@ -31,8 +41,7 @@ namespace PrijemkaHostivice
             LoadPrijemky_od_cisloobj();
            // LoadReport(dataGridView1.Rows[0].Cells[1].Value.ToString(), dataGridView1.Rows[0].Cells[0].Value.ToString());
         }
-        List<InvoiceDetail> _List = new List<InvoiceDetail>();
-           
+        List<InvoiceDetail> _List = new List<InvoiceDetail>();           
         private void LoadReport(string inputOBJ, string inputPrijemka)
         {
             crystalReportViewer1.ReportSource = null;
@@ -130,7 +139,7 @@ namespace PrijemkaHostivice
                                   WHERE f.cisloobj like '%{cisloobj_input}%' AND  f.cislo like '%{cislo_prijemky}%' 
                                   AND datediff(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104),ISNULL(f.datum_prijemky,f.[datakt]))>=0
                                   AND datediff(day,ISNULL(f.datum_prijemky,f.[datakt]),convert(datetime,'{dateTimePicker2to.Value.ToString("dd.MM.yyyy")}',104))>=0
-                                  ORDER by f.cislo ,f.cisloobj  ";
+                                  ORDER by ISNULL(f.datum_prijemky,f.[datakt]) desc, f.cislo ,f.cisloobj  ";
             DataTable TB = new DataTable();
             try
             {
@@ -176,7 +185,6 @@ namespace PrijemkaHostivice
             }
 
         }
-
         private void pictureBox4_Click(object sender, EventArgs e) // picture in
         {
             crystalReportViewer1.PrintReport();
@@ -216,7 +224,6 @@ namespace PrijemkaHostivice
                 LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
             }
         }
-
         private void placeHolderTextBox1_TextChanged(object sender, EventArgs e)
         {
             if (placeHolderTextBox1.TextLength>=4)
@@ -224,7 +231,6 @@ namespace PrijemkaHostivice
                 LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
             }
         }
-
         private void placeHolderTextBox2_TextChanged(object sender, EventArgs e)
         {
             if (placeHolderTextBox2.TextLength >= 4)

@@ -30,7 +30,6 @@ C:\Users\tnhfs\source\repos\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\Prijem
 C:\Users\tnhfs\source\repos\PrijemkaHostivice\PrijemkaHostivice\bin\Debug\Oracle.ManagedDataAccess.dll
 C:\Users\tnhfs\source\repos\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.csprojAssemblyReference.cache
 C:\Users\tnhfs\source\repos\PrijemkaHostivice\PrijemkaHostivice\bin\Debug\Zen.Barcode.Core.dll
-C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.csprojAssemblyReference.cache
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.Properties.Resources.resources
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.csproj.GenerateResource.cache
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.csproj.CoreCompileInputs.cache
@@ -63,3 +62,5 @@ C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaH
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.csproj.CopyComplete
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.FormMain.resources
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.FormLogin.resources
+C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\bin\Debug\MaterialSkin.dll
+C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.csprojAssemblyReference.cache

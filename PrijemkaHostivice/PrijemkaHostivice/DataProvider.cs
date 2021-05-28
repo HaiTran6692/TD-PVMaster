@@ -3,13 +3,17 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 
-
-
 namespace PrijemkaHostivice
 {
     public class DataProvider
     {
-        private string connectSTR = @"Data Source=192.168.99.100,1434;Initial Catalog=TDManagement;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+        private static string connectSTR = "";
+        public static string SetConnectString
+        {
+            get { return connectSTR; }
+            set { connectSTR = value; }
+        }
+
         private static DataProvider instance;
         public static DataProvider Instance
         {
