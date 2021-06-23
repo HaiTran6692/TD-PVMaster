@@ -42,14 +42,14 @@ namespace PrijemkaHostivice
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
+            this.placeHolderTextBox2 = new PrijemkaHostivice.PlaceHolderTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.placeHolderTextBox1 = new PrijemkaHostivice.PlaceHolderTextBox();
             this.CrystalReport21 = new PrijemkaHostivice.CrystalReport2();
             this.CrystalReport22 = new PrijemkaHostivice.CrystalReport2();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.placeHolderTextBox2 = new PrijemkaHostivice.PlaceHolderTextBox();
-            this.placeHolderTextBox1 = new PrijemkaHostivice.PlaceHolderTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -168,7 +168,7 @@ namespace PrijemkaHostivice
             // 
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(1332, 27);
+            this.textBox1.Location = new System.Drawing.Point(1332, 29);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(489, 24);
@@ -207,6 +207,19 @@ namespace PrijemkaHostivice
             this.label5.TabIndex = 7;
             this.label5.Text = "Příjemka č.";
             // 
+            // placeHolderTextBox2
+            // 
+            this.placeHolderTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
+            this.placeHolderTextBox2.ForeColor = System.Drawing.Color.Gray;
+            this.placeHolderTextBox2.Location = new System.Drawing.Point(621, 33);
+            this.placeHolderTextBox2.Name = "placeHolderTextBox2";
+            this.placeHolderTextBox2.PlaceHolderText = "Číslo příjemky...";
+            this.placeHolderTextBox2.Size = new System.Drawing.Size(125, 20);
+            this.placeHolderTextBox2.TabIndex = 8;
+            this.placeHolderTextBox2.Text = "Číslo příjemky...";
+            this.placeHolderTextBox2.TextChanged += new System.EventHandler(this.placeHolderTextBox2_TextChanged);
+            this.placeHolderTextBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -221,11 +234,24 @@ namespace PrijemkaHostivice
             // 
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox2.Location = new System.Drawing.Point(1042, 27);
+            this.textBox2.Location = new System.Drawing.Point(1042, 29);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(157, 24);
             this.textBox2.TabIndex = 6;
+            // 
+            // placeHolderTextBox1
+            // 
+            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
+            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
+            this.placeHolderTextBox1.Location = new System.Drawing.Point(367, 33);
+            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
+            this.placeHolderTextBox1.PlaceHolderText = "Tìm kiếm theo số đơn hàng / Číslo objednávky...";
+            this.placeHolderTextBox1.Size = new System.Drawing.Size(248, 20);
+            this.placeHolderTextBox1.TabIndex = 1;
+            this.placeHolderTextBox1.Text = "Tìm kiếm theo số đơn hàng / Číslo objednávky...";
+            this.placeHolderTextBox1.TextChanged += new System.EventHandler(this.placeHolderTextBox1_TextChanged);
+            this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
             // 
             // label3
             // 
@@ -247,32 +273,6 @@ namespace PrijemkaHostivice
             this.label6.Size = new System.Drawing.Size(109, 13);
             this.label6.TabIndex = 8;
             this.label6.Text = "press F1 to see Detail";
-            // 
-            // placeHolderTextBox2
-            // 
-            this.placeHolderTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
-            this.placeHolderTextBox2.ForeColor = System.Drawing.Color.Gray;
-            this.placeHolderTextBox2.Location = new System.Drawing.Point(621, 33);
-            this.placeHolderTextBox2.Name = "placeHolderTextBox2";
-            this.placeHolderTextBox2.PlaceHolderText = "Číslo příjemky...";
-            this.placeHolderTextBox2.Size = new System.Drawing.Size(125, 20);
-            this.placeHolderTextBox2.TabIndex = 8;
-            this.placeHolderTextBox2.Text = "Číslo příjemky...";
-            this.placeHolderTextBox2.TextChanged += new System.EventHandler(this.placeHolderTextBox2_TextChanged);
-            this.placeHolderTextBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
-            // 
-            // placeHolderTextBox1
-            // 
-            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
-            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
-            this.placeHolderTextBox1.Location = new System.Drawing.Point(367, 33);
-            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
-            this.placeHolderTextBox1.PlaceHolderText = "Tìm kiếm theo số đơn hàng / Číslo objednávky...";
-            this.placeHolderTextBox1.Size = new System.Drawing.Size(248, 20);
-            this.placeHolderTextBox1.TabIndex = 1;
-            this.placeHolderTextBox1.Text = "Tìm kiếm theo số đơn hàng / Číslo objednávky...";
-            this.placeHolderTextBox1.TextChanged += new System.EventHandler(this.placeHolderTextBox1_TextChanged);
-            this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
             // 
             // FormMain
             // 
