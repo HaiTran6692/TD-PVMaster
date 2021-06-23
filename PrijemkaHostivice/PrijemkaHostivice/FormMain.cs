@@ -28,7 +28,8 @@ namespace PrijemkaHostivice
                
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.Text = "PV_Report v2a.280521 "+ SendToFormMain.ToString();
+            //this.Text = "PV_Report v2a.280521 "+ SendToFormMain.ToString();
+            this.Text = "PV_Report v2b.230621 "+ SendToFormMain.ToString();
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
             dateTimePicker1from.CustomFormat = "dd.MM.yyyy";
@@ -39,7 +40,8 @@ namespace PrijemkaHostivice
             dateTimePicker2to.Value = DateTime.Today;
 
             LoadPrijemky_od_cisloobj();
-           // LoadReport(dataGridView1.Rows[0].Cells[1].Value.ToString(), dataGridView1.Rows[0].Cells[0].Value.ToString());
+           
+            // LoadReport(dataGridView1.Rows[0].Cells[1].Value.ToString(), dataGridView1.Rows[0].Cells[0].Value.ToString());
         }
         List<InvoiceDetail> _List = new List<InvoiceDetail>();           
         private void LoadReport(string inputOBJ, string inputPrijemka)
@@ -148,7 +150,6 @@ namespace PrijemkaHostivice
                 {
                     dataGridView1.Columns.Clear();
 
-
                     dataGridView1.DataSource = TB;
                     dataGridView1.Columns[0].HeaderText = "Číslo příjemky";
                     dataGridView1.Columns[1].HeaderText = "Číslo objednávky";
@@ -157,7 +158,6 @@ namespace PrijemkaHostivice
                     dataGridView1.Columns[4].HeaderText = "Části";
                     dataGridView1.Columns[5].HeaderText = "Dodací list";
                     dataGridView1.Columns[6].HeaderText = "Faktura";
-
                     DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
                     dataGridView1.Columns.Add(btn);
                     btn.HeaderText = "Details";
@@ -170,9 +170,8 @@ namespace PrijemkaHostivice
                     {
                         dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                     }
-                    dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-
-
+                    //dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    label3.Text = $"Rows count: {dataGridView1.Rows.Count}";
                 }
                 else
                 {
@@ -236,6 +235,41 @@ namespace PrijemkaHostivice
             if (placeHolderTextBox2.TextLength >= 4)
             {
                 LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
+            }
+        }
+
+        private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode==Keys.F1)
+            {
+                try
+                {       
+                    LoadReport(t1, t2);
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+
+        string t2 = "";
+        string t1 = "";
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            try
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                row = dataGridView1.Rows[e.RowIndex];               
+                t2 = row.Cells[0].Value.ToString();
+                t1 = row.Cells[1].Value.ToString();
+                textBox2.Text = t2;
+                textBox1.Text = t1;
+            }
+            catch (Exception)
+            {
+                t2 = "0";
+                t1 = "0";
             }
         }
     }
