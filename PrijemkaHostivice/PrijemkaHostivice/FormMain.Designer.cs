@@ -268,11 +268,11 @@ namespace PrijemkaHostivice
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(828, 1020);
+            this.label6.Location = new System.Drawing.Point(735, 1019);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(109, 13);
+            this.label6.Size = new System.Drawing.Size(203, 13);
             this.label6.TabIndex = 8;
-            this.label6.Text = "press F1 to see Detail";
+            this.label6.Text = "press F1 to see Detail | F5 Export to Excel";
             // 
             // FormMain
             // 

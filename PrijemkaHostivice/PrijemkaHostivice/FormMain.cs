@@ -29,7 +29,8 @@ namespace PrijemkaHostivice
         private void Form1_Load(object sender, EventArgs e)
         {
             //this.Text = "PV_Report v2a.280521 "+ SendToFormMain.ToString();
-            this.Text = "PV_Report v2b.230621 "+ SendToFormMain.ToString();
+            //this.Text = "PV_Report v2b.230621 "+ SendToFormMain.ToString();
+            this.Text = "PV_Report v2c.240621 "+ SendToFormMain.ToString();
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
             dateTimePicker1from.CustomFormat = "dd.MM.yyyy";
@@ -245,6 +246,21 @@ namespace PrijemkaHostivice
                 try
                 {       
                     LoadReport(t1, t2);
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+            else if (e.KeyCode == Keys.F5)
+            {
+                try
+                {
+                    DialogResult dialogResult = MessageBox.Show("Bạn có muốn xuất dữ liệu ra file Excel không?", "Cảnh báo", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button3);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        ExportDTGVToExcel.Instance.ExportToExcel(dataGridView1);                         
+                    }
                 }
                 catch (Exception)
                 {

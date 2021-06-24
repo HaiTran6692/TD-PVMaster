@@ -64,3 +64,5 @@ C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaH
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\bin\Debug\PV_Report.pdb
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PV_Report.exe
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PV_Report.pdb
+C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\bin\Debug\EPPlus.dll
+C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\bin\Debug\EPPlus.xml
