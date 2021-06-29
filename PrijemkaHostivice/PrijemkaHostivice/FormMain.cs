@@ -12,10 +12,18 @@ namespace PrijemkaHostivice
 {
     public partial class FormMain : Form
     {
+        private BackgroundWorker worker = null;
+        CrystalReport2 cr12 = new CrystalReport2();
         public FormMain()
         {
             InitializeComponent();
-            //this.WindowState = FormWindowState.Maximized;
+
+            progressBar1.Visible = false;
+            worker = new BackgroundWorker();  
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += worker_DoWork;
+            worker.ProgressChanged += worker_ProgressChanged;
+            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
         }
 
         private string sendToFormMain;
@@ -25,12 +33,14 @@ namespace PrijemkaHostivice
             get { return sendToFormMain; }
             set { sendToFormMain = value; }
         }
-               
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //this.Text = "PV_Report v2a.280521 "+ SendToFormMain.ToString();
             //this.Text = "PV_Report v2b.230621 "+ SendToFormMain.ToString();
-            this.Text = "PV_Report v2c.240621 "+ SendToFormMain.ToString();
+            //this.Text = "PV_Report v2c.240621 " + SendToFormMain.ToString();
+            this.Text = "PV_Report v2d.290621 " + SendToFormMain.ToString();
+
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
             dateTimePicker1from.CustomFormat = "dd.MM.yyyy";
@@ -41,13 +51,24 @@ namespace PrijemkaHostivice
             dateTimePicker2to.Value = DateTime.Today;
 
             LoadPrijemky_od_cisloobj();
-           
-            // LoadReport(dataGridView1.Rows[0].Cells[1].Value.ToString(), dataGridView1.Rows[0].Cells[0].Value.ToString());
         }
-        List<InvoiceDetail> _List = new List<InvoiceDetail>();           
-        private void LoadReport(string inputOBJ, string inputPrijemka)
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            crystalReportViewer1.ReportSource = null;
+            LoadReportDetail(t1, t2);
+        }
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            
+        }
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            progressBar1.Visible = false;
+            crystalReportViewer1.ReportSource = cr12;
+        }
+        List<InvoiceDetail> _List = new List<InvoiceDetail>();
+        private void LoadReportDetail(string inputOBJ, string inputPrijemka)
+        {            
             _List.Clear();
             string sqlERP1 = $@"select 
                             format(p.created,'dd.MM.yyyy') as datum_prijmu --0
@@ -57,6 +78,7 @@ namespace PrijemkaHostivice
                             ,nazev--4
                             ,dph --5
                             ,convert(int,mnozstvi) as prijato --6
+                            ,(select top 1 convert(int,pocetmj*baleni) from [OrdersManager].[dbo].[ObjVydPol] vp where charindex(vp.cisloobj,f.cisloobj,0)>0 and vp.kod_zbozi=p.kod_zbozi) as objednano   --7                    
                             from [OrdersManager].[dbo].[FakPol] p 
                             left join [OrdersManager].[dbo].[Faktury] f on p.cisloobj=f.cisloobj and p.casti=f.casti
                             where --p.cisloobj='{inputOBJ}' and 
@@ -78,8 +100,9 @@ namespace PrijemkaHostivice
                         {
                             kod_zbozi = TB_erp.Rows[i][3].ToString(),
                             nazev = TB_erp.Rows[i][4].ToString(),
-                            prjato = TB_erp.Rows[i][5].ToString(),
-                            objednano = TB_erp.Rows[i][6].ToString() //dph
+                            prjato = TB_erp.Rows[i][6].ToString(),
+                            objednano = TB_erp.Rows[i][7].ToString()
+
                         });
                     }
                     int cisloDodavatele = int.Parse(TB_erp.Rows[0][1].ToString().Substring(1, TB_erp.Rows[0][1].ToString().Length - 1));
@@ -90,7 +113,7 @@ namespace PrijemkaHostivice
                     DataTable TB = DataProvider.Instance.ExecuteQuery(sql1);
                     if (TB.Rows.Count >= 1)
                     {
-                        CrystalReport2 cr12 = new CrystalReport2();
+                        
                         cr12.SetDataSource(_List);
                         string cislodod = "D" + TB.Rows[0][0].ToString();
                         string nazev = TB.Rows[0][1].ToString();
@@ -115,15 +138,15 @@ namespace PrijemkaHostivice
                         cr12.SetParameterValue("dicD", dic);
                         cr12.SetParameterValue("dicD", dic);
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmuD);
-
-                        crystalReportViewer1.ReportSource = cr12;
-                       // crystalReportViewer1.Zoom(80);
+                        
+                        
+                        // crystalReportViewer1.Zoom(80);
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-               // MessageBox.Show("Xảy ra lỗi");
+                 MessageBox.Show(ex.ToString());
             }
 
         }
@@ -198,7 +221,7 @@ namespace PrijemkaHostivice
         {
             LoadPrijemky_od_cisloobj();
             MessageBox.Show($"Có {dataGridView1.Rows.Count} đơn hàng");
-        }                                
+        }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 7)
@@ -207,9 +230,11 @@ namespace PrijemkaHostivice
                 {
                     DataGridViewRow row = new DataGridViewRow();
                     row = dataGridView1.Rows[e.RowIndex];
-                    textBox2.Text = row.Cells[0].Value.ToString();
-                    textBox1.Text = row.Cells[1].Value.ToString();
-                    LoadReport(row.Cells[1].Value.ToString(), row.Cells[0].Value.ToString());
+                    t2 = row.Cells[0].Value.ToString();
+                    t1 = row.Cells[1].Value.ToString();
+                    textBox2.Text = t2;
+                    textBox1.Text = t1;
+                    RunAsync();
                 }
                 catch (Exception)
                 {
@@ -226,7 +251,7 @@ namespace PrijemkaHostivice
         }
         private void placeHolderTextBox1_TextChanged(object sender, EventArgs e)
         {
-            if (placeHolderTextBox1.TextLength>=4)
+            if (placeHolderTextBox1.TextLength >= 4)
             {
                 LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
             }
@@ -241,11 +266,11 @@ namespace PrijemkaHostivice
 
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode==Keys.F1)
+            if (e.KeyCode == Keys.F1)
             {
                 try
-                {       
-                    LoadReport(t1, t2);
+                {
+                    RunAsync();
                 }
                 catch (Exception)
                 {
@@ -259,7 +284,7 @@ namespace PrijemkaHostivice
                     DialogResult dialogResult = MessageBox.Show("Bạn có muốn xuất dữ liệu ra file Excel không?", "Cảnh báo", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button3);
                     if (dialogResult == DialogResult.Yes)
                     {
-                        ExportDTGVToExcel.Instance.ExportToExcel(dataGridView1);                         
+                        ExportDTGVToExcel.Instance.ExportToExcel(dataGridView1);
                     }
                 }
                 catch (Exception)
@@ -268,7 +293,6 @@ namespace PrijemkaHostivice
                 }
             }
         }
-
         string t2 = "";
         string t1 = "";
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
@@ -276,7 +300,7 @@ namespace PrijemkaHostivice
             try
             {
                 DataGridViewRow row = new DataGridViewRow();
-                row = dataGridView1.Rows[e.RowIndex];               
+                row = dataGridView1.Rows[e.RowIndex];
                 t2 = row.Cells[0].Value.ToString();
                 t1 = row.Cells[1].Value.ToString();
                 textBox2.Text = t2;
@@ -287,6 +311,20 @@ namespace PrijemkaHostivice
                 t2 = "0";
                 t1 = "0";
             }
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            RunAsync();
+        }
+
+        private void RunAsync()
+        {
+            crystalReportViewer1.ReportSource = null;
+            progressBar1.Visible = true;
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            progressBar1.MarqueeAnimationSpeed = 1;
+            worker.RunWorkerAsync();
         }
     }
 }
