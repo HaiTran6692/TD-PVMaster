@@ -37,6 +37,8 @@
             this.comboBox1Branch = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.materialButton1 = new MaterialSkin.Controls.MaterialButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,7 +46,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(119, 98);
+            this.label1.Location = new System.Drawing.Point(118, 94);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 14);
             this.label1.TabIndex = 0;
@@ -53,7 +55,7 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(156, 95);
+            this.textBox1.Location = new System.Drawing.Point(155, 91);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(147, 22);
             this.textBox1.TabIndex = 1;
@@ -63,7 +65,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(95, 126);
+            this.label2.Location = new System.Drawing.Point(94, 122);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 14);
             this.label2.TabIndex = 0;
@@ -72,7 +74,7 @@
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox2.Location = new System.Drawing.Point(156, 121);
+            this.textBox2.Location = new System.Drawing.Point(155, 117);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(147, 22);
             this.textBox2.TabIndex = 2;
@@ -95,7 +97,7 @@
             // 
             this.comboBox1Branch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1Branch.FormattingEnabled = true;
-            this.comboBox1Branch.Location = new System.Drawing.Point(156, 148);
+            this.comboBox1Branch.Location = new System.Drawing.Point(155, 144);
             this.comboBox1Branch.Name = "comboBox1Branch";
             this.comboBox1Branch.Size = new System.Drawing.Size(147, 21);
             this.comboBox1Branch.TabIndex = 22;
@@ -104,7 +106,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label3.Location = new System.Drawing.Point(107, 150);
+            this.label3.Location = new System.Drawing.Point(106, 146);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 14);
             this.label3.TabIndex = 21;
@@ -118,7 +120,7 @@
             this.materialButton1.DrawShadows = true;
             this.materialButton1.HighEmphasis = true;
             this.materialButton1.Icon = null;
-            this.materialButton1.Location = new System.Drawing.Point(155, 175);
+            this.materialButton1.Location = new System.Drawing.Point(155, 198);
             this.materialButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialButton1.Name = "materialButton1";
@@ -130,12 +132,36 @@
             this.materialButton1.UseVisualStyleBackColor = true;
             this.materialButton1.Click += new System.EventHandler(this.materialButton1_Click);
             // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(158, 172);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(64, 17);
+            this.radioButton1.TabIndex = 24;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Prijemky";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(236, 172);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(62, 17);
+            this.radioButton2.TabIndex = 24;
+            this.radioButton2.Text = "Vydejky";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
             // FormLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(445, 237);
+            this.ClientSize = new System.Drawing.Size(449, 245);
+            this.Controls.Add(this.radioButton2);
+            this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.materialButton1);
             this.Controls.Add(this.comboBox1Branch);
             this.Controls.Add(this.label3);
@@ -168,5 +194,7 @@
         private System.Windows.Forms.ComboBox comboBox1Branch;
         private System.Windows.Forms.Label label3;
         private MaterialSkin.Controls.MaterialButton materialButton1;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton2;
     }
 }
