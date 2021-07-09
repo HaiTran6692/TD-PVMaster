@@ -41,6 +41,7 @@ namespace PrijemkaHostivice
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -48,7 +49,6 @@ namespace PrijemkaHostivice
             this.CrystalReport22 = new PrijemkaHostivice.CrystalReport2();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.placeHolderTextBox2 = new PrijemkaHostivice.PlaceHolderTextBox();
             this.placeHolderTextBox1 = new PrijemkaHostivice.PlaceHolderTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -77,7 +77,7 @@ namespace PrijemkaHostivice
             this.crystalReportViewer1.ShowParameterPanelButton = false;
             this.crystalReportViewer1.ShowRefreshButton = false;
             this.crystalReportViewer1.ShowTextSearchButton = false;
-            this.crystalReportViewer1.Size = new System.Drawing.Size(956, 960);
+            this.crystalReportViewer1.Size = new System.Drawing.Size(955, 960);
             this.crystalReportViewer1.TabIndex = 0;
             this.crystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             // 
@@ -86,6 +86,7 @@ namespace PrijemkaHostivice
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(6, 81);
@@ -200,6 +201,13 @@ namespace PrijemkaHostivice
             this.panel1.Size = new System.Drawing.Size(1897, 69);
             this.panel1.TabIndex = 7;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(940, 58);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(955, 5);
+            this.progressBar1.TabIndex = 9;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -251,13 +259,6 @@ namespace PrijemkaHostivice
             this.label6.TabIndex = 8;
             this.label6.Text = "press F1 to see Detail | F5 Export to Excel";
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(940, 58);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(955, 5);
-            this.progressBar1.TabIndex = 9;
-            // 
             // placeHolderTextBox2
             // 
             this.placeHolderTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
@@ -297,7 +298,7 @@ namespace PrijemkaHostivice
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PV_Report";
+            this.Text = "Prijemky";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();

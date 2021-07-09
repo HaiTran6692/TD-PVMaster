@@ -39,7 +39,7 @@ namespace PrijemkaHostivice
             //this.Text = "PV_Report v2a.280521 "+ SendToFormMain.ToString();
             //this.Text = "PV_Report v2b.230621 "+ SendToFormMain.ToString();
             //this.Text = "PV_Report v2c.240621 " + SendToFormMain.ToString();
-            this.Text = "PV_Report v2d.290621 " + SendToFormMain.ToString();
+            this.Text = "PV_Report v2d.290621 Prijemky " + SendToFormMain.ToString();
 
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
@@ -170,10 +170,10 @@ namespace PrijemkaHostivice
             try
             {
                 TB = DataProvider.Instance.ExecuteQuery(sqlLoadPrijemky_od_cisloobj);
+                dataGridView1.DataSource = null;
                 if (TB.Rows.Count > 0)
                 {
                     dataGridView1.Columns.Clear();
-
                     dataGridView1.DataSource = TB;
                     dataGridView1.Columns[0].HeaderText = "Číslo příjemky";
                     dataGridView1.Columns[1].HeaderText = "Číslo objednávky";
@@ -190,10 +190,10 @@ namespace PrijemkaHostivice
                     btn.UseColumnTextForButtonValue = true;
 
 
-                    for (int i = 0; i < dataGridView1.Columns.Count - 1; i++)
-                    {
-                        dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    }
+                    //for (int i = 0; i < dataGridView1.Columns.Count - 1; i++)
+                    //{
+                    //    dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    //}
                     //dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     label3.Text = $"Rows count: {dataGridView1.Rows.Count}";
                 }

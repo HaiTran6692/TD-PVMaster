@@ -8,13 +8,22 @@ namespace PrijemkaHostivice
     public class DataProvider
     {
         private static string connectSTR = "";
+        private static string branch = "";
         public static string SetConnectString
         {
             get { return connectSTR; }
             set { connectSTR = value; }
         }
+        public static string SetBranch
+        {            
+            set { branch = value; }
+        }
+        public static string GetBranch
+        {
+            get { return branch; }
+        }        
 
-        private static DataProvider instance;
+    private static DataProvider instance;
         public static DataProvider Instance
         {
             get
