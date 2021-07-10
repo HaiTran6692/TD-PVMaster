@@ -16,14 +16,14 @@ namespace PrijemkaHostivice {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class CrystalReport2 : ReportClass {
+    public class CrystalReport_Vydejky : ReportClass {
         
-        public CrystalReport2() {
+        public CrystalReport_Vydejky() {
         }
         
         public override string ResourceName {
             get {
-                return "CrystalReport2.rpt";
+                return "CrystalReport_Vydejky.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace PrijemkaHostivice {
         
         public override string FullResourceName {
             get {
-                return "PrijemkaHostivice.CrystalReport2.rpt";
+                return "PrijemkaHostivice.CrystalReport_Vydejky.rpt";
             }
             set {
                 // Do nothing
@@ -170,9 +170,9 @@ namespace PrijemkaHostivice {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedCrystalReport2 : Component, ICachedReport {
+    public class CachedCrystalReport_Vydejky : Component, ICachedReport {
         
-        public CachedCrystalReport2() {
+        public CachedCrystalReport_Vydejky() {
         }
         
         [Browsable(false)]
@@ -209,7 +209,7 @@ namespace PrijemkaHostivice {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            CrystalReport2 rpt = new CrystalReport2();
+            CrystalReport_Vydejky rpt = new CrystalReport_Vydejky();
             rpt.Site = this.Site;
             return rpt;
         }

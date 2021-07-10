@@ -10,30 +10,26 @@ using System.Windows.Forms;
 
 namespace PrijemkaHostivice
 {
-    public partial class FormMain : Form
+    public partial class FormPrijemky : Form
     {
         private BackgroundWorker worker = null;
-        CrystalReport2 cr12 = new CrystalReport2();
-        public FormMain()
+        CrystalReport_Prijemky cr12 = new CrystalReport_Prijemky();
+        List<InvoiceDetail> _List = new List<InvoiceDetail>();
+        public FormPrijemky()
         {
             InitializeComponent();
-
             progressBar1.Visible = false;
             worker = new BackgroundWorker();  
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DoWork;
-            worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
         }
-
         private string sendToFormMain;
-
         public string SendToFormMain
         {
             get { return sendToFormMain; }
             set { sendToFormMain = value; }
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             //this.Text = "PV_Report v2a.280521 "+ SendToFormMain.ToString();
@@ -52,21 +48,15 @@ namespace PrijemkaHostivice
 
             LoadPrijemky_od_cisloobj();
         }
-
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            LoadReportDetail(t1, t2);
-        }
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            
-        }
+            LoadReportDetail(textBox1.Text, textBox2.Text);
+        }       
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             progressBar1.Visible = false;
             crystalReportViewer1.ReportSource = cr12;
-        }
-        List<InvoiceDetail> _List = new List<InvoiceDetail>();
+        }       
         private void LoadReportDetail(string inputOBJ, string inputPrijemka)
         {            
             _List.Clear();
@@ -150,7 +140,7 @@ namespace PrijemkaHostivice
             }
 
         }
-        private void LoadPrijemky_od_cisloobj(string cisloobj_input = "", string cislo_prijemky = "")
+        private void LoadPrijemky_od_cisloobj(string cisloobj_input = "")
         {
             string sqlLoadPrijemky_od_cisloobj = $@"SELECT      
                                       f.cislo as Cislo_prijemky
@@ -162,7 +152,7 @@ namespace PrijemkaHostivice
 	                                  --,ISNULL(f.interni_cislo_prijemky, f.cisloobj) as [Index]
                                   FROM [OrdersManager].[dbo].[Faktury] f
                                   LEFT JOIN [TDF Database].dbo.dodavatele d  ON d.cislodod = f.dodavatel
-                                  WHERE f.cisloobj like '%{cisloobj_input}%' AND  f.cislo like '%{cislo_prijemky}%' 
+                                  WHERE f.cisloobj like '%{cisloobj_input}%' 
                                   AND datediff(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104),ISNULL(f.datum_prijemky,f.[datakt]))>=0
                                   AND datediff(day,ISNULL(f.datum_prijemky,f.[datakt]),convert(datetime,'{dateTimePicker2to.Value.ToString("dd.MM.yyyy")}',104))>=0
                                   ORDER by ISNULL(f.datum_prijemky,f.[datakt]) desc, f.cislo ,f.cisloobj  ";
@@ -171,6 +161,7 @@ namespace PrijemkaHostivice
             {
                 TB = DataProvider.Instance.ExecuteQuery(sqlLoadPrijemky_od_cisloobj);
                 dataGridView1.DataSource = null;
+                dataGridView1.Rows.Clear();
                 if (TB.Rows.Count > 0)
                 {
                     dataGridView1.Columns.Clear();
@@ -188,12 +179,10 @@ namespace PrijemkaHostivice
                     btn.Text = "Detail";
                     btn.Name = "btn";
                     btn.UseColumnTextForButtonValue = true;
-
-
-                    //for (int i = 0; i < dataGridView1.Columns.Count - 1; i++)
-                    //{
-                    //    dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-                    //}
+                    for (int i = 0; i < dataGridView1.Columns.Count - 1; i++)
+                    {
+                        dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    }
                     //dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     label3.Text = $"Rows count: {dataGridView1.Rows.Count}";
                 }
@@ -214,7 +203,7 @@ namespace PrijemkaHostivice
         }
         private void pictureBox3_Click(object sender, EventArgs e) // picture tim kiem xanh la
         {
-            LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
+            LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text);
             MessageBox.Show($"Có {dataGridView1.Rows.Count} đơn hàng");
         }
         private void pictureBox1_Click_1(object sender, EventArgs e) // picture tim kiem xanh duong
@@ -230,10 +219,8 @@ namespace PrijemkaHostivice
                 {
                     DataGridViewRow row = new DataGridViewRow();
                     row = dataGridView1.Rows[e.RowIndex];
-                    t2 = row.Cells[0].Value.ToString();
-                    t1 = row.Cells[1].Value.ToString();
-                    textBox2.Text = t2;
-                    textBox1.Text = t1;
+                    textBox2.Text = row.Cells[0].Value.ToString();
+                    textBox1.Text = row.Cells[1].Value.ToString();                     
                     RunAsync();
                 }
                 catch (Exception)
@@ -246,24 +233,16 @@ namespace PrijemkaHostivice
         {
             if (e.KeyCode == Keys.Enter)
             {
-                LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
+                LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text);
             }
         }
         private void placeHolderTextBox1_TextChanged(object sender, EventArgs e)
         {
             if (placeHolderTextBox1.TextLength >= 4)
             {
-                LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
+                LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text);
             }
-        }
-        private void placeHolderTextBox2_TextChanged(object sender, EventArgs e)
-        {
-            if (placeHolderTextBox2.TextLength >= 4)
-            {
-                LoadPrijemky_od_cisloobj(placeHolderTextBox1.Text, placeHolderTextBox2.Text);
-            }
-        }
-
+        }      
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F1)
@@ -293,38 +272,36 @@ namespace PrijemkaHostivice
                 }
             }
         }
-        string t2 = "";
-        string t1 = "";
+   
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
                 DataGridViewRow row = new DataGridViewRow();
                 row = dataGridView1.Rows[e.RowIndex];
-                t2 = row.Cells[0].Value.ToString();
-                t1 = row.Cells[1].Value.ToString();
-                textBox2.Text = t2;
-                textBox1.Text = t1;
+                textBox2.Text = row.Cells[0].Value.ToString();
+                textBox1.Text = row.Cells[1].Value.ToString();               
             }
             catch (Exception)
             {
-                t2 = "0";
-                t1 = "0";
+                textBox2.Text = "0";
+                textBox1.Text = "0";
             }
         }
-
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             RunAsync();
         }
-
         private void RunAsync()
         {
-            crystalReportViewer1.ReportSource = null;
-            progressBar1.Visible = true;
-            progressBar1.Style = ProgressBarStyle.Marquee;
-            progressBar1.MarqueeAnimationSpeed = 1;
-            worker.RunWorkerAsync();
+            if (!worker.IsBusy)
+            {
+                crystalReportViewer1.ReportSource = null;
+                progressBar1.Visible = true;
+                progressBar1.Style = ProgressBarStyle.Marquee;
+                progressBar1.MarqueeAnimationSpeed = 1;
+                worker.RunWorkerAsync(); 
+            }
         }
     }
 }

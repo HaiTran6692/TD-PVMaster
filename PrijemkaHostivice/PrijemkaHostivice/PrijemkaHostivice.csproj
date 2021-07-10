@@ -71,10 +71,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CrystalReport2.cs">
+    <Compile Include="CrystalReport_Vydejky.cs">
+      <DependentUpon>CrystalReport_Vydejky.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CrystalReport_Prijemky.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CrystalReport2.rpt</DependentUpon>
+      <DependentUpon>CrystalReport_Prijemky.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DataOracle.cs" />
@@ -82,11 +88,11 @@
     <Compile Include="DataProvider.cs" />
     <Compile Include="Encryptt.cs" />
     <Compile Include="ExportDTGVToExcel.cs" />
-    <Compile Include="FormMain.cs">
+    <Compile Include="FormPrijemky.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormMain.Designer.cs">
-      <DependentUpon>FormMain.cs</DependentUpon>
+    <Compile Include="FormPrijemky.Designer.cs">
+      <DependentUpon>FormPrijemky.cs</DependentUpon>
     </Compile>
     <Compile Include="FormLogin.cs">
       <SubType>Form</SubType>
@@ -109,12 +115,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CrystalReport2.rpt">
+    <EmbeddedResource Include="CrystalReport_Vydejky.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrystalReport2.cs</LastGenOutput>
+      <LastGenOutput>CrystalReport_Vydejky.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
-      <DependentUpon>FormMain.cs</DependentUpon>
+    <EmbeddedResource Include="CrystalReport_Prijemky.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport_Prijemky.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPrijemky.resx">
+      <DependentUpon>FormPrijemky.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>

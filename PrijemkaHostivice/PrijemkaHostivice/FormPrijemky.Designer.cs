@@ -1,7 +1,7 @@
 ﻿
 namespace PrijemkaHostivice
 {
-    partial class FormMain
+    partial class FormPrijemky
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@ namespace PrijemkaHostivice
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormPrijemky));
             this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dateTimePicker1from = new System.Windows.Forms.DateTimePicker();
@@ -45,11 +45,10 @@ namespace PrijemkaHostivice
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.CrystalReport21 = new PrijemkaHostivice.CrystalReport2();
-            this.CrystalReport22 = new PrijemkaHostivice.CrystalReport2();
+            this.CrystalReport_Prijemky1 = new PrijemkaHostivice.CrystalReport_Prijemky();
+            this.CrystalReport_Prijemky2 = new PrijemkaHostivice.CrystalReport_Prijemky();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.placeHolderTextBox2 = new PrijemkaHostivice.PlaceHolderTextBox();
             this.placeHolderTextBox1 = new PrijemkaHostivice.PlaceHolderTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -159,7 +158,7 @@ namespace PrijemkaHostivice
             // pictureBox3
             // 
             this.pictureBox3.Image = global::PrijemkaHostivice.Properties.Resources.Apps_Dialog_Apply_icon;
-            this.pictureBox3.Location = new System.Drawing.Point(752, 6);
+            this.pictureBox3.Location = new System.Drawing.Point(752, 10);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(48, 48);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -184,7 +183,6 @@ namespace PrijemkaHostivice
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.progressBar1);
             this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.placeHolderTextBox2);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.textBox2);
             this.panel1.Controls.Add(this.textBox1);
@@ -259,24 +257,11 @@ namespace PrijemkaHostivice
             this.label6.TabIndex = 8;
             this.label6.Text = "press F1 to see Detail | F5 Export to Excel";
             // 
-            // placeHolderTextBox2
-            // 
-            this.placeHolderTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
-            this.placeHolderTextBox2.ForeColor = System.Drawing.Color.Gray;
-            this.placeHolderTextBox2.Location = new System.Drawing.Point(621, 33);
-            this.placeHolderTextBox2.Name = "placeHolderTextBox2";
-            this.placeHolderTextBox2.PlaceHolderText = "Číslo příjemky...";
-            this.placeHolderTextBox2.Size = new System.Drawing.Size(125, 20);
-            this.placeHolderTextBox2.TabIndex = 8;
-            this.placeHolderTextBox2.Text = "Číslo příjemky...";
-            this.placeHolderTextBox2.TextChanged += new System.EventHandler(this.placeHolderTextBox2_TextChanged);
-            this.placeHolderTextBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
-            // 
             // placeHolderTextBox1
             // 
             this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
             this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
-            this.placeHolderTextBox1.Location = new System.Drawing.Point(367, 33);
+            this.placeHolderTextBox1.Location = new System.Drawing.Point(498, 35);
             this.placeHolderTextBox1.Name = "placeHolderTextBox1";
             this.placeHolderTextBox1.PlaceHolderText = "Tìm kiếm theo số đơn hàng / Číslo objednávky...";
             this.placeHolderTextBox1.Size = new System.Drawing.Size(248, 20);
@@ -285,7 +270,7 @@ namespace PrijemkaHostivice
             this.placeHolderTextBox1.TextChanged += new System.EventHandler(this.placeHolderTextBox1_TextChanged);
             this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
             // 
-            // FormMain
+            // FormPrijemky
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -296,7 +281,7 @@ namespace PrijemkaHostivice
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.crystalReportViewer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "FormMain";
+            this.Name = "FormPrijemky";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Prijemky";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -312,12 +297,12 @@ namespace PrijemkaHostivice
         }
 
         #endregion
-        private CrystalReport2 CrystalReport21;
+        private CrystalReport_Prijemky CrystalReport_Prijemky1;
         private CrystalDecisions.Windows.Forms.CrystalReportViewer crystalReportViewer1;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private PlaceHolderTextBox placeHolderTextBox1;
-        private CrystalReport2 CrystalReport22;
+        private CrystalReport_Prijemky CrystalReport_Prijemky2;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1from;
         private System.Windows.Forms.DateTimePicker dateTimePicker2to;
@@ -327,7 +312,6 @@ namespace PrijemkaHostivice
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label4;
-        private PlaceHolderTextBox placeHolderTextBox2;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;

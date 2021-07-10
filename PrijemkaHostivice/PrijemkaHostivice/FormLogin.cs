@@ -107,7 +107,7 @@ namespace PrijemkaHostivice
         private void loadFormPrijemka()
         {
             this.Hide();
-            var fm = new FormMain();
+            var fm = new FormPrijemky();
             fm.SendToFormMain = comboBox1Branch.Text;
             fm.Closed += (s, args) => this.Show();
             fm.Show();
@@ -181,30 +181,30 @@ namespace PrijemkaHostivice
         }
         private void LoadBranchToDataProvider()
         {
-            if (radioButton1_Prijemky.Checked)
+            if (comboBox1Branch.Text == "TD - Sapa")
             {
-                if (comboBox1Branch.Text == "TD - Sapa")
-                {
-                    DataProvider.SetConnectString = $@"Data Source=192.168.4.100,1434;Initial Catalog=TamdaQLTS_Sapa;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
-                }
-                else if (comboBox1Branch.Text == "TD - Brno")
-                {
-                    DataProvider.SetConnectString = $@"Data Source=192.168.5.100,1434;Initial Catalog=TamdaQLTS_Brno;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
-                }
-                else if (comboBox1Branch.Text == "TK - Hostivice")
-                {
-                    DataProvider.SetConnectString = $@"Data Source=192.168.99.100,1434;Initial Catalog=TamdaQLTS_Hostivice;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
-                }
-                else if (comboBox1Branch.Text == "TD - Usti")
-                {
-                    DataProvider.SetConnectString = $@"Data Source=192.168.6.100,1434;Initial Catalog=TamdaQLTS_Usti;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
-                }
-                else if (comboBox1Branch.Text == "DC - Morava")
-                {
-                    DataProvider.SetConnectString = $@"Data Source=192.168.89.100,1434;Initial Catalog=TamdaQLTS_DC_Morava;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
-                } 
+                DataProvider.SetConnectString = $@"Data Source=192.168.4.100,1434;Initial Catalog=TamdaQLTS_Sapa;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
             }
-            else if (radioButton2_Vydejky.Checked)
+            else if (comboBox1Branch.Text == "TD - Brno")
+            {
+                DataProvider.SetConnectString = $@"Data Source=192.168.5.100,1434;Initial Catalog=TamdaQLTS_Brno;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+            }
+            else if (comboBox1Branch.Text == "TK - Hostivice")
+            {
+                DataProvider.SetConnectString = $@"Data Source=192.168.99.100,1434;Initial Catalog=TamdaQLTS_Hostivice;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+            }
+            else if (comboBox1Branch.Text == "TD - Usti")
+            {
+                DataProvider.SetConnectString = $@"Data Source=192.168.6.100,1434;Initial Catalog=TamdaQLTS_Usti;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+            }
+            else if (comboBox1Branch.Text == "DC - Morava")
+            {
+                DataProvider.SetConnectString = $@"Data Source=192.168.89.100,1434;Initial Catalog=TamdaQLTS_DC_Morava;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+            }
+
+
+
+            if (radioButton2_Vydejky.Checked)
             {
                 DataProvider.SetConnectString = $@"Data Source=192.168.4.100,1434;Initial Catalog=TamdaQLTS_Sapa;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
 
