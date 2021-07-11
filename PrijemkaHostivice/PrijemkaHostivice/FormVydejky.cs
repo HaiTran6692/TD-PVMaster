@@ -18,13 +18,16 @@ namespace PrijemkaHostivice
         DataTable TB_left = new DataTable();
         CrystalReport_Vydejky cr_vydejky = new CrystalReport_Vydejky();
         string odb_numb = "";
+        string datum_vydejky = "";
+        string cislo_obj = "";
+
         private string sendToFormVydejky;
         public string SendToFormVydejky
         {
             get { return sendToFormVydejky; }
             set { sendToFormVydejky = value; }
         }
-       
+
 
         public FormVydejky()
         {
@@ -110,9 +113,9 @@ namespace PrijemkaHostivice
             progressBar_left.Style = ProgressBarStyle.Marquee;
             progressBar_left.MarqueeAnimationSpeed = 1;
             worker_left.RunWorkerAsync();
-        
 
-        
+
+
         }
         private void LoadVydejky()
         {
@@ -136,17 +139,17 @@ namespace PrijemkaHostivice
 			   								                                                    WHERE pob = '{DataProvider.GetBranch}' and fa=0                                     
                                                   and datediff(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104),porizeno)>=0
                                                   and datediff(day,convert(datetime,'{dateTimePicker2to.Value.ToString("dd.MM.yyyy")}',104),porizeno)<=0
-                                                  order by Datum ";            
+                                                  order by Datum ";
             try
             {
-                TB_left = DataProvider_Sapa.Instance.ExecuteQuery(sqlLoadVydejky);  
+                TB_left = DataProvider_Sapa.Instance.ExecuteQuery(sqlLoadVydejky);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(sqlLoadVydejky+ex.ToString());
+                MessageBox.Show(sqlLoadVydejky + ex.ToString());
             }
 
-        }       
+        }
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -155,18 +158,22 @@ namespace PrijemkaHostivice
                 row = dataGridView1.Rows[e.RowIndex];
                 textBox1.Text = row.Cells[0].Value.ToString();
                 textBox2.Text = row.Cells[4].Value.ToString();
-                odb_numb= row.Cells[3].Value.ToString();
+                odb_numb = row.Cells[3].Value.ToString();
+                datum_vydejky = row.Cells[2].Value.ToString();
+                cislo_obj = row.Cells[1].Value.ToString();
             }
             catch (Exception)
             {
                 textBox1.Text = "0";
                 textBox2.Text = "0";
                 odb_numb = "0";
+                datum_vydejky = "";
+                cislo_obj = "0";
             }
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex ==6)
+            if (e.ColumnIndex == 6)
             {
                 try
                 {
@@ -175,6 +182,8 @@ namespace PrijemkaHostivice
                     textBox1.Text = row.Cells[0].Value.ToString();
                     textBox2.Text = row.Cells[4].Value.ToString();
                     odb_numb = row.Cells[3].Value.ToString();
+                    datum_vydejky = row.Cells[2].Value.ToString();
+                    cislo_obj = row.Cells[1].Value.ToString();
                     RunAsyn_Right();
                 }
                 catch (Exception)
@@ -182,6 +191,8 @@ namespace PrijemkaHostivice
                     textBox1.Text = "0";
                     textBox2.Text = "0";
                     odb_numb = "0";
+                    datum_vydejky = "";
+                    cislo_obj = "";
                 }
             }
         }
@@ -202,13 +213,13 @@ namespace PrijemkaHostivice
         private void Load_VydejkyDetail(string vydejka_cislo, string faktura_cislo)
         {
             _List.Clear();
-            string sql_ArchivPol= $@"SELECT [kod_zbozi]     
+            string sql_ArchivPol = $@"SELECT [kod_zbozi]     
                                            ,[nazev]
                                            ,[mnozstvi],[mnozstvi]
                                       FROM [TDFaktury].[dbo].[ArchivPol]
                                       where archiv_id='{vydejka_cislo}' and ISNUMERIC(kod_zbozi)=1 ";
 
-            string sql_FakVydPol  = $@"SELECT 
+            string sql_FakVydPol = $@"SELECT 
                                           fvp.[kod_zbozi]
 	                                      ,[nazev]
                                           ,[ks]
@@ -220,7 +231,7 @@ namespace PrijemkaHostivice
             DataTable TB_erp = new DataTable();
             try
             {
-                if (int.Parse(faktura_cislo)>0)
+                if (int.Parse(faktura_cislo) > 0)
                 {
                     TB_erp = DataProvider_Sapa.Instance.ExecuteQuery(sql_FakVydPol);
                 }
@@ -228,7 +239,7 @@ namespace PrijemkaHostivice
                 {
                     TB_erp = DataProvider_Sapa.Instance.ExecuteQuery(sql_ArchivPol);
                 }
-                
+
                 if (TB_erp.Rows.Count < 1)
                 {
                     //MessageBox.Show("Không có đơn hàng này!");
@@ -253,7 +264,7 @@ namespace PrijemkaHostivice
                                             ,[ico]
                                             ,[dic]
                                             ,[ulice]
-                                            ,concat([obec],[psc])
+                                            ,concat([psc],' ',[obec])
                                           FROM [CustomerManagement].[dbo].[tmpCustomers] where cislo= '{odb_numb}'";
                     DataTable TB_odb = new DataTable();
                     try
@@ -263,23 +274,34 @@ namespace PrijemkaHostivice
                     catch (Exception)
                     {
 
-                        throw;
                     }
-                    if (TB_odb.Rows.Count>0)
-                    {
+
+                    string cislodod = "";
+                    string nazev = "";
+                    string ico = "";
+                    string dic = "";
+                    string street = "";
+                    string city = "";
+                    string obj = "";
+                    string prijemka = "";
+                    string datumPrijmuD = "";
+
+
+                    if (int.Parse(faktura_cislo) > 0 && TB_odb.Rows.Count > 0)
+                    {                       
+                        cislodod = TB_odb.Rows[0][0].ToString();
+                        nazev = TB_odb.Rows[0][1].ToString();
+                        ico = "IČ: " + TB_odb.Rows[0][2].ToString();
+                        dic = "DIČ: " + TB_odb.Rows[0][3].ToString();
+                        street = TB_odb.Rows[0][4].ToString();
+                        city = TB_odb.Rows[0][5].ToString();
+                        obj = "Objednávka č." + vydejka_cislo;
+                        prijemka = "VÝDEJKA: " + vydejka_cislo;
+                        datumPrijmuD = datum_vydejky;
+
                         cr_vydejky.SetDataSource(_List);
-                        string cislodod = "Odberatel: "+TB_odb.Rows[0][0].ToString();
-                        string nazev = TB_odb.Rows[0][1].ToString();
-                        string ico = "IČ: "+ TB_odb.Rows[0][2].ToString(); 
-                        string dic = "DIČ: " + TB_odb.Rows[0][3].ToString();
-                        string street =  TB_odb.Rows[0][4].ToString();
-                        string city = TB_odb.Rows[0][5].ToString();
-                        string obj = "Objednávka č." + vydejka_cislo;
-                        string prijemka = "VÝDEJKA: " + vydejka_cislo;
-                        string datumPrijmuD = "";
                         Zen.Barcode.Code128BarcodeDraw bar1 = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
                         bar1.Draw(vydejka_cislo, 40).Save(Application.StartupPath + "\\cache\\file_EAN_obj.png");
-
                         cr_vydejky.SetParameterValue("EAN", Application.StartupPath + "\\cache\\file_EAN_obj.png"); //location  
                         cr_vydejky.SetParameterValue("prijemka", prijemka);
                         cr_vydejky.SetParameterValue("obj", obj);
@@ -294,19 +316,19 @@ namespace PrijemkaHostivice
                     }
                     else
                     {
+                        cislodod = "...";
+                        nazev = "Koncový zakazník";
+                        ico = "IČ: ...";
+                        dic = "DIČ: ...";
+                        street = "..."; 
+                        city = "...";
+                        obj = "Objednávka č." + vydejka_cislo;
+                        prijemka = "VÝDEJKA: " + vydejka_cislo;
+                        datumPrijmuD = datum_vydejky;
+
                         cr_vydejky.SetDataSource(_List);
-                        string cislodod = "D";
-                        string nazev = "nazev khach";
-                        string ico = "IČ: ";
-                        string dic = "DIČ: ";
-                        string street = "___";
-                        string city = "___";
-                        string obj = "Objednávka č." + vydejka_cislo;
-                        string prijemka = "VÝDEJKA: " + vydejka_cislo;
-                        string datumPrijmuD = "";
                         Zen.Barcode.Code128BarcodeDraw bar1 = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
                         bar1.Draw(vydejka_cislo, 40).Save(Application.StartupPath + "\\cache\\file_EAN_obj.png");
-
                         cr_vydejky.SetParameterValue("EAN", Application.StartupPath + "\\cache\\file_EAN_obj.png"); //location  
                         cr_vydejky.SetParameterValue("prijemka", prijemka);
                         cr_vydejky.SetParameterValue("obj", obj);
@@ -319,11 +341,11 @@ namespace PrijemkaHostivice
                         cr_vydejky.SetParameterValue("dicD", dic);
                         cr_vydejky.SetParameterValue("datumPrijmuD", datumPrijmuD);
                     }
-                        
 
 
-                        // crystalReportViewer1.Zoom(80);
-                    
+
+                    // crystalReportViewer1.Zoom(80);
+
                 }
             }
             catch (Exception ex)
@@ -340,7 +362,7 @@ namespace PrijemkaHostivice
                 progressBar_right.Visible = true;
                 progressBar_right.Style = ProgressBarStyle.Marquee;
                 progressBar_right.MarqueeAnimationSpeed = 1;
-                worker_right.RunWorkerAsync(); 
+                worker_right.RunWorkerAsync();
             }
         }
         private void dataGridView1_KeyDown(object sender, KeyEventArgs e)
