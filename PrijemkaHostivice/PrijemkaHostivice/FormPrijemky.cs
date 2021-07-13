@@ -77,7 +77,7 @@ namespace PrijemkaHostivice
                                                        (trunc(24 *(SYSDATE - ma_dtrecr) - 24 *(trunc(SYSDATE - ma_dtrecr))))||'h:'||TO_CHAR(trunc(60 * 24 *(sysdate - ma_dtrecr)) - 60 *(trunc(24 *(SYSDATE - ma_dtrecr))),'00') AS celkem_cas,
                                                        --  ma_starr   AS status_num,
                                                         ml_numarr AS consignment_num,
-                                                        ml_numorc AS stock_num
+                                                        ml_numorc AS stock_num,substr(es_adrqre, 5, 2) AS rampa
                                           FROM  tb_lrdv left join tb_erdv ON ml_numarr = ma_numarr
                                           LEFT join tb_erec ON ml_numorc = oe_numorc
                                           LEFT JOIN tb_eslrec ON ml_numarr = es_numarr
@@ -100,13 +100,15 @@ namespace PrijemkaHostivice
                 if (TB.Rows.Count > 0)
                 {
                     dataGridView1.DataSource = TB;
-                    dataGridView1.Columns[0].HeaderText = "Číslo objednávky";
-                    dataGridView1.Columns[1].HeaderText = "Dodavatel";
-                    dataGridView1.Columns[2].HeaderText = "Stav";
-                    dataGridView1.Columns[3].HeaderText = "Čas příjmu";
-                    dataGridView1.Columns[4].HeaderText = "Čas celkem";
-                    dataGridView1.Columns[5].HeaderText = "Consignment";
-                    dataGridView1.Columns[6].HeaderText = "Stock";
+                    dataGridView1.Columns[0].HeaderText = "Příjemka";
+                    dataGridView1.Columns[1].HeaderText = "Číslo objednávky";
+                    dataGridView1.Columns[2].HeaderText = "Dodavatel";
+                    dataGridView1.Columns[3].HeaderText = "Stav";
+                    dataGridView1.Columns[4].HeaderText = "Čas příjmu";
+                    dataGridView1.Columns[5].HeaderText = "Čas celkem";
+                    dataGridView1.Columns[6].HeaderText = "Consignment";
+                    dataGridView1.Columns[7].HeaderText = "Stock";
+                    dataGridView1.Columns[8].HeaderText = "Rampa";
                 }
                 else
                 {
