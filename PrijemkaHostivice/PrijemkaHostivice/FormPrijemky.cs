@@ -386,7 +386,14 @@ namespace PrijemkaHostivice
         }
         private void pictureBox1_Click_1(object sender, EventArgs e) // picture tim kiem xanh duong
         {
-            LoadPrijemky_od_cisloobj();
+            if (SendToFormMain == "TK - Hostivice" || SendToFormMain == "DC - Morava")
+            {
+                LoadPrijemkyGold();
+            }
+            else
+            {
+                LoadPrijemky_od_cisloobj();
+            }
             MessageBox.Show($"Có {dataGridView1.Rows.Count} đơn hàng");
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
