@@ -45,11 +45,11 @@ namespace PrijemkaHostivice
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.placeHolderTextBox1 = new PrijemkaHostivice.PlaceHolderTextBox();
             this.CrystalReport_Prijemky1 = new PrijemkaHostivice.CrystalReport_Prijemky();
             this.CrystalReport_Prijemky2 = new PrijemkaHostivice.CrystalReport_Prijemky();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.placeHolderTextBox1 = new PrijemkaHostivice.PlaceHolderTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -164,6 +164,7 @@ namespace PrijemkaHostivice
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox3.TabIndex = 1;
             this.pictureBox3.TabStop = false;
+            this.pictureBox3.Visible = false;
             this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // textBox1
@@ -236,6 +237,20 @@ namespace PrijemkaHostivice
             this.textBox2.Size = new System.Drawing.Size(157, 24);
             this.textBox2.TabIndex = 6;
             // 
+            // placeHolderTextBox1
+            // 
+            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
+            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
+            this.placeHolderTextBox1.Location = new System.Drawing.Point(498, 35);
+            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
+            this.placeHolderTextBox1.PlaceHolderText = "Tìm kiếm theo số đơn hàng / Číslo objednávky...";
+            this.placeHolderTextBox1.Size = new System.Drawing.Size(248, 20);
+            this.placeHolderTextBox1.TabIndex = 1;
+            this.placeHolderTextBox1.Text = "Tìm kiếm theo số đơn hàng / Číslo objednávky...";
+            this.placeHolderTextBox1.Visible = false;
+            this.placeHolderTextBox1.TextChanged += new System.EventHandler(this.placeHolderTextBox1_TextChanged);
+            this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
+            // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -256,19 +271,6 @@ namespace PrijemkaHostivice
             this.label6.Size = new System.Drawing.Size(203, 13);
             this.label6.TabIndex = 8;
             this.label6.Text = "press F1 to see Detail | F5 Export to Excel";
-            // 
-            // placeHolderTextBox1
-            // 
-            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
-            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
-            this.placeHolderTextBox1.Location = new System.Drawing.Point(498, 35);
-            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
-            this.placeHolderTextBox1.PlaceHolderText = "Tìm kiếm theo số đơn hàng / Číslo objednávky...";
-            this.placeHolderTextBox1.Size = new System.Drawing.Size(248, 20);
-            this.placeHolderTextBox1.TabIndex = 1;
-            this.placeHolderTextBox1.Text = "Tìm kiếm theo số đơn hàng / Číslo objednávky...";
-            this.placeHolderTextBox1.TextChanged += new System.EventHandler(this.placeHolderTextBox1_TextChanged);
-            this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
             // 
             // FormPrijemky
             // 

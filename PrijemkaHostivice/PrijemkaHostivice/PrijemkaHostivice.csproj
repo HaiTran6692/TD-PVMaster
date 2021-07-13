@@ -83,6 +83,7 @@
       <DependentUpon>CrystalReport_Prijemky.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DataOracleMorava.cs" />
     <Compile Include="DataOracle.cs" />
     <Compile Include="DataProvider_Sapa.cs" />
     <Compile Include="DataProvider.cs" />

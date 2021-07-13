@@ -5,23 +5,23 @@ namespace PrijemkaHostivice
 {
 
 
-    public class DataOracleMorava
+    public class DataOracle
     {
-        private string connectSTR = @"User Id=TRANNGOCHAI;Password=t.20cvu;Data Source=10.70.20.133:1522/PMSSRV";
+        private string connectSTR = @"User Id=NGOCHAI;Password=x.19zda;Data Source=192.168.99.248,1521/PMS";
 
-        private static DataOracleMorava instance;
-        public static DataOracleMorava Instance
+        private static DataOracle instance;
+        public static DataOracle Instance
         {
             get
             {
                 if (instance == null)
                 {
-                    instance = new DataOracleMorava();
+                    instance = new DataOracle();
                 }
-                return DataOracleMorava.instance;
+                return DataOracle.instance;
             }
 
-            private set { DataOracleMorava.instance = value; }
+            private set { DataOracle.instance = value; }
         }
         public DataTable ExecuteQuery(String query)
         {

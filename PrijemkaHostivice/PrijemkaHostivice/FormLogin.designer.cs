@@ -135,22 +135,22 @@
             // radioButton1_Prijemky
             // 
             this.radioButton1_Prijemky.AutoSize = true;
+            this.radioButton1_Prijemky.Checked = true;
             this.radioButton1_Prijemky.Location = new System.Drawing.Point(158, 172);
             this.radioButton1_Prijemky.Name = "radioButton1_Prijemky";
             this.radioButton1_Prijemky.Size = new System.Drawing.Size(64, 17);
             this.radioButton1_Prijemky.TabIndex = 24;
+            this.radioButton1_Prijemky.TabStop = true;
             this.radioButton1_Prijemky.Text = "Prijemky";
             this.radioButton1_Prijemky.UseVisualStyleBackColor = true;
             // 
             // radioButton2_Vydejky
             // 
             this.radioButton2_Vydejky.AutoSize = true;
-            this.radioButton2_Vydejky.Checked = true;
             this.radioButton2_Vydejky.Location = new System.Drawing.Point(236, 172);
             this.radioButton2_Vydejky.Name = "radioButton2_Vydejky";
             this.radioButton2_Vydejky.Size = new System.Drawing.Size(62, 17);
             this.radioButton2_Vydejky.TabIndex = 24;
-            this.radioButton2_Vydejky.TabStop = true;
             this.radioButton2_Vydejky.Text = "Vydejky";
             this.radioButton2_Vydejky.UseVisualStyleBackColor = true;
             // 
