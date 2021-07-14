@@ -146,7 +146,7 @@ namespace PrijemkaHostivice
             {
                 textBox2.Text = "";
             }
-            else if (LoadUser_Infor(textBox1.Text, textBox2.Text).Rows.Count == 1|| (textBox1.Text=="test"&&textBox2.Text=="test") || (textBox1.Text == "admin" && textBox2.Text == "admin"))
+            else if (LoadUser_Infor(textBox1.Text, textBox2.Text).Rows.Count == 1 || (textBox1.Text == "admin" && textBox2.Text == "admin"))
             {
                 LoadBranchToDataProvider();
                 if (radioButton1_Prijemky.Checked)
