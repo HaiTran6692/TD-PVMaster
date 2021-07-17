@@ -177,7 +177,7 @@ namespace PrijemkaHostivice
         private void LoadDetailGold(string inputOBJ)
         {
             string sqlOracle1 = $@"select    to_char(oe_dtlivp,'dd.MM.yyyy') as datum_prijmu --0
-                                            ,oe_ncdefo as prijemka
+                                           -- oe_ncdefo as prijemka--0
                                             ,oe_fourn as cislo_dodavatel --1
                                             ,oe_librs as dodavatel --2
                                             ,ol_cproin as kod_zbozi --3
@@ -222,7 +222,7 @@ namespace PrijemkaHostivice
                     int cisloDodavatele = int.Parse(TB_gold.Rows[0][1].ToString().Substring(1, TB_gold.Rows[0][1].ToString().Length - 1));
                     string sql1 = $@"SELECT cislodod, nazev, ico, dic, street, city, zip    
                                  FROM [TDF Database].dbo.dodavatele 
-                                 WHERE CONVERT(int,cislodod)='{cisloDodavatele}'";
+                                 WHERE CONVERT(int,cislodod)={cisloDodavatele} ";
 
                     DataTable TB = DataProvider.Instance.ExecuteQuery(sql1);
                     if (TB.Rows.Count >= 1)
