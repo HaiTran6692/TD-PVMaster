@@ -46,7 +46,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(118, 94);
+            this.label1.Location = new System.Drawing.Point(373, 125);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 14);
             this.label1.TabIndex = 0;
@@ -55,7 +55,7 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(155, 91);
+            this.textBox1.Location = new System.Drawing.Point(410, 122);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(147, 22);
             this.textBox1.TabIndex = 1;
@@ -65,7 +65,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(94, 122);
+            this.label2.Location = new System.Drawing.Point(349, 153);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 14);
             this.label2.TabIndex = 0;
@@ -74,7 +74,7 @@
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox2.Location = new System.Drawing.Point(155, 117);
+            this.textBox2.Location = new System.Drawing.Point(410, 148);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(147, 22);
             this.textBox2.TabIndex = 2;
@@ -86,9 +86,9 @@
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(160, 13);
+            this.pictureBox1.Location = new System.Drawing.Point(90, 122);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(135, 74);
+            this.pictureBox1.Size = new System.Drawing.Size(186, 104);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 11;
             this.pictureBox1.TabStop = false;
@@ -97,7 +97,7 @@
             // 
             this.comboBox1Branch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1Branch.FormattingEnabled = true;
-            this.comboBox1Branch.Location = new System.Drawing.Point(155, 144);
+            this.comboBox1Branch.Location = new System.Drawing.Point(410, 175);
             this.comboBox1Branch.Name = "comboBox1Branch";
             this.comboBox1Branch.Size = new System.Drawing.Size(147, 21);
             this.comboBox1Branch.TabIndex = 22;
@@ -106,7 +106,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label3.Location = new System.Drawing.Point(106, 146);
+            this.label3.Location = new System.Drawing.Point(361, 177);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 14);
             this.label3.TabIndex = 21;
@@ -120,7 +120,7 @@
             this.materialButton1.DrawShadows = true;
             this.materialButton1.HighEmphasis = true;
             this.materialButton1.Icon = null;
-            this.materialButton1.Location = new System.Drawing.Point(155, 198);
+            this.materialButton1.Location = new System.Drawing.Point(410, 229);
             this.materialButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialButton1.Name = "materialButton1";
@@ -136,7 +136,7 @@
             // 
             this.radioButton1_Prijemky.AutoSize = true;
             this.radioButton1_Prijemky.Checked = true;
-            this.radioButton1_Prijemky.Location = new System.Drawing.Point(158, 172);
+            this.radioButton1_Prijemky.Location = new System.Drawing.Point(413, 203);
             this.radioButton1_Prijemky.Name = "radioButton1_Prijemky";
             this.radioButton1_Prijemky.Size = new System.Drawing.Size(64, 17);
             this.radioButton1_Prijemky.TabIndex = 24;
@@ -147,7 +147,7 @@
             // radioButton2_Vydejky
             // 
             this.radioButton2_Vydejky.AutoSize = true;
-            this.radioButton2_Vydejky.Location = new System.Drawing.Point(236, 172);
+            this.radioButton2_Vydejky.Location = new System.Drawing.Point(491, 203);
             this.radioButton2_Vydejky.Name = "radioButton2_Vydejky";
             this.radioButton2_Vydejky.Size = new System.Drawing.Size(62, 17);
             this.radioButton2_Vydejky.TabIndex = 24;
@@ -159,7 +159,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(449, 245);
+            this.ClientSize = new System.Drawing.Size(661, 340);
             this.Controls.Add(this.radioButton2_Vydejky);
             this.Controls.Add(this.radioButton1_Prijemky);
             this.Controls.Add(this.materialButton1);
