@@ -65,7 +65,7 @@ namespace PrijemkaHostivice
                 dataGridView1.Columns[2].HeaderText = "Datum";
                 dataGridView1.Columns[3].HeaderText = "Odberatel";
                 dataGridView1.Columns[4].HeaderText = "Faktura";
-                dataGridView1.Columns[5].HeaderText = "Pokladna";
+                dataGridView1.Columns[5].HeaderText = "Informace";
                 DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
                 dataGridView1.Columns.Add(btn);
                 btn.HeaderText = " Details ";
@@ -99,7 +99,8 @@ namespace PrijemkaHostivice
 
         private void FormVydejky_Load(object sender, EventArgs e)
         {
-            this.Text = "PV_Report v2e.090721 Vydejky " + SendToFormVydejky.ToString();
+            //this.Text = "PV_Report v2e.090721 Vydejky " + SendToFormVydejky.ToString();
+            this.Text = "PV_Report v2f.250821 Vydejky " + SendToFormVydejky.ToString(); // thêm thông tin informace pokladna, cislo uctenka
 
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
@@ -124,7 +125,7 @@ namespace PrijemkaHostivice
                                                   ,CONVERT(DATETIME, STUFF(STUFF(STUFF(porizeno,13,0,':'),11,0,':'),9,0,' ')) AS Datum
                                                   ,case when len(isnull(odberatel,'0'))=0 then '0' else isnull(odberatel,'0') end  AS odberatel
                                                   ,faktura
-                                                  ,concat(pobocka,'-',text_pred,'-',user_id) as info
+                                                  ,concat(text_pred,' - faktura:',faktura,' - user:',user_id) as info
                                                   from [TDFaktury].[dbo].[FakVyd] fv
                                                   where pobocka = '{DataProvider.GetBranch}' 
                                                         and DATEDIFF(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104), cast(left(vystavena,8) as date))>=0                                                                      
@@ -134,7 +135,7 @@ namespace PrijemkaHostivice
                                                                                                 ,porizeno AS Datum
                                                                                                 ,case when len(isnull(odb,'0'))=0 then '0' else isnull(odb,'0') end  AS odberatel
                                                                                                 ,fa
-                                                                                                ,concat(pob,'-',pok,'-',user_id) as info                                            
+                                                                                                ,concat('Pokladna:',pok,N' - učtenka:',ic,' - user:',user_id) as info                                            
                                                                                                 FROM [TDFaktury].[dbo].[Archiv]
 			   								                                                    WHERE pob = '{DataProvider.GetBranch}' and fa=0                                     
                                                   and datediff(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104),porizeno)>=0
