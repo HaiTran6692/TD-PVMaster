@@ -26,7 +26,7 @@ namespace PrijemkaHostivice
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;            
         }
         private string sendToFormMain;
-        public string SendToFormMain
+        public string SendToFormPrijemka
         {
             get { return sendToFormMain; }
             set { sendToFormMain = value; }
@@ -39,7 +39,7 @@ namespace PrijemkaHostivice
             //this.Text = "PV_Report v2d.290621 Prijemky " + SendToFormMain.ToString();
             //this.Text = "PV_Report v3b.140721 Prijemky " + SendToFormMain.ToString();
 
-            this.Text = "PV_Report v3c.170721 Prijemky " + SendToFormMain.ToString();
+            this.Text = "PV_Report v3c.170721 Prijemky " + SendToFormPrijemka.ToString();
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
             dateTimePicker1from.CustomFormat = "dd.MM.yyyy";
@@ -49,8 +49,7 @@ namespace PrijemkaHostivice
             dateTimePicker2to.CustomFormat = "dd.MM.yyyy";
             dateTimePicker2to.Value = DateTime.Today;
 
-
-            if (SendToFormMain=="TK - Hostivice" || SendToFormMain == "DC - Morava")
+            if (SendToFormPrijemka=="TK - Hostivice" || SendToFormPrijemka == "DC - Morava")
             {
                 LoadPrijemkyGold();
             }
@@ -83,7 +82,7 @@ namespace PrijemkaHostivice
             DataTable TB = new DataTable();
             try
             {
-                if (SendToFormMain == "TK - Hostivice")
+                if (SendToFormPrijemka == "TK - Hostivice")
                 {
                     TB = DataOracle.Instance.ExecuteQuery(sqlLoadPrijemky);
                 }
@@ -193,7 +192,7 @@ namespace PrijemkaHostivice
             DataTable TB_gold = new DataTable();
             try
             {
-                if (SendToFormMain == "TK - Hostivice")
+                if (SendToFormPrijemka == "TK - Hostivice")
                 {
                     TB_gold = DataOracle.Instance.ExecuteQuery(sqlOracle1);
                 }
@@ -369,7 +368,7 @@ namespace PrijemkaHostivice
             DataTable TB_erp = new DataTable();
             try
             {
-                if (SendToFormMain == "TK - Hostivice" || SendToFormMain == "DC - Morava")
+                if (SendToFormPrijemka == "TK - Hostivice" || SendToFormPrijemka == "DC - Morava")
                 {
                     TB_erp = DataProvider.Instance.ExecuteQuery(sqlERP_HOS);
                 }
@@ -426,7 +425,7 @@ namespace PrijemkaHostivice
                 }
                 else
                 {
-                    if (SendToFormMain == "TK - Hostivice" || SendToFormMain == "DC - Morava")
+                    if (SendToFormPrijemka == "TK - Hostivice" || SendToFormPrijemka == "DC - Morava")
                     {
                         LoadDetailGold(inputOBJ);
                     }
@@ -459,7 +458,7 @@ namespace PrijemkaHostivice
         }       
         private void pictureBox1_Click_1(object sender, EventArgs e) // picture tim kiem xanh duong
         {
-            if (SendToFormMain == "TK - Hostivice" || SendToFormMain == "DC - Morava")
+            if (SendToFormPrijemka == "TK - Hostivice" || SendToFormPrijemka == "DC - Morava")
             {
                 LoadPrijemkyGold();
             }

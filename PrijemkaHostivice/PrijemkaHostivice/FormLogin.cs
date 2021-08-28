@@ -104,19 +104,34 @@ namespace PrijemkaHostivice
                 comboBox1Branch.Text = "TD - Sapa";
             }
         }
-        private void loadFormPrijemka()
+        private void LoadFormPrijemka()
         {
             this.Hide();
             var fm = new FormPrijemky();
-            fm.SendToFormMain = comboBox1Branch.Text;
+            fm.SendToFormPrijemka = comboBox1Branch.Text;
             fm.Closed += (s, args) => this.Show();
             fm.Show();
         }
-        private void loadFormVydejka()
+        private void LoadFormVydejka()
         {
             this.Hide();
             var fm = new FormVydejky();
             fm.SendToFormVydejky = comboBox1Branch.Text;
+            fm.Closed += (s, args) => this.Show();
+            fm.Show();
+        }
+        private void LoadFormSklad()
+        {
+            this.Hide();
+            var fm = new FormSklad(comboBox1Branch.Text);
+            fm.Closed += (s, args) => this.Show();
+            fm.Show();
+        }
+
+        private void LoadFormZamest()
+        {
+            this.Hide();
+            var fm = new FormZamestnaci(comboBox1Branch.Text);
             fm.Closed += (s, args) => this.Show();
             fm.Show();
         }
@@ -151,11 +166,19 @@ namespace PrijemkaHostivice
                 LoadBranchToDataProvider();
                 if (radioButton1_Prijemky.Checked)
                 {
-                    loadFormPrijemka(); 
+                    LoadFormPrijemka();
+                }
+                else if (radioButton3_Sklad.Checked)
+                {
+                    LoadFormSklad();
+                }
+                else if (radioButton4_Zamest.Checked)
+                {
+                    LoadFormZamest();
                 }
                 else
                 {
-                    loadFormVydejka();
+                    LoadFormVydejka();
                 }
             }
             else

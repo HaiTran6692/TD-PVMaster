@@ -39,6 +39,8 @@
             this.materialButton1 = new MaterialSkin.Controls.MaterialButton();
             this.radioButton1_Prijemky = new System.Windows.Forms.RadioButton();
             this.radioButton2_Vydejky = new System.Windows.Forms.RadioButton();
+            this.radioButton3_Sklad = new System.Windows.Forms.RadioButton();
+            this.radioButton4_Zamest = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,6 +61,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(147, 22);
             this.textBox1.TabIndex = 1;
+            this.textBox1.Text = "131";
             this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
             // label2
@@ -78,6 +81,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(147, 22);
             this.textBox2.TabIndex = 2;
+            this.textBox2.Text = "1";
             this.textBox2.UseSystemPasswordChar = true;
             this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown_1);
             // 
@@ -120,7 +124,7 @@
             this.materialButton1.DrawShadows = true;
             this.materialButton1.HighEmphasis = true;
             this.materialButton1.Icon = null;
-            this.materialButton1.Location = new System.Drawing.Point(410, 229);
+            this.materialButton1.Location = new System.Drawing.Point(406, 266);
             this.materialButton1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialButton1.Name = "materialButton1";
@@ -138,10 +142,10 @@
             this.radioButton1_Prijemky.Checked = true;
             this.radioButton1_Prijemky.Location = new System.Drawing.Point(413, 203);
             this.radioButton1_Prijemky.Name = "radioButton1_Prijemky";
-            this.radioButton1_Prijemky.Size = new System.Drawing.Size(64, 17);
+            this.radioButton1_Prijemky.Size = new System.Drawing.Size(67, 17);
             this.radioButton1_Prijemky.TabIndex = 24;
             this.radioButton1_Prijemky.TabStop = true;
-            this.radioButton1_Prijemky.Text = "Prijemky";
+            this.radioButton1_Prijemky.Text = "Příjemky";
             this.radioButton1_Prijemky.UseVisualStyleBackColor = true;
             // 
             // radioButton2_Vydejky
@@ -151,8 +155,28 @@
             this.radioButton2_Vydejky.Name = "radioButton2_Vydejky";
             this.radioButton2_Vydejky.Size = new System.Drawing.Size(62, 17);
             this.radioButton2_Vydejky.TabIndex = 24;
-            this.radioButton2_Vydejky.Text = "Vydejky";
+            this.radioButton2_Vydejky.Text = "Výdejky";
             this.radioButton2_Vydejky.UseVisualStyleBackColor = true;
+            // 
+            // radioButton3_Sklad
+            // 
+            this.radioButton3_Sklad.AutoSize = true;
+            this.radioButton3_Sklad.Location = new System.Drawing.Point(413, 230);
+            this.radioButton3_Sklad.Name = "radioButton3_Sklad";
+            this.radioButton3_Sklad.Size = new System.Drawing.Size(52, 17);
+            this.radioButton3_Sklad.TabIndex = 24;
+            this.radioButton3_Sklad.Text = "Sklad";
+            this.radioButton3_Sklad.UseVisualStyleBackColor = true;
+            // 
+            // radioButton4_Zamest
+            // 
+            this.radioButton4_Zamest.AutoSize = true;
+            this.radioButton4_Zamest.Location = new System.Drawing.Point(489, 230);
+            this.radioButton4_Zamest.Name = "radioButton4_Zamest";
+            this.radioButton4_Zamest.Size = new System.Drawing.Size(86, 17);
+            this.radioButton4_Zamest.TabIndex = 24;
+            this.radioButton4_Zamest.Text = "Zaměstnanci";
+            this.radioButton4_Zamest.UseVisualStyleBackColor = true;
             // 
             // FormLogin
             // 
@@ -161,6 +185,8 @@
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(661, 340);
             this.Controls.Add(this.radioButton2_Vydejky);
+            this.Controls.Add(this.radioButton4_Zamest);
+            this.Controls.Add(this.radioButton3_Sklad);
             this.Controls.Add(this.radioButton1_Prijemky);
             this.Controls.Add(this.materialButton1);
             this.Controls.Add(this.comboBox1Branch);
@@ -196,5 +222,7 @@
         private MaterialSkin.Controls.MaterialButton materialButton1;
         private System.Windows.Forms.RadioButton radioButton1_Prijemky;
         private System.Windows.Forms.RadioButton radioButton2_Vydejky;
+        private System.Windows.Forms.RadioButton radioButton3_Sklad;
+        private System.Windows.Forms.RadioButton radioButton4_Zamest;
     }
 }
