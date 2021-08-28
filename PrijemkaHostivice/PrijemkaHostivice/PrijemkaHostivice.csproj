@@ -87,6 +87,7 @@
     <Compile Include="DataOracle.cs" />
     <Compile Include="DataProvider_Sapa.cs" />
     <Compile Include="DataProvider.cs" />
+    <Compile Include="DGVPrinter.cs" />
     <Compile Include="Encryptt.cs" />
     <Compile Include="ExportDTGVToExcel.cs" />
     <Compile Include="FormPrijemky.cs">
@@ -192,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Alecive-Flatwoken-Apps-Libreoffice-Impress-B.ico" />
+    <None Include="Resources\Microsoft-Excel-2013-icon.png" />
     <None Include="Resources\Apps-Search-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

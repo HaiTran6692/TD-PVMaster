@@ -9,7 +9,7 @@ namespace PrijemkaHostivice
 {
     public class DataProvider_Sapa
     {
-        private static string connectSTR = $@"Data Source=192.168.4.100,1434;Initial Catalog=TamdaQLTS_Sapa;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+        private static string connectSTR = $@"Data Source=192.168.4.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
         //public static string SetConnectString
         //{
         //    get { return connectSTR; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DGVPrinterHelper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +18,7 @@ namespace PrijemkaHostivice
         {
             InitializeComponent();
             _branchToFormZamestnaci = branchToFormZamestnaci;
+            label1.Text = $"Seznam zaměstnaci {_branchToFormZamestnaci} dne {DateTime.Today.ToString("dd.MM.yyyy")}";
             CapNhatLai();
         }
       
@@ -29,28 +31,43 @@ namespace PrijemkaHostivice
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             CapNhatLai();
+            MessageBox.Show("Hotovo!");
 
         }
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
 
+            ExportDTGVToExcel.Instance.ExportToExcel(dataGridView1);
         }
         private void CapNhatLai()
         {
-            string sql1 = $@"SELECT distinct(pwa.[IDParttimeWorker]) as ID
-                              ,pwa.[Name]
-	                          ,ISNULL(zam.Stt,pwa.[IDParttimeWorker]) as ID_Tamda
+            string sql1 = $@"WITH BANG1 AS (SELECT distinct(pwa.[IDParttimeWorker]) as ID_Z  
+	                          ,ISNULL(zam.Stt,pwa.[IDParttimeWorker]) as ID_TD ,pwa.[Name] as Jmeno_Prijmeni
 	                          ,ISNULL(Firma,Agency) as Firma
-	                          ,ISNULL([Pracovní pozice],'Skladník') as Pozice ,Isnull([druh Poměru],'agency') as  Druh
+	                          ,ISNULL([Pracovní pozice],'Skladník') as Pozice 
+                              ,Isnull([Druh poměru],'agency') as  Druh
                           FROM [HumanResourceManagement].[dbo].[ParttimeWorkerActivity] pwa
                           left join [HumanResourceManagement].[dbo].[ParttimeWorker] pw on pwa.IDParttimeWorker=pw.IDParttimeWorker
                           left join [TamdaSW].dbo.View_PVReport_PamZamStt zam on TRY_CONVERT(INT,pw.CardID)=zam.Stt --collate DATABASE_default
-                          where DATEDIFF(Day,[WorkedDate],getdate())=0
-                          order by Isnull([druh Poměru],'agency') desc, ID_Tamda";
+                          where DATEDIFF(Day,[WorkedDate],getdate())=0)                     
+                           SELECT 
+						  ROW_NUMBER() OVER( ORDER BY  Druh desc, ID_TD) as R#,* 						  
+						  FROM BANG1
+						  order by Druh desc, ID_TD";
             try
             {
-                DataTable TB = DataProvider.Instance.ExecuteQuery(sql1);
+                DataTable TB = new DataTable();
+                if (_branchToFormZamestnaci== "DC - Morava")
+                {
+                    DataProvider.SetConnectString = $@"Data Source=192.168.5.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+                    TB = DataProvider.Instance.ExecuteQuery(sql1);
+                    DataProvider.SetConnectString = $@"Data Source=192.168.89.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+                }
+                else
+                {
+                    TB = DataProvider.Instance.ExecuteQuery(sql1);
+                }
                 dataGridView1.DataSource = TB;
                 for (int i = 0; i < dataGridView1.Columns.Count - 1; i++)
                 {
@@ -63,6 +80,28 @@ namespace PrijemkaHostivice
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void pictureBox2_Click_1(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dataGridView1.Columns.Count; i++)
+            {
+                dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            }
+            DGVPrinter printer = new DGVPrinter();
+            printer.Title = $"Seznam zaměstnaci {_branchToFormZamestnaci}";//Header
+            printer.SubTitle = string.Format("Dne  {0}", DateTime.Now.ToString("dd.MM.yyyy-HH:mm"));
+            printer.SubTitleFormatFlags = StringFormatFlags.LineLimit | StringFormatFlags.NoClip;
+            printer.PageNumbers = true;
+            printer.PageNumberInHeader = true;
+            printer.PrintMargins.Left = 70;
+            printer.ShowTotalPageNumber = true;
+            printer.PorportionalColumns = true;
+            printer.HeaderCellAlignment = StringAlignment.Near;
+            printer.SubTitleSpacing = 15;
+            printer.FooterSpacing = 10;
+            printer.printDocument.DefaultPageSettings.Landscape = false;
+            printer.PrintDataGridView(dataGridView1);
         }
     }
 }

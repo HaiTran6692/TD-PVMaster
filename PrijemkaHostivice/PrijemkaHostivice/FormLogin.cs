@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Windows.Forms;
 using System.Xml;
-using test_QLTS;
 
 namespace PrijemkaHostivice
 {
@@ -189,7 +188,7 @@ namespace PrijemkaHostivice
         private DataTable LoadUser_Infor(string user, string pw)
         {
             DataTable TB = new DataTable();
-            string selectUser = @"select [stt],[ho_ten],[security_lv],[id] from [TS-TTB-Users]
+            string selectUser = @"select [stt],[ho_ten],[security_lv],[id] from [TamdaQLTS_Sapa].[dbo].[TS-TTB-Users]
                                 where [user_name]=''+ @p1 and [password]=''+ @p2 and  [security_lv]='9' ";
             try
             {
@@ -206,30 +205,30 @@ namespace PrijemkaHostivice
         {
             if (comboBox1Branch.Text == "TD - Sapa")
             {
-                DataProvider.SetConnectString = $@"Data Source=192.168.4.100,1434;Initial Catalog=TamdaQLTS_Sapa;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+                DataProvider.SetConnectString = $@"Data Source=192.168.4.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
             }
             else if (comboBox1Branch.Text == "TD - Brno")
             {
-                DataProvider.SetConnectString = $@"Data Source=192.168.5.100,1434;Initial Catalog=TamdaQLTS_Brno;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+                DataProvider.SetConnectString = $@"Data Source=192.168.5.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
             }
             else if (comboBox1Branch.Text == "TK - Hostivice")
             {
-                DataProvider.SetConnectString = $@"Data Source=192.168.99.100,1434;Initial Catalog=TamdaQLTS_Hostivice;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+                DataProvider.SetConnectString = $@"Data Source=192.168.99.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
             }
             else if (comboBox1Branch.Text == "TD - Usti")
             {
-                DataProvider.SetConnectString = $@"Data Source=192.168.6.100,1434;Initial Catalog=TamdaQLTS_Usti;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+                DataProvider.SetConnectString = $@"Data Source=192.168.6.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
             }
             else if (comboBox1Branch.Text == "DC - Morava")
             {
-                DataProvider.SetConnectString = $@"Data Source=192.168.89.100,1434;Initial Catalog=TamdaQLTS_DC_Morava;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+                DataProvider.SetConnectString = $@"Data Source=192.168.89.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
             }
 
 
 
             if (radioButton2_Vydejky.Checked)
             {
-                DataProvider.SetConnectString = $@"Data Source=192.168.4.100,1434;Initial Catalog=TamdaQLTS_Sapa;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+                DataProvider.SetConnectString = $@"Data Source=192.168.4.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
 
                 if (comboBox1Branch.Text == "TD - Sapa")
                 {
