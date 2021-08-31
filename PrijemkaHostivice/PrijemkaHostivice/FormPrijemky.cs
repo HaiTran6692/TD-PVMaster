@@ -71,7 +71,6 @@ namespace PrijemkaHostivice
                                                       TO_CHAR(nvl(ma_dtrecr, ma_datrec), 'DD.MM.YYYY HH24:MI') AS Recep_date,                                                     
                                                       ml_numarr AS consignment_num,                                                       
                                                       substr(es_adrqre, 5, 2) AS rampa
-
                                           FROM  tb_lrdv left join tb_erdv ON ml_numarr = ma_numarr
                                           LEFT join tb_erec ON ml_numorc = oe_numorc
                                           LEFT JOIN tb_eslrec ON ml_numarr = es_numarr
@@ -173,6 +172,33 @@ namespace PrijemkaHostivice
 
 
         }
+        
+        private string LoadCenaVyd(string inputOBJ, string input_mnb)
+        {
+            string _cena = "0";
+            string sqlCenaObjPri = $@"SELECT   [cena],[cisloobj],[kod_zbozi]                                              
+                                      FROM [OrdersManager].[dbo].[ObjVydPol]
+                                      where cisloobj='{inputOBJ}' and [kod_zbozi]='{input_mnb}'";
+            try
+            {
+                DataTable TB = DataProvider.Instance.ExecuteQuery(sqlCenaObjPri);
+                if (TB.Rows.Count>0)
+                {
+                    _cena = TB.Rows[0][0].ToString();
+                }
+                else
+                {
+                    _cena = "0";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                _cena = "0";
+            }
+            return _cena;
+
+        }
         private void LoadDetailGold(string inputOBJ)
         {
             string sqlOracle1 = $@"select    to_char(oe_dtlivp,'dd.MM.yyyy') as datum_prijmu --0
@@ -188,13 +214,13 @@ namespace PrijemkaHostivice
                                             from tb_lrec tb1 left join tb_erec tb2 on tb1.ol_cincde = tb2.oe_ncdefo
                                                              left join tb_art tb3 on tb1.ol_cproin = tb3.ar_cproin
                                             where oe_ncdefo = '{inputOBJ}'
-                                            order by to_number(ol_nligof)";
+                                            order by to_number(ol_nligof)";            
             DataTable TB_gold = new DataTable();
             try
             {
                 if (SendToFormPrijemka == "TK - Hostivice")
                 {
-                    TB_gold = DataOracle.Instance.ExecuteQuery(sqlOracle1);
+                    TB_gold = DataOracle.Instance.ExecuteQuery(sqlOracle1);                    
                 }
                 else
                 {
@@ -215,8 +241,9 @@ namespace PrijemkaHostivice
                             kod_zbozi = TB_gold.Rows[i][3].ToString(),
                             nazev = TB_gold.Rows[i][4].ToString(),
                             objednano = TB_gold.Rows[i][5].ToString(),
-                            prjato = TB_gold.Rows[i][6].ToString()
-                        });
+                            prjato = TB_gold.Rows[i][6].ToString(),
+                            cena_bez = LoadCenaVyd(inputOBJ, TB_gold.Rows[i][3].ToString())
+                        }) ; 
                     }
                     int cisloDodavatele = int.Parse(TB_gold.Rows[0][1].ToString().Substring(1, TB_gold.Rows[0][1].ToString().Length - 1));
                     string sql1 = $@"SELECT cislodod, nazev, ico, dic, street, city, zip    
@@ -249,6 +276,8 @@ namespace PrijemkaHostivice
                         cr12.SetParameterValue("icD", ico);
                         cr12.SetParameterValue("dicD", dic);
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmu);
+                        cr12.SetParameterValue("celk_hm", "1258.69");
+                        cr12.SetParameterValue("celk_objem", "1258.69");
                     }
                 }
             }
@@ -290,7 +319,8 @@ namespace PrijemkaHostivice
                             kod_zbozi = TB_barco.Rows[i][2].ToString(),
                             nazev = TB_barco.Rows[i][3].ToString(),
                             objednano = TB_barco.Rows[i][4].ToString(),
-                            prjato = TB_barco.Rows[i][5].ToString()
+                            prjato = TB_barco.Rows[i][5].ToString(),
+                            cena_bez = LoadCenaVyd(inputOBJ, TB_barco.Rows[i][2].ToString())
                         });
                     }
                     int cisloDodavatele = int.Parse(TB_barco.Rows[0][0].ToString());
@@ -323,6 +353,8 @@ namespace PrijemkaHostivice
                         cr12.SetParameterValue("icD", ico);
                         cr12.SetParameterValue("dicD", dic);
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmu);
+                        cr12.SetParameterValue("celk_hm", "1258.69");
+                        cr12.SetParameterValue("celk_objem", "1258.69");
                     }
                 }
             }
@@ -331,7 +363,6 @@ namespace PrijemkaHostivice
                 MessageBox.Show("Xảy ra lỗi");
             }
         }
-
         private void LoadReportDetail(string inputOBJ, string inputPrijemka)
         {
             // ktra checkInvoice đã làm xong chưa 
@@ -385,10 +416,11 @@ namespace PrijemkaHostivice
                         {
                             kod_zbozi = TB_erp.Rows[i][3].ToString(),
                             nazev = TB_erp.Rows[i][4].ToString(),
+                            objednano = TB_erp.Rows[i][7].ToString(),
                             prjato = TB_erp.Rows[i][6].ToString(),
-                            objednano = TB_erp.Rows[i][7].ToString()
+                            cena_bez = LoadCenaVyd(inputOBJ, TB_erp.Rows[i][3].ToString())
 
-                        });
+                        }) ;
                     }
                     int cisloDodavatele = int.Parse(TB_erp.Rows[0][1].ToString().Substring(1, TB_erp.Rows[0][1].ToString().Length - 1));
                     string sql1 = $@"SELECT cislodod, nazev, ico, dic, street, city, zip    
@@ -420,6 +452,9 @@ namespace PrijemkaHostivice
                         cr12.SetParameterValue("icD", ico);
                         cr12.SetParameterValue("dicD", dic);
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmu);
+                        cr12.SetParameterValue("celk_hm", "1258.69");
+                        cr12.SetParameterValue("celk_objem", "1258.69");
+
                         // crystalReportViewer1.Zoom(80);
                     }
                 }
@@ -553,6 +588,10 @@ namespace PrijemkaHostivice
                 progressBar1.MarqueeAnimationSpeed = 1;
                 worker.RunWorkerAsync(); 
             }
+        }
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
         }
 
         //string sqlLoadPrijemkyBarco_old = $@"SELECT      

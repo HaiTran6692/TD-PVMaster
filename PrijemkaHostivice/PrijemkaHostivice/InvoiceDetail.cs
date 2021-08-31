@@ -12,6 +12,7 @@ namespace PrijemkaHostivice
         public string nazev { get; set; } //nazev_zbozi
         public string objednano { get; set; }
         public string prjato { get; set; }
-       // public string dph { get; set; }
+
+        public string cena_bez { get; set; }
     }
 }

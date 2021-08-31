@@ -57,7 +57,6 @@ C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaH
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.csproj.CopyComplete
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.FormLogin.resources
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\bin\Debug\MaterialSkin.dll
-C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.csprojAssemblyReference.cache
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\bin\Debug\PV_Report.exe.config
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\bin\Debug\PV_Report.exe
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\bin\Debug\PV_Report.pdb
@@ -69,3 +68,4 @@ C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaH
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.FormPrijemky.resources
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.FormSklad.resources
 C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.FormZamestnaci.resources
+C:\Users\tnhfs\Documents\GitHub\TD-PrijemkaHostivice\PrijemkaHostivice\PrijemkaHostivice\obj\Debug\PrijemkaHostivice.csprojAssemblyReference.cache

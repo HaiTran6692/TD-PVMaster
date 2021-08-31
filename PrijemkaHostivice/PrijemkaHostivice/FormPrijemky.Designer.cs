@@ -102,14 +102,14 @@ namespace PrijemkaHostivice
             // 
             // dateTimePicker1from
             // 
-            this.dateTimePicker1from.Location = new System.Drawing.Point(72, 7);
+            this.dateTimePicker1from.Location = new System.Drawing.Point(60, 7);
             this.dateTimePicker1from.Name = "dateTimePicker1from";
             this.dateTimePicker1from.Size = new System.Drawing.Size(216, 20);
             this.dateTimePicker1from.TabIndex = 3;
             // 
             // dateTimePicker2to
             // 
-            this.dateTimePicker2to.Location = new System.Drawing.Point(72, 35);
+            this.dateTimePicker2to.Location = new System.Drawing.Point(60, 35);
             this.dateTimePicker2to.Name = "dateTimePicker2to";
             this.dateTimePicker2to.Size = new System.Drawing.Size(216, 20);
             this.dateTimePicker2to.TabIndex = 4;
@@ -119,18 +119,18 @@ namespace PrijemkaHostivice
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(8, 11);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 13);
+            this.label1.Size = new System.Drawing.Size(45, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Từ ngày:";
+            this.label1.Text = "Od dne:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(8, 39);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.Size = new System.Drawing.Size(45, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Đến ngày:";
+            this.label2.Text = "Do dne:";
             // 
             // pictureBox4
             // 
@@ -147,7 +147,7 @@ namespace PrijemkaHostivice
             // pictureBox1
             // 
             this.pictureBox1.Image = global::PrijemkaHostivice.Properties.Resources.Apps_Search_icon;
-            this.pictureBox1.Location = new System.Drawing.Point(294, 7);
+            this.pictureBox1.Location = new System.Drawing.Point(282, 7);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(48, 48);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -165,6 +165,7 @@ namespace PrijemkaHostivice
             this.pictureBox3.TabIndex = 1;
             this.pictureBox3.TabStop = false;
             this.pictureBox3.Visible = false;
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // textBox1
             // 
@@ -266,7 +267,7 @@ namespace PrijemkaHostivice
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(735, 1019);
+            this.label6.Location = new System.Drawing.Point(605, 1020);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(203, 13);
             this.label6.TabIndex = 8;
