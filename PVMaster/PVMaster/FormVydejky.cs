@@ -15,11 +15,13 @@ namespace PVMaster
         private BackgroundWorker worker_left = null;
         private BackgroundWorker worker_right = null;
         List<InvoiceDetail> _List = new List<InvoiceDetail>();
+
         DataTable TB_left = new DataTable();
         CrystalReport_Vydejky cr_vydejky = new CrystalReport_Vydejky();
         string odb_numb = "";
         string datum_vydejky = "";
-        string cislo_obj = "";
+        string informace_kasa = "";
+
 
         private string sendToFormVydejky;
         public string SendToFormVydejky
@@ -27,8 +29,6 @@ namespace PVMaster
             get { return sendToFormVydejky; }
             set { sendToFormVydejky = value; }
         }
-
-
         public FormVydejky()
         {
             InitializeComponent();
@@ -86,7 +86,6 @@ namespace PVMaster
                 //  MessageBox.Show("Không có đơn hàng nào!");
             }
         }
-
         void worker_right_DoWork(object sender, DoWorkEventArgs e)
         {
             Load_VydejkyDetail(textBox1.Text, textBox2.Text);
@@ -96,7 +95,6 @@ namespace PVMaster
             progressBar_right.Visible = false;
             crystalReportViewer1.ReportSource = cr_vydejky;
         }
-
         private void FormVydejky_Load(object sender, EventArgs e)
         {
             //this.Text = "PVMaster v2e.090721 Vydejky " + SendToFormVydejky.ToString();
@@ -124,8 +122,8 @@ namespace PVMaster
                                                   ,order_id
                                                   ,CONVERT(DATETIME, STUFF(STUFF(STUFF(porizeno,13,0,':'),11,0,':'),9,0,' ')) AS Datum
                                                   ,case when len(isnull(odberatel,'0'))=0 then '0' else isnull(odberatel,'0') end  AS odberatel
-                                                  ,faktura
-                                                  ,concat(text_pred,' - faktura:',faktura,' - user:',user_id) as info
+                                                  ,faktura,concat('Faktura: ',faktura,' - ',text_pred) as info
+                                                  --,concat('Faktura: ',faktura,' - user: ',user_id,'- ',text_pred) as info
                                                   from [TDFaktury].[dbo].[FakVyd] fv
                                                   where pobocka = '{DataProvider.GetBranch}' 
                                                         and DATEDIFF(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104), cast(left(vystavena,8) as date))>=0                                                                      
@@ -134,8 +132,8 @@ namespace PVMaster
                                                   SELECT  id                                    ,order_id
                                                                                                 ,porizeno AS Datum
                                                                                                 ,case when len(isnull(odb,'0'))=0 then '0' else isnull(odb,'0') end  AS odberatel
-                                                                                                ,fa
-                                                                                                ,concat('Pokladna:',pok,N' - učtenka:',ic,' - user:',user_id) as info                                            
+                                                                                                ,fa,concat(N'Učtenka: ',ic,' - Pokladna:',pok) as info            
+                                                                                               -- ,concat(N'Učtenka: ',ic,' - user: ',user_id,'- Pokladna:',pok) as info                                            
                                                                                                 FROM [TDFaktury].[dbo].[Archiv]
 			   								                                                    WHERE pob = '{DataProvider.GetBranch}' and fa=0                                     
                                                   and datediff(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104),porizeno)>=0
@@ -161,7 +159,8 @@ namespace PVMaster
                 textBox2.Text = row.Cells[4].Value.ToString();
                 odb_numb = row.Cells[3].Value.ToString();
                 datum_vydejky = row.Cells[2].Value.ToString();
-                cislo_obj = row.Cells[1].Value.ToString();
+                informace_kasa = row.Cells[5].Value.ToString();
+             
             }
             catch (Exception)
             {
@@ -169,7 +168,7 @@ namespace PVMaster
                 textBox2.Text = "0";
                 odb_numb = "0";
                 datum_vydejky = "";
-                cislo_obj = "0";
+                informace_kasa="";
             }
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -184,7 +183,7 @@ namespace PVMaster
                     textBox2.Text = row.Cells[4].Value.ToString();
                     odb_numb = row.Cells[3].Value.ToString();
                     datum_vydejky = row.Cells[2].Value.ToString();
-                    cislo_obj = row.Cells[1].Value.ToString();
+                    informace_kasa = row.Cells[5].Value.ToString();
                     RunAsyn_Right();
                 }
                 catch (Exception)
@@ -193,7 +192,7 @@ namespace PVMaster
                     textBox2.Text = "0";
                     odb_numb = "0";
                     datum_vydejky = "";
-                    cislo_obj = "";
+                    informace_kasa = "";
                 }
             }
         }
@@ -216,14 +215,16 @@ namespace PVMaster
             _List.Clear();
             string sql_ArchivPol = $@"SELECT [kod_zbozi]     
                                            ,[nazev]
-                                           ,[mnozstvi],[mnozstvi]
+                                           ,[mnozstvi]
+                                           ,[pc_bez]
+                                            
                                       FROM [TDFaktury].[dbo].[ArchivPol]
                                       where archiv_id='{vydejka_cislo}' and ISNUMERIC(kod_zbozi)=1 ";
 
-            string sql_FakVydPol = $@"SELECT 
-                                          fvp.[kod_zbozi]
+            string sql_FakVydPol = $@"SELECT fvp.[kod_zbozi]
 	                                      ,[nazev]
                                           ,[ks]
+                                          ,[cena_j]
                                       FROM [TDFaktury].[dbo].[FakVydPol] fvp
                                       left join [TDF Database].dbo.CENIK ck on fvp.kod_zbozi=ck.kod_zbozi
                                       where faktura='{faktura_cislo}'
@@ -247,6 +248,9 @@ namespace PVMaster
                 }
                 else
                 {
+                    decimal celkem_V = 0;
+                    decimal celkem_m = 0;
+
                     for (int i = 0; i < TB_erp.Rows.Count; i++)
                     {
                         _List.Add(new InvoiceDetail
@@ -254,9 +258,11 @@ namespace PVMaster
                             kod_zbozi = TB_erp.Rows[i][0].ToString(),
                             nazev = TB_erp.Rows[i][1].ToString(),
                             prjato = TB_erp.Rows[i][2].ToString(),
-                            objednano = TB_erp.Rows[i][2].ToString()
-
+                            objednano = TB_erp.Rows[i][2].ToString(),
+                            cena_bez= TB_erp.Rows[i][3].ToString()
                         });
+                        celkem_V += Load_V_kus(TB_erp.Rows[i][0].ToString(), TB_erp.Rows[i][2].ToString());
+                        celkem_m += Load_m_kus(TB_erp.Rows[i][0].ToString(), TB_erp.Rows[i][2].ToString());
                     }
 
                     string sql_get_odb = $@"SELECT 
@@ -276,7 +282,6 @@ namespace PVMaster
                     {
 
                     }
-
                     string cislodod = "";
                     string nazev = "";
                     string ico = "";
@@ -286,7 +291,6 @@ namespace PVMaster
                     string obj = "";
                     string prijemka = "";
                     string datumPrijmuD = "";
-
 
                     if (int.Parse(faktura_cislo) > 0 && TB_odb.Rows.Count > 0)
                     {                       
@@ -314,6 +318,9 @@ namespace PVMaster
                         cr_vydejky.SetParameterValue("dicD", dic);
                         cr_vydejky.SetParameterValue("dicD", dic);
                         cr_vydejky.SetParameterValue("datumPrijmuD", datumPrijmuD);
+                        cr_vydejky.SetParameterValue("celk_m", celkem_m.ToString("0.000"));
+                        cr_vydejky.SetParameterValue("celk_V", celkem_V.ToString("0.000"));
+                        cr_vydejky.SetParameterValue("informace_kasa", informace_kasa);
                     }
                     else
                     {
@@ -341,6 +348,9 @@ namespace PVMaster
                         cr_vydejky.SetParameterValue("dicD", dic);
                         cr_vydejky.SetParameterValue("dicD", dic);
                         cr_vydejky.SetParameterValue("datumPrijmuD", datumPrijmuD);
+                        cr_vydejky.SetParameterValue("celk_m", celkem_m.ToString("0.000"));
+                        cr_vydejky.SetParameterValue("celk_V", celkem_V.ToString("0.000"));
+                        cr_vydejky.SetParameterValue("informace_kasa", informace_kasa);
                     }
 
 
@@ -398,6 +408,61 @@ namespace PVMaster
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             RunAsyn_Right();
+        }
+        private decimal Load_V_kus(string mnb, string slg)
+        {
+            decimal _load_V_kus = 0;
+            string sql1 = $@"Select  [kod_zbozi]
+                                  ,[sirka_kus]*[hloubka_kus]*[vyska_kus] as V_kus
+                                  ,[vaha_kus] as m_kus     
+                              FROM [TamdaHostivice].[dbo].[MASTER_DATA] where [kod_zbozi]='{mnb}' ";
+            try
+            {
+                DataTable TB = DataProvider_Hostivice.Instance.ExecuteQuery(sql1);
+                if (TB.Rows.Count > 0)
+                {
+                    _load_V_kus = decimal.Parse(TB.Rows[0][1].ToString()) * decimal.Parse(slg) / 1000 / 1000 / 1000;
+                }
+                else
+                {
+                    _load_V_kus = decimal.Parse(slg) / 977; //97.7mm            
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return _load_V_kus;
+        }
+        private decimal Load_m_kus(string mnb, string slg)
+        {
+            decimal _load_m_kus = 0;
+            string sql1 = $@"Select  [kod_zbozi]
+                                  ,[sirka_kus]*[hloubka_kus]*[vyska_kus] as m_kus
+                                  ,[vaha_kus] as m_kus     --gram
+                              FROM [TamdaHostivice].[dbo].[MASTER_DATA] where [kod_zbozi]='{mnb}' ";
+            try
+            {
+                DataTable TB = DataProvider_Hostivice.Instance.ExecuteQuery(sql1);
+                if (TB.Rows.Count > 0)
+                {
+                    _load_m_kus = decimal.Parse(TB.Rows[0][2].ToString()) * decimal.Parse(slg) / 1000;
+                }
+                else
+                {
+                    _load_m_kus = decimal.Parse(slg) * 97 / 1000; //97gram  
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            return _load_m_kus;
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+           crystalReportViewer1.PrintReport();
         }
     }
 }

@@ -58,8 +58,8 @@ namespace PVMaster
                 LoadPrijemkyBarco();
             }
             
-        }
-        private void LoadPrijemkyGold()
+        } 
+        private void LoadPrijemkyGold(string cislObj ="")
         {
             string sqlLoadPrijemky = $@"SELECT        oe_ncdefo AS prijemka,
                                                       oe_ncdefo AS order_num,
@@ -77,6 +77,7 @@ namespace PVMaster
                                           WHERE ma_starr !=0 
                                                 AND TO_CHAR(nvl(ma_dtrecr, ma_datrec), 'YYYYMMdd') >= '{dateTimePicker1from.Value.ToString("yyyyMMdd")}'
                                                 AND TO_CHAR(nvl(ma_dtrecr, ma_datrec), 'YYYYMMdd') <= '{dateTimePicker2to.Value.ToString("yyyyMMdd")}'
+                                                AND oe_ncdefo LIKE '%{cislObj}%'
                                           ORDER BY TO_CHAR(nvl(ma_dtrecr, ma_datrec), 'YYYYMMDDHH24MISS') DESC";
             DataTable TB = new DataTable();
             try
@@ -112,16 +113,23 @@ namespace PVMaster
                         dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                     }
                     //dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    label3.Text = $"Rows count: {dataGridView1.Rows.Count}";
-                }                
+                    label3.Text = $"Počet objednávek: {dataGridView1.Rows.Count}";
+                }
+                else
+                {
+                    MessageBox.Show("Počet objednávek: 0");
+                    label3.Text = "Počet objednávek: 0";
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Xảy ra lỗi");
+                MessageBox.Show(ex.ToString());
+                MessageBox.Show("Počet objednávek: 0");
+                label3.Text = "Počet objednávek: 0";
             }
 
         }
-        private void LoadPrijemkyBarco()
+        private void LoadPrijemkyBarco(string cisloObj="")
         {
             string sqlLoadPrijemkyBarco = $@"SELECT 
                                            [ObjednavkaID] as Prijemka --0
@@ -134,6 +142,7 @@ namespace PVMaster
                                       FROM [OrdersManager].[dbo].[ViewBarcoReceiving] 
                                       WHERE datediff(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104),[datum])>=0
                                         AND datediff(day,convert(datetime,'{dateTimePicker2to.Value.ToString("dd.MM.yyyy")}',104),[datum])<=0
+                                        AND [ObjednavkaID] like '%{cisloObj}%'
                                       ORDER by isnull(ReceivingDate, datum) desc";
             DataTable TB = new DataTable();
             try
@@ -161,13 +170,20 @@ namespace PVMaster
                     {
                         dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                     }
-                    label3.Text = $"Rows count: {dataGridView1.Rows.Count}";
+                    label3.Text = $"Počet objednávek: {dataGridView1.Rows.Count}";
+                }
+                else
+                {
+                    MessageBox.Show("Počet objednávek: 0");
+                    label3.Text = "Počet objednávek: 0";
                 }
                 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+                MessageBox.Show("Počet objednávek: 0");
+                label3.Text = "Počet objednávek: 0";
             }
 
 
@@ -222,7 +238,6 @@ namespace PVMaster
             }
             return _load_m_kus;
         }
-
         private string LoadCenaVyd(string inputOBJ, string input_mnb)
         {
             string _cena = "0";
@@ -280,7 +295,7 @@ namespace PVMaster
 
                 if (TB_gold.Rows.Count < 1)
                 {
-                    MessageBox.Show("Không có đơn hàng này!");
+                    //MessageBox.Show("Không có đơn hàng này!");
                 }
                 else
                 {
@@ -336,9 +351,9 @@ namespace PVMaster
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Xảy ra lỗi");
+                MessageBox.Show(ex.ToString());
             }
         }
         private void LoadDetailBarco(string inputOBJ)
@@ -363,7 +378,7 @@ namespace PVMaster
 
                 if (TB_barco.Rows.Count < 1)
                 {
-                    MessageBox.Show("Không có đơn hàng này!");
+                  // MessageBox.Show("Không có đơn hàng này!");
                 }
                 else
                 {
@@ -418,9 +433,9 @@ namespace PVMaster
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Xảy ra lỗi");
+                MessageBox.Show(ex.ToString());
             }
         }
         private void LoadReportDetail(string inputOBJ, string inputPrijemka)
@@ -554,19 +569,7 @@ namespace PVMaster
         private void pictureBox4_Click(object sender, EventArgs e) // picture in
         {
             crystalReportViewer1.PrintReport();
-        }       
-        private void pictureBox1_Click_1(object sender, EventArgs e) // picture tim kiem xanh duong
-        {
-            if (SendToFormPrijemka == "TK - Hostivice" || SendToFormPrijemka == "DC - Morava")
-            {
-                LoadPrijemkyGold();
-            }
-            else
-            {
-                LoadPrijemkyBarco();
-            }
-            MessageBox.Show($"Có {dataGridView1.Rows.Count} đơn hàng");
-        }
+        }              
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 7)
@@ -653,9 +656,56 @@ namespace PVMaster
                 worker.RunWorkerAsync(); 
             }
         }
-        private void pictureBox3_Click(object sender, EventArgs e)
+        private void pictureBox3_Click(object sender, EventArgs e) //tìm kiếm theo ngày
         {
-
+            if (SendToFormPrijemka == "TK - Hostivice" || SendToFormPrijemka == "DC - Morava")
+            {
+                LoadPrijemkyGold();
+            }
+            else
+            {
+                LoadPrijemkyBarco();
+            }
+            MessageBox.Show($"Počet objednávek: {dataGridView1.Rows.Count}");
+        }
+        private void pictureBox1_Click_1(object sender, EventArgs e) // tìm kiếm theo cislo obj
+        {
+            if (placeHolderTextBox1.TextLength>=5)
+            {
+                if (SendToFormPrijemka == "TK - Hostivice" || SendToFormPrijemka == "DC - Morava")
+                {
+                    LoadPrijemkyGold(placeHolderTextBox1.Text);
+                }
+                else
+                {
+                    LoadPrijemkyBarco(placeHolderTextBox1.Text);
+                } 
+            }
+            else
+            {
+                MessageBox.Show("Zadejte min. 5 čísel!");
+            }
+        }
+        private void placeHolderTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode==Keys.Enter)
+            {
+                if (placeHolderTextBox1.TextLength >= 5)
+                {
+                    if (SendToFormPrijemka == "TK - Hostivice" || SendToFormPrijemka == "DC - Morava")
+                    {
+                        LoadPrijemkyGold(placeHolderTextBox1.Text);
+                    }
+                    else
+                    {
+                        LoadPrijemkyBarco(placeHolderTextBox1.Text);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Zadejte min. 5 čísel!");
+                }
+            }
         }
 
         //string sqlLoadPrijemkyBarco_old = $@"SELECT      
