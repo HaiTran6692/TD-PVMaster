@@ -348,6 +348,11 @@ namespace PVMaster
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmu);
                         cr12.SetParameterValue("celk_hm", celkem_m.ToString("0.000"));
                         cr12.SetParameterValue("celk_objem", celkem_V.ToString("0.000"));
+                        string _td_infor_name = @"Dodavatel:
+		                                                     TAMDA FOODS s.r.o.
+                                                             Libušská 319/126
+		                                                     142 00 PRAHA 411-LIBUŠ";
+                        cr12.SetParameterValue("TD_infor_name", _td_infor_name);
                     }
                 }
             }
@@ -430,6 +435,11 @@ namespace PVMaster
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmu);
                         cr12.SetParameterValue("celk_hm", celkem_m.ToString("0.000"));
                         cr12.SetParameterValue("celk_objem", celkem_V.ToString("0.000"));
+                        string _td_infor_name = @"Dodavatel:
+		                                                     TAMDA FOODS s.r.o.
+                                                             Libušská 319/126
+		                                                     142 00 PRAHA 411-LIBUŠ";
+                        cr12.SetParameterValue("TD_infor_name", _td_infor_name);
                     }
                 }
             }
@@ -533,6 +543,11 @@ namespace PVMaster
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmu);
                         cr12.SetParameterValue("celk_hm", celkem_m.ToString("0.000"));
                         cr12.SetParameterValue("celk_objem", celkem_V.ToString("0.000"));
+                        string _td_infor_name = @"Dodavatel:
+		                                                     TAMDA FOODS s.r.o.
+                                                             Libušská 319/126
+		                                                     142 00 PRAHA 411-LIBUŠ";
+                        cr12.SetParameterValue("TD_infor_name", _td_infor_name);
 
                         // crystalReportViewer1.Zoom(80);
                     }
