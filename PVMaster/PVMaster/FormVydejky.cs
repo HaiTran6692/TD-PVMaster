@@ -45,15 +45,17 @@ namespace PVMaster
             worker_right.DoWork += worker_right_DoWork;
             worker_right.RunWorkerCompleted += worker_right_RunWorkerCompleted;
 
-
-
         }
         void worker_left_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (!worker_left.IsBusy)
+            if (placeHolderTextBox1.Text.Length>0)
             {
-                LoadVydejky(); 
+                LoadVydejky(placeHolderTextBox1.Text);
             }
+            else
+            {
+                LoadVydejky();
+            } 
         }
         void worker_left_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -201,6 +203,7 @@ namespace PVMaster
         {
             if (!worker_left.IsBusy)
             {
+                placeHolderTextBox1.Text = "";
                 progressBar_left.Visible = true;
                 progressBar_left.Style = ProgressBarStyle.Marquee;
                 progressBar_left.MarqueeAnimationSpeed = 1;
@@ -505,7 +508,17 @@ namespace PVMaster
         {
             if (placeHolderTextBox1.TextLength >= 5)
             {
-                worker_left.RunWorkerAsync();                            
+                if (!worker_left.IsBusy)
+                {
+                    progressBar_left.Visible = true;
+                    progressBar_left.Style = ProgressBarStyle.Marquee;
+                    progressBar_left.MarqueeAnimationSpeed = 1;
+                    worker_left.RunWorkerAsync();
+                }
+                else
+                {
+                    MessageBox.Show("Still running!");
+                }
             }
             else
             {
@@ -519,7 +532,17 @@ namespace PVMaster
             {
                 if (placeHolderTextBox1.TextLength >= 5)
                 {
-                    worker_left.RunWorkerAsync();
+                    if (!worker_left.IsBusy)
+                    {
+                        progressBar_left.Visible = true;
+                        progressBar_left.Style = ProgressBarStyle.Marquee;
+                        progressBar_left.MarqueeAnimationSpeed = 1;
+                        worker_left.RunWorkerAsync();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Still running!");
+                    }
                 }
                 else
                 {
