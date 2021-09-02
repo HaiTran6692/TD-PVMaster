@@ -90,12 +90,12 @@ namespace PVMaster
         {
             dataGridView2.DataSource = null;
             dataGridView3.DataSource = null;
-            progressBar_left.Visible = false;
+            progressBar_right.Visible = false;
 
             if (TB_Prijem.Rows.Count > 0)
             {
                 dataGridView2.Columns.Clear();
-                dataGridView2.DataSource = TB_left;
+                dataGridView2.DataSource = TB_Prijem;
                 dataGridView2.Columns[0].HeaderText = "Kod zboží";
                 dataGridView2.Columns[1].HeaderText = "Název";
                 dataGridView2.Columns[2].HeaderText = "Množství";
@@ -111,7 +111,7 @@ namespace PVMaster
             if (TB_Vydej.Rows.Count > 0)
             {
                 dataGridView3.Columns.Clear();
-                dataGridView3.DataSource = TB_left;
+                dataGridView3.DataSource = TB_Vydej;
                 dataGridView3.Columns[0].HeaderText = "Kod zboží";
                 dataGridView3.Columns[1].HeaderText = "Název";
                 dataGridView3.Columns[2].HeaderText = "Množství";
@@ -213,8 +213,17 @@ namespace PVMaster
 
             try
             {
-                TB_Prijem = DataProvider.Instance.ExecuteQuery(sqlP);
                 TB_Vydej = DataProvider.Instance.ExecuteQuery(sqlV);
+                if (_branchToFormSklad == "TK - Hostivice")
+                {
+
+                    TB_Prijem = DataOracle.Instance.ExecuteQuery(sqlP);
+                }
+                else
+                {
+
+                    TB_Prijem = DataOracleMorava.Instance.ExecuteQuery(sqlP);
+                }
             }
             catch (Exception ex)
             {
