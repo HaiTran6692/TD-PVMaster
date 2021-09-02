@@ -38,7 +38,7 @@ namespace PVMaster
             //this.Text = "PVMaster v2c.240621 " + SendToFormMain.ToString();
             //this.Text = "PVMaster v2d.290621 Prijemky " + SendToFormMain.ToString();
             //this.Text = "PVMaster v3b.140721 Prijemky " + SendToFormMain.ToString();
-
+           
             this.Text = "PVMaster v3c.170721 Prijemky " + SendToFormPrijemka.ToString();
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
@@ -56,9 +56,41 @@ namespace PVMaster
             else
             {
                 LoadPrijemkyBarco();
+            }            
+        }
+        private void SetBranchToCReport()
+        {
+            if (SendToFormPrijemka == "TD - Brno" || SendToFormPrijemka == "DC - Morava")
+            {
+                cr12.SetParameterValue("Branch_name", BranchInfor.TDB_name);
+                cr12.SetParameterValue("Branch_street", BranchInfor.TDB_street);
+                cr12.SetParameterValue("Branch_city", BranchInfor.TDB_city);
+                cr12.SetParameterValue("Branch_ucet", BranchInfor.TDB_ucet);
+                cr12.SetParameterValue("Branch_tel", BranchInfor.TDB_tel);
+                cr12.SetParameterValue("Branch_ico", BranchInfor.TDB_ico);
+                cr12.SetParameterValue("Branch_dic", BranchInfor.TDB_dic);
             }
-            
-        } 
+            else if (SendToFormPrijemka == "TD - Usti" )
+            {
+                cr12.SetParameterValue("Branch_name", BranchInfor.TDU_name);
+                cr12.SetParameterValue("Branch_street", BranchInfor.TDU_street);
+                cr12.SetParameterValue("Branch_city", BranchInfor.TDU_city);
+                cr12.SetParameterValue("Branch_ucet", BranchInfor.TDU_ucet);
+                cr12.SetParameterValue("Branch_tel", BranchInfor.TDU_tel);
+                cr12.SetParameterValue("Branch_ico", BranchInfor.TDU_ico);
+                cr12.SetParameterValue("Branch_dic", BranchInfor.TDU_dic);
+            }
+            else
+            {
+                cr12.SetParameterValue("Branch_name", BranchInfor.TDF_name);
+                cr12.SetParameterValue("Branch_street", BranchInfor.TDF_street);
+                cr12.SetParameterValue("Branch_city", BranchInfor.TDF_city);
+                cr12.SetParameterValue("Branch_ucet", BranchInfor.TDF_ucet);
+                cr12.SetParameterValue("Branch_tel", BranchInfor.TDF_tel);
+                cr12.SetParameterValue("Branch_ico", BranchInfor.TDF_ico);
+                cr12.SetParameterValue("Branch_dic", BranchInfor.TDF_dic);
+            }
+        }
         private void LoadPrijemkyGold(string cislObj ="")
         {
             string sqlLoadPrijemky = $@"SELECT        oe_ncdefo AS prijemka,
@@ -112,7 +144,6 @@ namespace PVMaster
                     {
                         dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                     }
-                    //dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                     label3.Text = $"Počet objednávek: {dataGridView1.Rows.Count}";
                 }
                 else
@@ -348,11 +379,7 @@ namespace PVMaster
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmu);
                         cr12.SetParameterValue("celk_hm", celkem_m.ToString("0.000"));
                         cr12.SetParameterValue("celk_objem", celkem_V.ToString("0.000"));
-                        string _td_infor_name = @"Dodavatel:
-		                                                     TAMDA FOODS s.r.o.
-                                                             Libušská 319/126
-		                                                     142 00 PRAHA 411-LIBUŠ";
-                        cr12.SetParameterValue("TD_infor_name", _td_infor_name);
+                        SetBranchToCReport();
                     }
                 }
             }
@@ -435,11 +462,7 @@ namespace PVMaster
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmu);
                         cr12.SetParameterValue("celk_hm", celkem_m.ToString("0.000"));
                         cr12.SetParameterValue("celk_objem", celkem_V.ToString("0.000"));
-                        string _td_infor_name = @"Dodavatel:
-		                                                     TAMDA FOODS s.r.o.
-                                                             Libušská 319/126
-		                                                     142 00 PRAHA 411-LIBUŠ";
-                        cr12.SetParameterValue("TD_infor_name", _td_infor_name);
+                        SetBranchToCReport();
                     }
                 }
             }
@@ -543,13 +566,7 @@ namespace PVMaster
                         cr12.SetParameterValue("datumPrijmuD", datumPrijmu);
                         cr12.SetParameterValue("celk_hm", celkem_m.ToString("0.000"));
                         cr12.SetParameterValue("celk_objem", celkem_V.ToString("0.000"));
-                        string _td_infor_name = @"Dodavatel:
-		                                                     TAMDA FOODS s.r.o.
-                                                             Libušská 319/126
-		                                                     142 00 PRAHA 411-LIBUŠ";
-                        cr12.SetParameterValue("TD_infor_name", _td_infor_name);
-
-                        // crystalReportViewer1.Zoom(80);
+                        SetBranchToCReport();
                     }
                 }
                 else
@@ -722,6 +739,7 @@ namespace PVMaster
                 }
             }
         }
+
 
         //string sqlLoadPrijemkyBarco_old = $@"SELECT      
         //                          f.cislo as Cislo_prijemky

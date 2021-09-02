@@ -71,6 +71,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BranchInfor.cs" />
     <Compile Include="CrystalReport_Vydejky.cs">
       <DependentUpon>CrystalReport_Vydejky.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
