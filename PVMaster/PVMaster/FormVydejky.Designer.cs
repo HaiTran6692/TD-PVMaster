@@ -31,6 +31,9 @@ namespace PVMaster
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVydejky));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.placeHolderTextBox1 = new PVMaster.PlaceHolderTextBox();
             this.progressBar_left = new System.Windows.Forms.ProgressBar();
             this.progressBar_right = new System.Windows.Forms.ProgressBar();
             this.label5 = new System.Windows.Forms.Label();
@@ -42,19 +45,16 @@ namespace PVMaster
             this.dateTimePicker2to = new System.Windows.Forms.DateTimePicker();
             this.dateTimePicker1from = new System.Windows.Forms.DateTimePicker();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
-            this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.placeHolderTextBox1 = new PVMaster.PlaceHolderTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -82,6 +82,38 @@ namespace PVMaster
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1913, 69);
             this.panel1.TabIndex = 8;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(456, 10);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(121, 13);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "Hledat dle Číslo vydejky";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(830, 13);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(122, 23);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Počet vydejky:";
+            // 
+            // placeHolderTextBox1
+            // 
+            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
+            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
+            this.placeHolderTextBox1.Location = new System.Drawing.Point(457, 31);
+            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
+            this.placeHolderTextBox1.PlaceHolderText = "Zadejte Číslo vydejky...";
+            this.placeHolderTextBox1.Size = new System.Drawing.Size(223, 20);
+            this.placeHolderTextBox1.TabIndex = 10;
+            this.placeHolderTextBox1.Text = "Zadejte Číslo vydejky...";
+            this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
             // 
             // progressBar_left
             // 
@@ -183,6 +215,17 @@ namespace PVMaster
             this.pictureBox4.TabStop = false;
             this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::PVMaster.Properties.Resources.Apps_Search_icon;
+            this.pictureBox2.Location = new System.Drawing.Point(686, 6);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(48, 48);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox2.TabIndex = 1;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::PVMaster.Properties.Resources.Apps_Dialog_Apply_icon;
@@ -226,17 +269,6 @@ namespace PVMaster
             this.crystalReportViewer1.TabIndex = 10;
             this.crystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(830, 13);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(122, 23);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Počet vydejky:";
-            // 
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -247,37 +279,6 @@ namespace PVMaster
             this.label6.Size = new System.Drawing.Size(203, 13);
             this.label6.TabIndex = 12;
             this.label6.Text = "press F1 to see Detail | F5 Export to Excel";
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::PVMaster.Properties.Resources.Apps_Search_icon;
-            this.pictureBox2.Location = new System.Drawing.Point(686, 6);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(48, 48);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
-            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(456, 10);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(121, 13);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Hledat dle Číslo vydejky";
-            // 
-            // placeHolderTextBox1
-            // 
-            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
-            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
-            this.placeHolderTextBox1.Location = new System.Drawing.Point(457, 31);
-            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
-            this.placeHolderTextBox1.PlaceHolderText = "Zadejte Číslo vydejky...";
-            this.placeHolderTextBox1.Size = new System.Drawing.Size(223, 20);
-            this.placeHolderTextBox1.TabIndex = 10;
-            this.placeHolderTextBox1.Text = "Zadejte Číslo vydejky...";
             // 
             // FormVydejky
             // 
@@ -295,9 +296,9 @@ namespace PVMaster
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

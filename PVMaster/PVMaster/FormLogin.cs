@@ -169,7 +169,14 @@ namespace PVMaster
                 }
                 else if (radioButton3_Sklad.Checked)
                 {
-                    LoadFormSklad();
+                    if (comboBox1Branch.Text=="DC - Morava"|| comboBox1Branch.Text == "TK - Hostivice")
+                    {
+                        LoadFormSklad(); 
+                    }
+                    else
+                    {
+                        MessageBox.Show("Vyberte sklad TK-Hostivice nebo DC-Morava");
+                    }
                 }
                 else if (radioButton4_Zamest.Checked)
                 {

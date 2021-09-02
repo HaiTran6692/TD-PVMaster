@@ -50,7 +50,10 @@ namespace PVMaster
         }
         void worker_left_DoWork(object sender, DoWorkEventArgs e)
         {
-            LoadVydejky();
+            if (!worker_left.IsBusy)
+            {
+                LoadVydejky(); 
+            }
         }
         void worker_left_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -502,11 +505,26 @@ namespace PVMaster
         {
             if (placeHolderTextBox1.TextLength >= 5)
             {
-                LoadVydejky(placeHolderTextBox1.Text);                             
+                worker_left.RunWorkerAsync();                            
             }
             else
             {
                 MessageBox.Show("Zadejte min. 5 čísel!");
+            }
+        }
+
+        private void placeHolderTextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode==Keys.Enter)
+            {
+                if (placeHolderTextBox1.TextLength >= 5)
+                {
+                    worker_left.RunWorkerAsync();
+                }
+                else
+                {
+                    MessageBox.Show("Zadejte min. 5 čísel!");
+                }
             }
         }
     }

@@ -18,5 +18,10 @@ namespace PVMaster
             InitializeComponent();
             _branchToFormSklad = branchToFormSklad;
         }
+
+        private void FormSklad_Load(object sender, EventArgs e)
+        {
+            this.Text = $"PVMaster v3c.170721 Sklad {_branchToFormSklad}";
+        }
     }
 }
