@@ -144,19 +144,19 @@ namespace PVMaster
                     {
                         dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                     }
-                    label3.Text = $"Počet objednávek: {dataGridView1.Rows.Count}";
+                    label3.Text = $"Počet příjemky: {dataGridView1.Rows.Count}";
                 }
                 else
                 {
                     MessageBox.Show("Počet objednávek: 0");
-                    label3.Text = "Počet objednávek: 0";
+                    label3.Text = "Počet příjemky: 0";
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
                 MessageBox.Show("Počet objednávek: 0");
-                label3.Text = "Počet objednávek: 0";
+                label3.Text = "Počet příjemky: 0";
             }
 
         }

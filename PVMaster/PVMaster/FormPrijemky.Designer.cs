@@ -43,13 +43,13 @@ namespace PVMaster
             this.panel1 = new System.Windows.Forms.Panel();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.placeHolderTextBox1 = new PVMaster.PlaceHolderTextBox();
             this.CrystalReport_Prijemky1 = new PVMaster.CrystalReport_Prijemky();
             this.CrystalReport_Prijemky2 = new PVMaster.CrystalReport_Prijemky();
-            this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.placeHolderTextBox1 = new PVMaster.PlaceHolderTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -93,7 +93,7 @@ namespace PVMaster
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(802, 928);
+            this.dataGridView1.Size = new System.Drawing.Size(802, 940);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
@@ -222,22 +222,11 @@ namespace PVMaster
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label3.Location = new System.Drawing.Point(812, 13);
+            this.label3.Location = new System.Drawing.Point(816, 13);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(168, 23);
+            this.label3.Size = new System.Drawing.Size(146, 23);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Počet objednávek: --";
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(605, 1020);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(203, 13);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "press F1 to see Detail | F5 Export to Excel";
+            this.label3.Text = "Počet příjemky: --";
             // 
             // label5
             // 
@@ -247,14 +236,6 @@ namespace PVMaster
             this.label5.Size = new System.Drawing.Size(143, 13);
             this.label5.TabIndex = 5;
             this.label5.Text = "Hledat dle Číslo objednávky:";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(19, 90);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(34, 20);
-            this.textBox2.TabIndex = 10;
-            this.textBox2.Visible = false;
             // 
             // placeHolderTextBox1
             // 
@@ -268,6 +249,25 @@ namespace PVMaster
             this.placeHolderTextBox1.Text = "Zadejte Číslo objednávky...";
             this.placeHolderTextBox1.TextChanged += new System.EventHandler(this.placeHolderTextBox1_TextChanged);
             this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label6.Location = new System.Drawing.Point(605, 1024);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(203, 13);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "press F1 to see Detail | F5 Export to Excel";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(19, 90);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(34, 20);
+            this.textBox2.TabIndex = 10;
+            this.textBox2.Visible = false;
             // 
             // FormPrijemky
             // 

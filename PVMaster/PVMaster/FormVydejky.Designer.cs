@@ -47,10 +47,14 @@ namespace PVMaster
             this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.placeHolderTextBox1 = new PVMaster.PlaceHolderTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -58,6 +62,9 @@ namespace PVMaster
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.label7);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.placeHolderTextBox1);
             this.panel1.Controls.Add(this.progressBar_left);
             this.panel1.Controls.Add(this.progressBar_right);
             this.panel1.Controls.Add(this.label5);
@@ -69,6 +76,7 @@ namespace PVMaster
             this.panel1.Controls.Add(this.dateTimePicker2to);
             this.panel1.Controls.Add(this.dateTimePicker1from);
             this.panel1.Controls.Add(this.pictureBox4);
+            this.panel1.Controls.Add(this.pictureBox2);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(6, 6);
             this.panel1.Name = "panel1";
@@ -93,7 +101,7 @@ namespace PVMaster
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label5.Location = new System.Drawing.Point(816, 29);
+            this.label5.Location = new System.Drawing.Point(1243, 13);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(89, 23);
             this.label5.TabIndex = 7;
@@ -103,17 +111,18 @@ namespace PVMaster
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label4.Location = new System.Drawing.Point(1082, 29);
+            this.label4.Location = new System.Drawing.Point(1681, 28);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(85, 23);
             this.label4.TabIndex = 7;
             this.label4.Text = "Faktura č.";
+            this.label4.Visible = false;
             // 
             // textBox1
             // 
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(906, 29);
+            this.textBox1.Location = new System.Drawing.Point(1333, 12);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(157, 24);
@@ -123,11 +132,12 @@ namespace PVMaster
             // 
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox2.Location = new System.Drawing.Point(1167, 29);
+            this.textBox2.Location = new System.Drawing.Point(1772, 27);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(489, 24);
+            this.textBox2.Size = new System.Drawing.Size(64, 24);
             this.textBox2.TabIndex = 6;
+            this.textBox2.Visible = false;
             // 
             // label2
             // 
@@ -175,7 +185,7 @@ namespace PVMaster
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::PVMaster.Properties.Resources.Apps_Search_icon;
+            this.pictureBox1.Image = global::PVMaster.Properties.Resources.Apps_Dialog_Apply_icon;
             this.pictureBox1.Location = new System.Drawing.Point(294, 6);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(48, 48);
@@ -220,11 +230,12 @@ namespace PVMaster
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(5, 816);
+            this.label3.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(830, 13);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
+            this.label3.Size = new System.Drawing.Size(122, 23);
             this.label3.TabIndex = 11;
-            this.label3.Text = "label3";
+            this.label3.Text = "Počet vydejky:";
             // 
             // label6
             // 
@@ -237,13 +248,43 @@ namespace PVMaster
             this.label6.TabIndex = 12;
             this.label6.Text = "press F1 to see Detail | F5 Export to Excel";
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::PVMaster.Properties.Resources.Apps_Search_icon;
+            this.pictureBox2.Location = new System.Drawing.Point(686, 6);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(48, 48);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox2.TabIndex = 1;
+            this.pictureBox2.TabStop = false;
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(456, 10);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(121, 13);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "Hledat dle Číslo vydejky";
+            // 
+            // placeHolderTextBox1
+            // 
+            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
+            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
+            this.placeHolderTextBox1.Location = new System.Drawing.Point(457, 31);
+            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
+            this.placeHolderTextBox1.PlaceHolderText = "Zadejte Číslo vydejky...";
+            this.placeHolderTextBox1.Size = new System.Drawing.Size(223, 20);
+            this.placeHolderTextBox1.TabIndex = 10;
+            this.placeHolderTextBox1.Text = "Zadejte Číslo vydejky...";
+            // 
             // FormVydejky
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1924, 836);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.crystalReportViewer1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.panel1);
@@ -256,6 +297,7 @@ namespace PVMaster
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -280,5 +322,8 @@ namespace PVMaster
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ProgressBar progressBar_left;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label7;
+        private PlaceHolderTextBox placeHolderTextBox1;
     }
 }

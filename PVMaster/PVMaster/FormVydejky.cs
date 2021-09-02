@@ -79,7 +79,7 @@ namespace PVMaster
                     dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
                 dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                label3.Text = $"Rows count: {dataGridView1.Rows.Count}";
+                label3.Text = $"Počet vydejky: {dataGridView1.Rows.Count}";
             }
             else
             {
@@ -112,11 +112,8 @@ namespace PVMaster
             progressBar_left.Style = ProgressBarStyle.Marquee;
             progressBar_left.MarqueeAnimationSpeed = 1;
             worker_left.RunWorkerAsync();
-
-
-
         }
-        private void LoadVydejky()
+        private void LoadVydejky(string _input_cislo_vydejky="")
         {
             string sqlLoadVydejky = $@" SELECT id 
                                                   ,order_id
@@ -125,7 +122,7 @@ namespace PVMaster
                                                   ,faktura,concat('Faktura: ',faktura,' - ',text_pred) as info
                                                   --,concat('Faktura: ',faktura,' - user: ',user_id,'- ',text_pred) as info
                                                   from [TDFaktury].[dbo].[FakVyd] fv
-                                                  where pobocka = '{DataProvider.GetBranch}' 
+                                                  where pobocka = '{DataProvider.GetBranch}' and id like'%{_input_cislo_vydejky}%'     
                                                         and DATEDIFF(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104), cast(left(vystavena,8) as date))>=0                                                                      
                                                         and DATEDIFF(day,convert(datetime,'{dateTimePicker2to.Value.ToString("dd.MM.yyyy")}',104), cast(left(vystavena,8) as date))<=0
                                                  union all 
@@ -135,7 +132,8 @@ namespace PVMaster
                                                                                                 ,fa,concat(N'Učtenka: ',ic,' - Pokladna:',pok) as info            
                                                                                                -- ,concat(N'Učtenka: ',ic,' - user: ',user_id,'- Pokladna:',pok) as info                                            
                                                                                                 FROM [TDFaktury].[dbo].[Archiv]
-			   								                                                    WHERE pob = '{DataProvider.GetBranch}' and fa=0                                     
+			   								                                                    WHERE pob = '{DataProvider.GetBranch}' and fa=0   
+                                                  and id like'%{_input_cislo_vydejky}%'   
                                                   and datediff(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104),porizeno)>=0
                                                   and datediff(day,convert(datetime,'{dateTimePicker2to.Value.ToString("dd.MM.yyyy")}',104),porizeno)<=0
                                                   order by Datum ";
@@ -210,14 +208,14 @@ namespace PVMaster
                 MessageBox.Show("Still running!");
             }
         }
+
         private void Load_VydejkyDetail(string vydejka_cislo, string faktura_cislo)
         {
             _List.Clear();
             string sql_ArchivPol = $@"SELECT [kod_zbozi]     
                                            ,[nazev]
                                            ,[mnozstvi]
-                                           ,[pc_bez]
-                                            
+                                           ,[pc_bez]                                            
                                       FROM [TDFaktury].[dbo].[ArchivPol]
                                       where archiv_id='{vydejka_cislo}' and ISNUMERIC(kod_zbozi)=1 ";
 
@@ -321,6 +319,7 @@ namespace PVMaster
                         cr_vydejky.SetParameterValue("celk_m", celkem_m.ToString("0.000"));
                         cr_vydejky.SetParameterValue("celk_V", celkem_V.ToString("0.000"));
                         cr_vydejky.SetParameterValue("informace_kasa", informace_kasa);
+                        SetBranchToCReport();
                     }
                     else
                     {
@@ -351,6 +350,7 @@ namespace PVMaster
                         cr_vydejky.SetParameterValue("celk_m", celkem_m.ToString("0.000"));
                         cr_vydejky.SetParameterValue("celk_V", celkem_V.ToString("0.000"));
                         cr_vydejky.SetParameterValue("informace_kasa", informace_kasa);
+                        SetBranchToCReport();
                     }
 
 
@@ -364,6 +364,39 @@ namespace PVMaster
                 MessageBox.Show(ex.ToString());
             }
 
+        }
+        private void SetBranchToCReport()
+        {
+            if (SendToFormVydejky == "TD - Brno" || SendToFormVydejky == "DC - Morava")
+            {
+                cr_vydejky.SetParameterValue("Branch_name", BranchInfor.TDB_name);
+                cr_vydejky.SetParameterValue("Branch_street", BranchInfor.TDB_street);
+                cr_vydejky.SetParameterValue("Branch_city", BranchInfor.TDB_city);
+                cr_vydejky.SetParameterValue("Branch_ucet", BranchInfor.TDB_ucet);
+                cr_vydejky.SetParameterValue("Branch_tel", BranchInfor.TDB_tel);
+                cr_vydejky.SetParameterValue("Branch_ico", BranchInfor.TDB_ico);
+                cr_vydejky.SetParameterValue("Branch_dic", BranchInfor.TDB_dic);
+            }
+            else if (SendToFormVydejky == "TD - Usti")
+            {
+                cr_vydejky.SetParameterValue("Branch_name", BranchInfor.TDU_name);
+                cr_vydejky.SetParameterValue("Branch_street", BranchInfor.TDU_street);
+                cr_vydejky.SetParameterValue("Branch_city", BranchInfor.TDU_city);
+                cr_vydejky.SetParameterValue("Branch_ucet", BranchInfor.TDU_ucet);
+                cr_vydejky.SetParameterValue("Branch_tel", BranchInfor.TDU_tel);
+                cr_vydejky.SetParameterValue("Branch_ico", BranchInfor.TDU_ico);
+                cr_vydejky.SetParameterValue("Branch_dic", BranchInfor.TDU_dic);
+            }
+            else
+            {
+                cr_vydejky.SetParameterValue("Branch_name", BranchInfor.TDF_name);
+                cr_vydejky.SetParameterValue("Branch_street", BranchInfor.TDF_street);
+                cr_vydejky.SetParameterValue("Branch_city", BranchInfor.TDF_city);
+                cr_vydejky.SetParameterValue("Branch_ucet", BranchInfor.TDF_ucet);
+                cr_vydejky.SetParameterValue("Branch_tel", BranchInfor.TDF_tel);
+                cr_vydejky.SetParameterValue("Branch_ico", BranchInfor.TDF_ico);
+                cr_vydejky.SetParameterValue("Branch_dic", BranchInfor.TDF_dic);
+            }
         }
         private void RunAsyn_Right()
         {
@@ -463,6 +496,18 @@ namespace PVMaster
         private void pictureBox4_Click(object sender, EventArgs e)
         {
            crystalReportViewer1.PrintReport();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (placeHolderTextBox1.TextLength >= 5)
+            {
+                LoadVydejky(placeHolderTextBox1.Text);                             
+            }
+            else
+            {
+                MessageBox.Show("Zadejte min. 5 čísel!");
+            }
         }
     }
 }
