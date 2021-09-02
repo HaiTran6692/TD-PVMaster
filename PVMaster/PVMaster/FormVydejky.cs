@@ -84,7 +84,7 @@ namespace PVMaster
                     dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
                 dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                label3.Text = $"Počet vydejky: {dataGridView1.Rows.Count}";
+                label3.Text = $"Počet výdejky: {dataGridView1.Rows.Count}";
             }
             else
             {

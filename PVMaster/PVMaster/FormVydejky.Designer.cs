@@ -90,7 +90,7 @@ namespace PVMaster
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(121, 13);
             this.label7.TabIndex = 11;
-            this.label7.Text = "Hledat dle Číslo vydejky";
+            this.label7.Text = "Hledat dle Číslo výdejky";
             // 
             // label3
             // 
@@ -101,7 +101,7 @@ namespace PVMaster
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(122, 23);
             this.label3.TabIndex = 11;
-            this.label3.Text = "Počet vydejky:";
+            this.label3.Text = "Počet výdejky:";
             // 
             // placeHolderTextBox1
             // 
@@ -109,10 +109,10 @@ namespace PVMaster
             this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
             this.placeHolderTextBox1.Location = new System.Drawing.Point(457, 31);
             this.placeHolderTextBox1.Name = "placeHolderTextBox1";
-            this.placeHolderTextBox1.PlaceHolderText = "Zadejte Číslo vydejky...";
+            this.placeHolderTextBox1.PlaceHolderText = "Zadejte Číslo výdejky...";
             this.placeHolderTextBox1.Size = new System.Drawing.Size(223, 20);
             this.placeHolderTextBox1.TabIndex = 10;
-            this.placeHolderTextBox1.Text = "Zadejte Číslo vydejky...";
+            this.placeHolderTextBox1.Text = "Zadejte Číslo výdejky...";
             this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
             // 
             // progressBar_left
@@ -274,7 +274,7 @@ namespace PVMaster
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(613, 816);
+            this.label6.Location = new System.Drawing.Point(10, 814);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(203, 13);
             this.label6.TabIndex = 12;
