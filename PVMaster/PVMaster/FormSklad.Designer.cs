@@ -31,26 +31,26 @@ namespace PVMaster
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSklad));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.progressBar_right = new System.Windows.Forms.ProgressBar();
+            this.progressBar_left = new System.Windows.Forms.ProgressBar();
             this.label7 = new System.Windows.Forms.Label();
-            this.placeHolderTextBox1 = new PVMaster.PlaceHolderTextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.progressBar_left = new System.Windows.Forms.ProgressBar();
-            this.progressBar_right = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
+            this.placeHolderTextBox1 = new PVMaster.PlaceHolderTextBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -72,6 +72,23 @@ namespace PVMaster
             this.panel1.Size = new System.Drawing.Size(1802, 69);
             this.panel1.TabIndex = 9;
             // 
+            // progressBar_right
+            // 
+            this.progressBar_right.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar_right.Location = new System.Drawing.Point(746, 57);
+            this.progressBar_right.Name = "progressBar_right";
+            this.progressBar_right.Size = new System.Drawing.Size(1049, 8);
+            this.progressBar_right.TabIndex = 12;
+            // 
+            // progressBar_left
+            // 
+            this.progressBar_left.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar_left.Location = new System.Drawing.Point(11, 57);
+            this.progressBar_left.Name = "progressBar_left";
+            this.progressBar_left.Size = new System.Drawing.Size(729, 8);
+            this.progressBar_left.TabIndex = 12;
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -81,16 +98,16 @@ namespace PVMaster
             this.label7.TabIndex = 11;
             this.label7.Text = "Hledat dle Číslo zboží";
             // 
-            // placeHolderTextBox1
+            // label1
             // 
-            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
-            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
-            this.placeHolderTextBox1.Location = new System.Drawing.Point(12, 31);
-            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
-            this.placeHolderTextBox1.PlaceHolderText = "Zadejte Číslo zboží..";
-            this.placeHolderTextBox1.Size = new System.Drawing.Size(223, 20);
-            this.placeHolderTextBox1.TabIndex = 10;
-            this.placeHolderTextBox1.Text = "Zadejte Číslo zboží...";
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Location = new System.Drawing.Point(1522, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(54, 23);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Výdej";
             // 
             // label5
             // 
@@ -102,7 +119,17 @@ namespace PVMaster
             this.label5.Size = new System.Drawing.Size(60, 23);
             this.label5.TabIndex = 7;
             this.label5.Text = "Příjem";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::PVMaster.Properties.Resources.Apps_Rotate_Right_icon;
+            this.pictureBox1.Location = new System.Drawing.Point(314, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(48, 48);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // pictureBox4
             // 
@@ -113,6 +140,7 @@ namespace PVMaster
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox4.TabIndex = 1;
             this.pictureBox4.TabStop = false;
+            this.pictureBox4.Click += new System.EventHandler(this.pictureBox4_Click);
             // 
             // pictureBox2
             // 
@@ -127,6 +155,7 @@ namespace PVMaster
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -142,6 +171,7 @@ namespace PVMaster
             // 
             // dataGridView2
             // 
+            this.dataGridView2.AllowUserToAddRows = false;
             this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -152,6 +182,7 @@ namespace PVMaster
             // 
             // dataGridView3
             // 
+            this.dataGridView3.AllowUserToAddRows = false;
             this.dataGridView3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -159,44 +190,6 @@ namespace PVMaster
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.Size = new System.Drawing.Size(513, 852);
             this.dataGridView3.TabIndex = 10;
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(1522, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 23);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Výdej";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::PVMaster.Properties.Resources.Apps_Rotate_Right_icon;
-            this.pictureBox1.Location = new System.Drawing.Point(314, 6);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(48, 48);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // progressBar_left
-            // 
-            this.progressBar_left.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.progressBar_left.Location = new System.Drawing.Point(11, 56);
-            this.progressBar_left.Name = "progressBar_left";
-            this.progressBar_left.Size = new System.Drawing.Size(729, 10);
-            this.progressBar_left.TabIndex = 12;
-            // 
-            // progressBar_right
-            // 
-            this.progressBar_right.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar_right.Location = new System.Drawing.Point(746, 56);
-            this.progressBar_right.Name = "progressBar_right";
-            this.progressBar_right.Size = new System.Drawing.Size(1049, 10);
-            this.progressBar_right.TabIndex = 12;
             // 
             // label2
             // 
@@ -208,6 +201,19 @@ namespace PVMaster
             this.label2.Size = new System.Drawing.Size(203, 13);
             this.label2.TabIndex = 11;
             this.label2.Text = "press F1 to see Detail | F5 Export to Excel";
+            // 
+            // placeHolderTextBox1
+            // 
+            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
+            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
+            this.placeHolderTextBox1.Location = new System.Drawing.Point(12, 31);
+            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
+            this.placeHolderTextBox1.PlaceHolderText = "Zadejte Číslo zboží..";
+            this.placeHolderTextBox1.Size = new System.Drawing.Size(223, 20);
+            this.placeHolderTextBox1.TabIndex = 100;
+            this.placeHolderTextBox1.TabStop = false;
+            this.placeHolderTextBox1.Text = "Zadejte Číslo zboží...";
+            this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
             // 
             // FormSklad
             // 
@@ -226,12 +232,12 @@ namespace PVMaster
             this.Load += new System.EventHandler(this.FormSklad_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
