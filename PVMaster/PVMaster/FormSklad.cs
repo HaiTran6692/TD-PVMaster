@@ -166,7 +166,7 @@ namespace PVMaster
                             from tb_hmvtre 
                             where hr_cproin='{_mnb}')
                             select kz,Mnozstvi,Dok,Datum,Cislo_obj,Kod_palet from bang_nhap
-                            where   TO_DATE(Datum,'DD-MM-YYYY') >= TO_DATE(SYSDATE-30, 'DD-MM-YYYY') 
+                            where   TO_DATE(Datum,'DD-MM-YYYY') >= TO_DATE(SYSDATE-90, 'DD-MM-YYYY') 
                             order by Datum desc";
 
 
@@ -337,7 +337,7 @@ namespace PVMaster
                 _kod_zbozi = row.Cells[0].Value.ToString();
                 label3Celkem.Text = "";
                 label3Celkem.Text = $"Celkem: {row.Cells[4].Value.ToString()}";
-
+                this.Text = $"PVMaster v3c.170721 Sklad {_branchToFormSklad} --- zboží: {row.Cells[0].Value.ToString()} {row.Cells[1].Value.ToString()}";
             }
             catch (Exception)
             {
@@ -367,7 +367,7 @@ namespace PVMaster
             {
                 try
                 {
-                    DialogResult dialogResult = MessageBox.Show("Bạn có muốn xuất dữ liệu ra file Excel không?", "Cảnh báo", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button3);
+                    DialogResult dialogResult = MessageBox.Show("Export to file Excel?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);
                     if (dialogResult == DialogResult.Yes)
                     {
                         ExportDTGVToExcel.Instance.ExportToExcel(dataGridView1);
