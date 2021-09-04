@@ -34,8 +34,8 @@ namespace PVMaster
             this.progressBar_right = new System.Windows.Forms.ProgressBar();
             this.progressBar_left = new System.Windows.Forms.ProgressBar();
             this.label7 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label1Vydej = new System.Windows.Forms.Label();
+            this.label5Prijem = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -43,6 +43,7 @@ namespace PVMaster
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3Celkem = new System.Windows.Forms.Label();
             this.placeHolderTextBox1 = new PVMaster.PlaceHolderTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -62,8 +63,9 @@ namespace PVMaster
             this.panel1.Controls.Add(this.progressBar_left);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.placeHolderTextBox1);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.label1Vydej);
+            this.panel1.Controls.Add(this.label3Celkem);
+            this.panel1.Controls.Add(this.label5Prijem);
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.pictureBox4);
             this.panel1.Controls.Add(this.pictureBox2);
@@ -98,27 +100,27 @@ namespace PVMaster
             this.label7.TabIndex = 11;
             this.label7.Text = "Hledat dle Číslo zboží";
             // 
-            // label1
+            // label1Vydej
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(1522, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 23);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Výdej";
+            this.label1Vydej.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1Vydej.AutoSize = true;
+            this.label1Vydej.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1Vydej.Location = new System.Drawing.Point(1290, 25);
+            this.label1Vydej.Name = "label1Vydej";
+            this.label1Vydej.Size = new System.Drawing.Size(59, 23);
+            this.label1Vydej.TabIndex = 7;
+            this.label1Vydej.Text = "Výdej:";
             // 
-            // label5
+            // label5Prijem
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label5.Location = new System.Drawing.Point(968, 25);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(60, 23);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "Příjem";
+            this.label5Prijem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5Prijem.AutoSize = true;
+            this.label5Prijem.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label5Prijem.Location = new System.Drawing.Point(750, 25);
+            this.label5Prijem.Name = "label5Prijem";
+            this.label5Prijem.Size = new System.Drawing.Size(65, 23);
+            this.label5Prijem.TabIndex = 7;
+            this.label5Prijem.Text = "Příjem:";
             // 
             // pictureBox1
             // 
@@ -162,6 +164,7 @@ namespace PVMaster
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(13, 78);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(745, 832);
             this.dataGridView1.TabIndex = 10;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
@@ -196,11 +199,22 @@ namespace PVMaster
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 917);
+            this.label2.Location = new System.Drawing.Point(12, 916);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(203, 13);
             this.label2.TabIndex = 11;
             this.label2.Text = "press F1 to see Detail | F5 Export to Excel";
+            // 
+            // label3Celkem
+            // 
+            this.label3Celkem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3Celkem.AutoSize = true;
+            this.label3Celkem.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label3Celkem.Location = new System.Drawing.Point(527, 25);
+            this.label3Celkem.Name = "label3Celkem";
+            this.label3Celkem.Size = new System.Drawing.Size(70, 23);
+            this.label3Celkem.TabIndex = 7;
+            this.label3Celkem.Text = "Celkem:";
             // 
             // placeHolderTextBox1
             // 
@@ -248,10 +262,10 @@ namespace PVMaster
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label7;
         private PlaceHolderTextBox placeHolderTextBox1;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label5Prijem;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label1Vydej;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridView dataGridView3;
@@ -259,5 +273,6 @@ namespace PVMaster
         private System.Windows.Forms.ProgressBar progressBar_right;
         private System.Windows.Forms.ProgressBar progressBar_left;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3Celkem;
     }
 }

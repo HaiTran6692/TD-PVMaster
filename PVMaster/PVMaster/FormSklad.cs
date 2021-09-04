@@ -62,6 +62,8 @@ namespace PVMaster
         {
             dataGridView1.DataSource = null;
             progressBar_left.Visible = false;
+           
+
             if (TB_left.Rows.Count > 0)
             {
                 dataGridView1.Columns.Clear();
@@ -70,13 +72,17 @@ namespace PVMaster
                 dataGridView1.Columns[1].HeaderText = "Název";
                 dataGridView1.Columns[2].HeaderText = "Množství";
                 dataGridView1.Columns[3].HeaderText = "Pozice";
-                dataGridView1.Columns[4].HeaderText = "Kod paletu";
+                dataGridView1.Columns[4].HeaderText = "Total";
+                dataGridView1.Columns[5].HeaderText = "Kod paletu";
+               
+
                 for (int i = 0; i < dataGridView1.Columns.Count - 1; i++)
                 {
                     dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
                 dataGridView1.Columns[dataGridView1.Columns.Count - 1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
+           
         }
         void worker_right_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -90,6 +96,9 @@ namespace PVMaster
             dataGridView2.DataSource = null;
             dataGridView3.DataSource = null;
             progressBar_right.Visible = false;
+            decimal prijem = 0;
+            decimal vydej =0;
+
 
             if (TB_Prijem.Rows.Count > 0)
             {
@@ -100,12 +109,18 @@ namespace PVMaster
                 dataGridView2.Columns[2].HeaderText = "Rampa";
                 dataGridView2.Columns[3].HeaderText = "Datum";
                 dataGridView2.Columns[4].HeaderText = "Číslo objednávky";
-                dataGridView2.Columns[5].HeaderText = "Kod paletu";
+                dataGridView2.Columns[5].HeaderText = "Kod paletu";                
                 for (int i = 0; i < dataGridView2.Columns.Count - 1; i++)
                 {
                     dataGridView2.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 }
+                for (int j = 0; j < TB_Prijem.Rows.Count; j++)
+                {
+                    prijem += decimal.Parse(TB_Prijem.Rows[j][1].ToString());
+                }
             }
+            
+            label5Prijem.Text = $"Příjem: {prijem.ToString("0.00")} ks";
 
 
             if (TB_Vydej.Rows.Count > 0)
@@ -118,11 +133,17 @@ namespace PVMaster
                 dataGridView3.Columns[3].HeaderText = "Datum";
                 dataGridView3.Columns[4].HeaderText = "Číslo objednávky";
                 dataGridView3.Columns[5].HeaderText = "Kod paletu";
+              
                 for (int i = 0; i < dataGridView3.Columns.Count - 1; i++)
                 {
                     dataGridView3.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
                 }
+                for (int j = 0; j < TB_Vydej.Rows.Count; j++)
+                {
+                    vydej += decimal.Parse(TB_Vydej.Rows[j][2].ToString());
+                }
             }
+            label1Vydej.Text = $"Výdej: {vydej.ToString("0.00")} ks";
         }
         private void Load_PrijemVydej(string _mnb)
         {
@@ -145,7 +166,7 @@ namespace PVMaster
                             from tb_hmvtre 
                             where hr_cproin='{_mnb}')
                             select kz,Mnozstvi,Dok,Datum,Cislo_obj,Kod_palet from bang_nhap
-                            where   TO_DATE(Datum,'DD-MM-YYYY') >= TO_DATE(SYSDATE-90, 'DD-MM-YYYY') 
+                            where   TO_DATE(Datum,'DD-MM-YYYY') >= TO_DATE(SYSDATE-30, 'DD-MM-YYYY') 
                             order by Datum desc";
 
 
@@ -207,7 +228,6 @@ namespace PVMaster
                 TB_Vydej = DataProvider.Instance.ExecuteQuery(sqlV);
                 if (_branchToFormSklad == "TK - Hostivice")
                 {
-
                     TB_Prijem = DataOracle.Instance.ExecuteQuery(sqlP);
                 }
                 else
@@ -223,31 +243,55 @@ namespace PVMaster
         }
         private void LoadSkladAllPozice(string _mnb = "")
         {
-            string sqlHos = $@"SELECT
-                              ul_cproin            AS kod_zbozi
-                            , ar_libpro            AS nazev
-                            , ue_adrums            AS pozice                             
-                            , ul_nqtuvc            AS mnozstvi
-                            , ue_usscc as kod_pallet                           
+            string sqlHos = $@"with bangtotal as (
+                              SELECT
+                              ul_cproin           AS kz
+                            , sum(ul_nqtuvc)      AS total                                                 
                         FROM
                             tb_lcums
                             INNER JOIN tb_eums ON ue_usscc = ul_usscc
                             INNER JOIN tb_art ON ul_cproin = ar_cproin
                         WHERE ul_nqtuvc is not null and ue_codtsu != 3
-                         and substr(ue_adrums, 1, 3) != '10E'
-                         and ul_cproin like '%{_mnb}%' and Rownum<=200
-                        ORDER BY  ue_adrums ";
-
-            string sqlDcBrno = $@"SELECT
+                         and substr(ue_adrums, 1, 3) != '10E' group by ul_cproin)
+                        SELECT
                               ul_cproin            AS kod_zbozi
                             , ar_libpro            AS nazev
                             , ue_adrums            AS pozice                             
                             , ul_nqtuvc            AS mnozstvi
+                            ,total
                             , ue_usscc as kod_pallet                           
                         FROM
                             tb_lcums
                             INNER JOIN tb_eums ON ue_usscc = ul_usscc
                             INNER JOIN tb_art ON ul_cproin = ar_cproin
+                            INNER JOIN bangtotal on ul_cproin=kz                    
+                        WHERE ul_nqtuvc is not null and ue_codtsu != 3
+                         and substr(ue_adrums, 1, 3) != '10E'
+                         and ul_cproin like '%{_mnb}%' and Rownum<=200
+                        ORDER BY  ue_adrums ";
+
+            string sqlDcBrno = $@"with bangtotal as (
+                              SELECT
+                              ul_cproin           AS kz
+                            , sum(ul_nqtuvc)      AS total                                                 
+                        FROM
+                            tb_lcums
+                            INNER JOIN tb_eums ON ue_usscc = ul_usscc
+                            INNER JOIN tb_art ON ul_cproin = ar_cproin
+                        WHERE ul_nqtuvc is not null and ue_codtsu != 3
+                         and substr(ue_adrums, 1, 3) != '10E' group by ul_cproin)
+                        SELECT
+                              ul_cproin            AS kod_zbozi
+                            , ar_libpro            AS nazev
+                            , ue_adrums            AS pozice                             
+                            , ul_nqtuvc            AS mnozstvi
+                            ,total
+                            , ue_usscc as kod_pallet                           
+                        FROM
+                            tb_lcums
+                            INNER JOIN tb_eums ON ue_usscc = ul_usscc
+                            INNER JOIN tb_art ON ul_cproin = ar_cproin
+                            INNER JOIN bangtotal on ul_cproin=kz  
                         WHERE ul_nqtuvc is not null and ue_codtsu != 3
                          and substr(ue_adrums, 1, 3) != '20E'
                          and ul_cproin like '%{_mnb}%'
@@ -291,6 +335,8 @@ namespace PVMaster
                 DataGridViewRow row = new DataGridViewRow();
                 row = dataGridView1.Rows[e.RowIndex];
                 _kod_zbozi = row.Cells[0].Value.ToString();
+                label3Celkem.Text = "";
+                label3Celkem.Text = $"Celkem: {row.Cells[4].Value.ToString()}";
 
             }
             catch (Exception)
