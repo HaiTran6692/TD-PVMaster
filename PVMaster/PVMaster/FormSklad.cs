@@ -120,7 +120,7 @@ namespace PVMaster
                 }
             }
             
-            label5Prijem.Text = $"Příjem: {prijem.ToString("0.00")} ks";
+            label5Prijem.Text = $"Příjem: {prijem.ToString("00")} ks";
 
 
             if (TB_Vydej.Rows.Count > 0)
@@ -143,7 +143,7 @@ namespace PVMaster
                     vydej += decimal.Parse(TB_Vydej.Rows[j][2].ToString());
                 }
             }
-            label1Vydej.Text = $"Výdej: {vydej.ToString("0.00")} ks";
+            label1Vydej.Text = $"Výdej: {vydej.ToString("00")} ks";
         }
         private void Load_PrijemVydej(string _mnb)
         {
@@ -172,7 +172,7 @@ namespace PVMaster
 
             string sqlV = $@"WITH bang1
                             AS (SELECT p.[product_code] as kz
-                              ,[date_start]
+                              ,[date_start],t.created as created
                               ,t.[order_number]      --as N'Số đơn'
                               , p.[product_code] --as N'Mã nội bộ'    
                               ,[human_prepared] --as N'Mã NV'
@@ -198,7 +198,7 @@ namespace PVMaster
                               FORMAT(DATEADD(D, 0, SUBSTRING([date_start], 1, 8)), 'dd-MM-yyyy') + ' ' + SUBSTRING([date_start], 9, 2) + ':' + SUBSTRING([date_start], 11, 2) + ':' + SUBSTRING([date_start], 13, 2) AS N'Datum',
                               [order_number] as Objednavka,                           
                               [pallet_number] as Palet_kod
-                            FROM bang1
+                            FROM bang1 where datediff(day,getdate(),created)>=-30
                             ORDER BY date_start DESC ";
             //UNION ALL
             //    SELECT p.[product_code] as kz
@@ -336,7 +336,7 @@ namespace PVMaster
                 row = dataGridView1.Rows[e.RowIndex];
                 _kod_zbozi = row.Cells[0].Value.ToString();
                 label3Celkem.Text = "";
-                label3Celkem.Text = $"Celkem: {row.Cells[4].Value.ToString()}";
+                label3Celkem.Text = $"Celkem: {row.Cells[4].Value.ToString()} ks";
                 this.Text = $"PVMaster v3c.170721 Sklad {_branchToFormSklad} --- zboží: {row.Cells[0].Value.ToString()} {row.Cells[1].Value.ToString()}";
             }
             catch (Exception)
