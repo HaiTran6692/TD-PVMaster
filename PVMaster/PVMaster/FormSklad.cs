@@ -1,8 +1,12 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -70,8 +74,8 @@ namespace PVMaster
                 dataGridView1.DataSource = TB_left;
                 dataGridView1.Columns[0].HeaderText = "Kod zboží";
                 dataGridView1.Columns[1].HeaderText = "Název";
-                dataGridView1.Columns[2].HeaderText = "Množství";
-                dataGridView1.Columns[3].HeaderText = "Pozice";
+                dataGridView1.Columns[2].HeaderText = "Pozice";
+                dataGridView1.Columns[3].HeaderText = "Množství";
                 dataGridView1.Columns[4].HeaderText = "Total";
                 dataGridView1.Columns[5].HeaderText = "Kod paletu";
                
@@ -120,7 +124,7 @@ namespace PVMaster
                 }
             }
             
-            label5Prijem.Text = $"Příjem: {prijem.ToString("00")} ks";
+            label5Prijem.Text = $"Příjem( do 90 dnů): {prijem.ToString("00")} ks";
 
 
             if (TB_Vydej.Rows.Count > 0)
@@ -129,7 +133,7 @@ namespace PVMaster
                 dataGridView3.DataSource = TB_Vydej;
                 dataGridView3.Columns[0].HeaderText = "Kod zboží";
                 dataGridView3.Columns[1].HeaderText = "Objednáno";
-                dataGridView3.Columns[2].HeaderText = "Dodáno";
+                dataGridView3.Columns[2].HeaderText = "Vydáno";
                 dataGridView3.Columns[3].HeaderText = "Datum";
                 dataGridView3.Columns[4].HeaderText = "Číslo objednávky";
                 dataGridView3.Columns[5].HeaderText = "Kod paletu";
@@ -143,7 +147,7 @@ namespace PVMaster
                     vydej += decimal.Parse(TB_Vydej.Rows[j][2].ToString());
                 }
             }
-            label1Vydej.Text = $"Výdej: {vydej.ToString("00")} ks";
+            label1Vydej.Text = $"Výdej( do 90 dnů): {vydej.ToString("00")} ks";
         }
         private void Load_PrijemVydej(string _mnb)
         {
@@ -318,14 +322,23 @@ namespace PVMaster
                 worker_left.RunWorkerAsync();
             }
         }
-        private void pictureBox2_Click(object sender, EventArgs e)
+       
+        private void Find()
         {
             if (!worker_left.IsBusy)
             {
+                _kod_zbozi = placeHolderTextBox1.Text;
                 progressBar_left.Visible = true;
                 progressBar_left.Style = ProgressBarStyle.Marquee;
                 progressBar_left.MarqueeAnimationSpeed = 1;
-                worker_left.RunWorkerAsync();
+                worker_left.RunWorkerAsync();                
+                if (!worker_right.IsBusy)
+                {
+                    progressBar_right.Visible = true;
+                    progressBar_right.Style = ProgressBarStyle.Marquee;
+                    progressBar_right.MarqueeAnimationSpeed = 1;
+                    worker_right.RunWorkerAsync();
+                }
             }
         }
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
@@ -336,8 +349,8 @@ namespace PVMaster
                 row = dataGridView1.Rows[e.RowIndex];
                 _kod_zbozi = row.Cells[0].Value.ToString();
                 label3Celkem.Text = "";
-                label3Celkem.Text = $"Celkem: {row.Cells[4].Value.ToString()} ks";
-                this.Text = $"PVMaster v3c.170721 Sklad {_branchToFormSklad} --- zboží: {row.Cells[0].Value.ToString()} {row.Cells[1].Value.ToString()}";
+                label3Celkem.Text = $"Konečný stav: {row.Cells[4].Value.ToString()} ks";
+                this.Text = $"PVMaster Sklad {_branchToFormSklad} --- zboží: {row.Cells[0].Value.ToString()} {row.Cells[1].Value.ToString()}";
             }
             catch (Exception)
             {
@@ -395,21 +408,147 @@ namespace PVMaster
         }
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-            ExportDTGVToExcel.Instance.ExportToExcel(dataGridView1);
+            string filePath = "";
+            SaveFileDialog dialog = new SaveFileDialog(); // tạo SaveFileDialog để lưu file excel 
+            dialog.Filter = "Excel | *.xlsx | Excel 2003 | *.xls";  // chỉ lọc ra các file có định dạng Excel
+            dialog.FileName = "Report " + DateTime.Now.ToString("ddMMyyHHmmss");
+
+            if (dialog.ShowDialog() == DialogResult.OK)            // Nếu mở file và chọn nơi lưu file thành công sẽ lưu đường dẫn lại dùng
+            {
+                filePath = dialog.FileName;
+            }
+
+            if (string.IsNullOrEmpty(filePath))// nếu đường dẫn null hoặc rỗng thì báo không hợp lệ và return hàm
+            {
+                MessageBox.Show("Path not found!");
+                return;
+            }
+
+            try
+            {
+                using (ExcelPackage p = new ExcelPackage())
+                {
+                    p.Workbook.Properties.Author = "Tran Ngoc Hai";// đặt tên người tạo file                    
+                    p.Workbook.Properties.Title = "NV";// đặt tiêu đề cho file 
+
+                    #region Sheet1
+                    p.Workbook.Worksheets.Add("sheet1");  //Tạo một sheet để làm việc trên đó                   
+                    ExcelWorksheet ws1 = p.Workbook.Worksheets[1]; // lấy sheet vừa add ra để thao tác
+                    ws1.Name = "Konečný stav";  // đặt tên cho sheet                 
+                    ws1.Cells.Style.Font.Size = 11;   // fontsize mặc định cho cả sheet                
+                    ws1.Cells.Style.Font.Name = "Calibri";    // font family mặc định cho cả sheet
+                    ws1.Row(1).Height = 3 * ws1.Row(1).Height;
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        for (int j = 0; j < dataGridView1.Columns.Count; j++)
+                        {
+                            if (dataGridView1.Rows[i].Cells[j].Value != null)
+                            {
+                                ws1.Cells[i + 2, j + 1].Value = dataGridView1.Rows[i].Cells[j].Value.ToString();
+                                ws1.Cells[i + 2, j + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                ws1.Cells[i + 2, j + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+                            }
+                        }
+                    }
+                    for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                    {
+                        ws1.Cells[1, i + 1].Value = dataGridView1.Columns[i].HeaderText;
+                        ws1.Cells[1, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        ws1.Cells[1, i + 1].Style.WrapText = true;
+                        ws1.Cells[1, i + 1].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        ws1.Cells[1, i + 1].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Yellow);
+                        ws1.Cells[1, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+                        ws1.Column(i + 1).AutoFit();
+                    }
+                    #endregion
+
+                    #region Sheet2
+                    p.Workbook.Worksheets.Add("sheet2");  //Tạo một sheet để làm việc trên đó                   
+                    ExcelWorksheet ws2 = p.Workbook.Worksheets[2]; // lấy sheet vừa add ra để thao tác
+                    ws2.Name = "Příjem (do 90 dnů)";  // đặt tên cho sheet                 
+                    ws2.Cells.Style.Font.Size = 11;   // fontsize mặc định cho cả sheet                
+                    ws2.Cells.Style.Font.Name = "Calibri";    // font family mặc định cho cả sheet
+                    ws2.Row(1).Height = 3 * ws2.Row(1).Height;
+                    for (int i = 0; i < dataGridView2.Rows.Count; i++)
+                    {
+                        for (int j = 0; j < dataGridView2.Columns.Count; j++)
+                        {
+                            if (dataGridView2.Rows[i].Cells[j].Value != null)
+                            {
+                                ws2.Cells[i + 2, j + 1].Value = dataGridView2.Rows[i].Cells[j].Value.ToString();
+                                ws2.Cells[i + 2, j + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                ws2.Cells[i + 2, j + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+                            }
+                        }
+                    }
+                    for (int i = 0; i < dataGridView2.Columns.Count; i++)
+                    {
+                        ws2.Cells[1, i + 1].Value = dataGridView2.Columns[i].HeaderText;
+                        ws2.Cells[1, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        ws2.Cells[1, i + 1].Style.WrapText = true;
+                        ws2.Cells[1, i + 1].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        ws2.Cells[1, i + 1].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Yellow);
+                        ws2.Cells[1, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+                        ws2.Column(i + 1).AutoFit();
+                    }
+                    #endregion
+
+                    #region Sheet3
+                    p.Workbook.Worksheets.Add("sheet3");  //Tạo một sheet để làm việc trên đó                   
+                    ExcelWorksheet ws3 = p.Workbook.Worksheets[3]; // lấy sheet vừa add ra để thao tác
+                    ws3.Name = "Výdej (do 90 dnů)";  // đặt tên cho sheet                 
+                    ws3.Cells.Style.Font.Size = 11;   // fontsize mặc định cho cả sheet                
+                    ws3.Cells.Style.Font.Name = "Calibri";    // font family mặc định cho cả sheet
+                    ws3.Row(1).Height = 3 * ws3.Row(1).Height;
+                    for (int i = 0; i < dataGridView3.Rows.Count; i++)
+                    {
+                        for (int j = 0; j < dataGridView3.Columns.Count; j++)
+                        {
+                            if (dataGridView3.Rows[i].Cells[j].Value != null)
+                            {
+                                ws3.Cells[i + 2, j + 1].Value = dataGridView3.Rows[i].Cells[j].Value.ToString();
+                                ws3.Cells[i + 2, j + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                                ws3.Cells[i + 2, j + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+                            }
+                        }
+                    }
+                    for (int i = 0; i < dataGridView3.Columns.Count; i++)
+                    {
+                        ws3.Cells[1, i + 1].Value = dataGridView3.Columns[i].HeaderText;
+                        ws3.Cells[1, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        ws3.Cells[1, i + 1].Style.WrapText = true;
+                        ws3.Cells[1, i + 1].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        ws3.Cells[1, i + 1].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Yellow);
+                        ws3.Cells[1, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin, System.Drawing.Color.Black);
+                        ws3.Column(i + 1).AutoFit();
+                    }
+                    #endregion
+
+
+
+                    Byte[] bin = p.GetAsByteArray();
+                    File.WriteAllBytes(filePath, bin);
+                }
+                MessageBox.Show("Xuất excel thành công!");
+                Process.Start(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Có lỗi khi lưu file!");
+            }
         }
 
         private void placeHolderTextBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode==Keys.Enter)
             {
-                if (!worker_left.IsBusy)
-                {
-                    progressBar_left.Visible = true;
-                    progressBar_left.Style = ProgressBarStyle.Marquee;
-                    progressBar_left.MarqueeAnimationSpeed = 1;
-                    worker_left.RunWorkerAsync();
-                }
+                Find();          
             }
         }
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            Find();
+        }
+       
     }
 }

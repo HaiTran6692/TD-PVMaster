@@ -176,6 +176,7 @@ namespace PVMaster
                     else
                     {
                         MessageBox.Show("Vyberte sklad TK-Hostivice nebo DC-Morava");
+                        comboBox1Branch.Text = "TK - Hostivice";
                     }
                 }
                 else if (radioButton4_Zamest.Checked)
