@@ -176,18 +176,18 @@ namespace PVMaster
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(8, 38);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.Size = new System.Drawing.Size(45, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Đến ngày:";
+            this.label2.Text = "Do dne:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(8, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 13);
+            this.label1.Size = new System.Drawing.Size(45, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Từ ngày:";
+            this.label1.Text = "Od dne:";
             // 
             // dateTimePicker2to
             // 

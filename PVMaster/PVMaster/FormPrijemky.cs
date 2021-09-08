@@ -39,7 +39,7 @@ namespace PVMaster
             //this.Text = "PVMaster v2d.290621 Prijemky " + SendToFormMain.ToString();
             //this.Text = "PVMaster v3b.140721 Prijemky " + SendToFormMain.ToString();
            
-            this.Text = "PVMaster v3c.170721 Prijemky " + SendToFormPrijemka.ToString();
+            this.Text = "PVMaster Prijemky " + SendToFormPrijemka.ToString();
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
             dateTimePicker1from.CustomFormat = "dd.MM.yyyy";

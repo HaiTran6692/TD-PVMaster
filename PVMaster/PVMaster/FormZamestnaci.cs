@@ -51,7 +51,7 @@ namespace PVMaster
 
         private void FormZamestnaci_Load(object sender, EventArgs e)
         {
-            this.Text = $"PVMaster v3c.170721 Zaměstnaci {_branchToFormZamestnaci}";
+            this.Text = $"PVMaster Zaměstnaci {_branchToFormZamestnaci}";
             if (!worker.IsBusy)
             {
                 pictureBox1.Enabled = false;

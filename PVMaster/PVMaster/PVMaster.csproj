@@ -122,6 +122,7 @@
     <Compile Include="FormZamestnaci.Designer.cs">
       <DependentUpon>FormZamestnaci.cs</DependentUpon>
     </Compile>
+    <Compile Include="Vydejky_Detail.cs" />
     <Compile Include="InvoiceDetail.cs" />
     <Compile Include="PlaceHolderTextBox.cs">
       <SubType>Component</SubType>

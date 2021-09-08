@@ -39,7 +39,7 @@ namespace PVMaster
         }
         private void FormSklad_Load(object sender, EventArgs e)
         {
-            this.Text = $"PVMaster v3c.170721 Sklad {_branchToFormSklad}";
+            this.Text = $"PVMaster Sklad {_branchToFormSklad}";
             //this.WindowState = FormWindowState.Maximized;
 
             progressBar_left.Visible = true;

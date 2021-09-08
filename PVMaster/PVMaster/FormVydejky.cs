@@ -14,7 +14,7 @@ namespace PVMaster
     {
         private BackgroundWorker worker_left = null;
         private BackgroundWorker worker_right = null;
-        List<InvoiceDetail> _List = new List<InvoiceDetail>();
+        List<Vydejky_Detail> _List = new List<Vydejky_Detail>();
 
         DataTable TB_left = new DataTable();
         CrystalReport_Vydejky cr_vydejky = new CrystalReport_Vydejky();
@@ -103,7 +103,7 @@ namespace PVMaster
         private void FormVydejky_Load(object sender, EventArgs e)
         {
             //this.Text = "PVMaster v2e.090721 Vydejky " + SendToFormVydejky.ToString();
-            this.Text = "PVMaster v2f.250821 Vydejky " + SendToFormVydejky.ToString(); // thêm thông tin informace pokladna, cislo uctenka
+            this.Text = "PVMaster Vydejky " + SendToFormVydejky.ToString(); // thêm thông tin informace pokladna, cislo uctenka
 
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
@@ -124,8 +124,8 @@ namespace PVMaster
                                                   ,order_id
                                                   ,CONVERT(DATETIME, STUFF(STUFF(STUFF(porizeno,13,0,':'),11,0,':'),9,0,' ')) AS Datum
                                                   ,case when len(isnull(odberatel,'0'))=0 then '0' else isnull(odberatel,'0') end  AS odberatel
-                                                  ,faktura,concat('Faktura: ',faktura,' - ',text_pred) as info
-                                                  --,concat('Faktura: ',faktura,' - user: ',user_id,'- ',text_pred) as info
+                                                  ,faktura,concat('FAKTURA č. ',faktura,' - ',text_pred) as info
+                                                  --,concat('FAKTURA č. ',faktura,' - user: ',user_id,'- ',text_pred) as info
                                                   from [TDFaktury].[dbo].[FakVyd] fv
                                                   where pobocka = '{DataProvider.GetBranch}' and id like'%{_input_cislo_vydejky}%'     
                                                         and DATEDIFF(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104), cast(left(vystavena,8) as date))>=0                                                                      
@@ -134,7 +134,7 @@ namespace PVMaster
                                                   SELECT  id                                    ,order_id
                                                                                                 ,porizeno AS Datum
                                                                                                 ,case when len(isnull(odb,'0'))=0 then '0' else isnull(odb,'0') end  AS odberatel
-                                                                                                ,fa,concat(N'Učtenka: ',ic,' - Pokladna:',pok) as info            
+                                                                                                ,fa,concat(N'UČTENKA č. ',ic,' - Pokladna:',pok) as info            
                                                                                                -- ,concat(N'Učtenka: ',ic,' - user: ',user_id,'- Pokladna:',pok) as info                                            
                                                                                                 FROM [TDFaktury].[dbo].[Archiv]
 			   								                                                    WHERE pob = '{DataProvider.GetBranch}' and fa=0   
@@ -221,14 +221,22 @@ namespace PVMaster
             string sql_ArchivPol = $@"SELECT [kod_zbozi]     
                                            ,[nazev]
                                            ,[mnozstvi]
-                                           ,[pc_bez]                                            
+										   ,[mj]
+                                           ,[pc_bez]  
+										   ,format(sazba_dph,'00') as dph
+										   ,format(round([pc_bez]*(100+[sazba_dph])/100,2),'0.00') as pcs
+										   ,format(round([mnozstvi]*[pc_bez]*(100+[sazba_dph])/100,2),'0.00') as castka                                          
                                       FROM [TDFaktury].[dbo].[ArchivPol]
                                       where archiv_id='{vydejka_cislo}' and ISNUMERIC(kod_zbozi)=1 ";
 
             string sql_FakVydPol = $@"SELECT fvp.[kod_zbozi]
 	                                      ,[nazev]
                                           ,[ks]
+										  ,fvp.[mj]
                                           ,[cena_j]
+                                          ,[dph]
+										,format(round([cena_j]*(100+[dph])/100,2),'0.00')as pcs
+										,format(round([cena]*(100+[dph])/100,2),'0.00') as castka          
                                       FROM [TDFaktury].[dbo].[FakVydPol] fvp
                                       left join [TDF Database].dbo.CENIK ck on fvp.kod_zbozi=ck.kod_zbozi
                                       where faktura='{faktura_cislo}'
@@ -246,24 +254,23 @@ namespace PVMaster
                     TB_erp = DataProvider_Sapa.Instance.ExecuteQuery(sql_ArchivPol);
                 }
 
-                if (TB_erp.Rows.Count < 1)
-                {
-                    //MessageBox.Show("Không có đơn hàng này!");
-                }
-                else
+                if (TB_erp.Rows.Count > 0)               
                 {
                     decimal celkem_V = 0;
                     decimal celkem_m = 0;
 
                     for (int i = 0; i < TB_erp.Rows.Count; i++)
                     {
-                        _List.Add(new InvoiceDetail
+                        _List.Add(new Vydejky_Detail
                         {
                             kod_zbozi = TB_erp.Rows[i][0].ToString(),
                             nazev = TB_erp.Rows[i][1].ToString(),
-                            prjato = TB_erp.Rows[i][2].ToString(),
-                            objednano = TB_erp.Rows[i][2].ToString(),
-                            cena_bez= TB_erp.Rows[i][3].ToString()
+                            mnoz= TB_erp.Rows[i][2].ToString(),
+                            mj = TB_erp.Rows[i][3].ToString(),
+                            pcbez = TB_erp.Rows[i][4].ToString(),
+                            dph= TB_erp.Rows[i][5].ToString(),
+                            pcs = TB_erp.Rows[i][6].ToString(),
+                            castka=TB_erp.Rows[i][7].ToString()
                         });
                         celkem_V += Load_V_kus(TB_erp.Rows[i][0].ToString(), TB_erp.Rows[i][2].ToString());
                         celkem_m += Load_m_kus(TB_erp.Rows[i][0].ToString(), TB_erp.Rows[i][2].ToString());
@@ -304,8 +311,9 @@ namespace PVMaster
                         dic = "DIČ: " + TB_odb.Rows[0][3].ToString();
                         street = TB_odb.Rows[0][4].ToString();
                         city = TB_odb.Rows[0][5].ToString();
-                        obj = "Objednávka č." + vydejka_cislo;
-                        prijemka = "VÝDEJKA: " + vydejka_cislo;
+                       // obj = "Objednávka č." + vydejka_cislo;
+                        obj = "" ;
+                        prijemka = "Výdejka č. " + vydejka_cislo;
                         datumPrijmuD = datum_vydejky;
 
                         cr_vydejky.SetDataSource(_List);
@@ -326,6 +334,7 @@ namespace PVMaster
                         cr_vydejky.SetParameterValue("celk_V", celkem_V.ToString("0.000"));
                         cr_vydejky.SetParameterValue("informace_kasa", informace_kasa);
                         SetBranchToCReport();
+                        Set_Cena_a_DPH(vydejka_cislo, faktura_cislo);
                     }
                     else
                     {
@@ -335,8 +344,9 @@ namespace PVMaster
                         dic = "DIČ: ...";
                         street = "..."; 
                         city = "...";
-                        obj = "Objednávka č." + vydejka_cislo;
-                        prijemka = "VÝDEJKA: " + vydejka_cislo;
+                       //obj = "Objednávka č." + vydejka_cislo;
+                        obj = "";
+                        prijemka = "Výdejka č. " + vydejka_cislo;                       
                         datumPrijmuD = datum_vydejky;
 
                         cr_vydejky.SetDataSource(_List);
@@ -357,6 +367,7 @@ namespace PVMaster
                         cr_vydejky.SetParameterValue("celk_V", celkem_V.ToString("0.000"));
                         cr_vydejky.SetParameterValue("informace_kasa", informace_kasa);
                         SetBranchToCReport();
+                        Set_Cena_a_DPH(vydejka_cislo, faktura_cislo);
                     }
 
 
@@ -370,6 +381,95 @@ namespace PVMaster
                 MessageBox.Show(ex.ToString());
             }
 
+        }
+        private void Set_Cena_a_DPH(string vydejka_cislo, string faktura_cislo)
+        {
+            string sql_dph = $@"SELECT Format(Round(Sum([mnozstvi] * [pc_bez]), 2), '0.00') AS  zaklad_dph
+                                           ,Format(Round(Sum([mnozstvi] * [pc_bez] * [sazba_dph]/100), 2), '0.00') AS dph
+	                                       ,Format(sazba_dph,'0')
+                                    FROM   [TDFaktury].[dbo].[archivpol]
+                                    WHERE  archiv_id = '{vydejka_cislo}'
+                                           AND Isnumeric(kod_zbozi) = 1
+                                    GROUP  BY sazba_dph
+                                    ORDER  BY sazba_dph  desc";
+            string sql_celkem = $@"SELECT celk  FROM [TDFaktury].[dbo].[Archiv] where id='{vydejka_cislo}' ";
+
+
+
+            string sql_dph_fak = $@"SELECT Format(Round(Sum(cena), 2), '0.00') AS  zaklad_dph
+                                 ,Format(Round(Sum(cena * [dph]/100), 2), '0.00') AS _dph 
+                                 ,Format([dph],'0') 
+                                 from [TDFaktury].[dbo].[FakVydPol] where faktura='{faktura_cislo}'
+                                 group by [dph]
+                                 ORDER  BY [dph]  desc";
+            string sql_celkem_fak = $@"SELECT castka from [TDFaktury].[dbo].[FakVyd]
+                                       where faktura='{faktura_cislo}' ";
+
+
+            string _dph21 = "0,00";
+            string _dph21_z = "0,00";
+            string _dph15 = "0,00";
+            string _dph15_z = "0,00";
+            string _dph10 = "0,00";
+            string _dph10_z = "0,00";
+            string _dph0_z = "0,00";
+            string _celkem = "0,00";
+
+            DataTable TB_celkem = new DataTable();
+            DataTable TB= new DataTable();
+            if (int.Parse(faktura_cislo) > 0)
+            {
+                 TB_celkem = DataProvider.Instance.ExecuteQuery(sql_celkem_fak);
+                 TB = DataProvider.Instance.ExecuteQuery(sql_dph_fak);
+            }
+            else
+            {
+                 TB_celkem = DataProvider.Instance.ExecuteQuery(sql_celkem);
+                 TB = DataProvider.Instance.ExecuteQuery(sql_dph);
+            }
+
+
+            if (TB_celkem.Rows.Count>0)
+            {
+                _celkem = TB_celkem.Rows[0][0].ToString();
+            }
+
+
+            if (TB.Rows.Count>0)
+            {
+                for (int i = 0; i < TB.Rows.Count; i++)
+                {
+                    if (TB.Rows[i][2].ToString()=="21")
+                    {
+                        _dph21 = TB.Rows[i][1].ToString();
+                        _dph21_z = TB.Rows[i][0].ToString();
+                    }
+                    else if(TB.Rows[i][2].ToString() == "15")
+                    {
+                        _dph15 = TB.Rows[i][1].ToString();
+                        _dph15_z = TB.Rows[i][0].ToString();
+                    }
+                    else if (TB.Rows[i][2].ToString() == "10")
+                    {
+                        _dph10 = TB.Rows[i][1].ToString();
+                        _dph10_z = TB.Rows[i][0].ToString();
+                    }
+                    else if (TB.Rows[i][2].ToString() == "0")
+                    {
+                        _dph0_z = TB.Rows[i][0].ToString();
+                    }
+                }
+            }
+          
+
+            cr_vydejky.SetParameterValue("dph21", _dph21);
+            cr_vydejky.SetParameterValue("dph21_zaklad", _dph21_z);
+            cr_vydejky.SetParameterValue("dph15", _dph15);
+            cr_vydejky.SetParameterValue("dph15_zaklad",_dph15_z);
+            cr_vydejky.SetParameterValue("dph10", _dph10);
+            cr_vydejky.SetParameterValue("dph10_zaklad", _dph10_z);
+            cr_vydejky.SetParameterValue("dph0_zaklad", _dph0_z);
+            cr_vydejky.SetParameterValue("celkem",_celkem);
         }
         private void SetBranchToCReport()
         {
