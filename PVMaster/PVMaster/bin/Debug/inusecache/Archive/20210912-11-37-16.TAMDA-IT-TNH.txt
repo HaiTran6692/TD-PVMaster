@@ -1,0 +1,12 @@
+12.09.2021 11:37:16
+12.09.2021 11:37:16 Login
+12.09.2021 11:37:19 Prijemky TD - Sapa
+12.09.2021 11:37:30 Find obj 8195861
+12.09.2021 11:37:44 Show obj 8195861
+12.09.2021 11:37:50 Vydejky TD - Sapa
+12.09.2021 11:37:55 Find vydejka 7263091
+12.09.2021 11:38:04 Find vydejka 6206651
+12.09.2021 11:38:15 Sklad TK - Hostivice
+12.09.2021 11:38:21 Find kod zbozi 7040525
+12.09.2021 11:38:27 Zamestnaci TK - Hostivice
+12.09.2021 11:38:43 Export Excel seznam zamestnaci

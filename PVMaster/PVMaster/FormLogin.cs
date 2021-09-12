@@ -21,6 +21,7 @@ namespace PVMaster
         {
             LoadComboBoxBranch();
             localID = DateTime.Now.ToString("yyyyMMdd-HH-mm-ss") + ".";
+            ClassLocalId.GlobalLocalid = localID;
             string Filepath = System.IO.Path.GetDirectoryName(Application.ExecutablePath) + "//inuseCache//" + localID + System.Windows.Forms.SystemInformation.ComputerName + ".txt";
             try
             {
@@ -44,6 +45,8 @@ namespace PVMaster
             {
                 
             }
+           
+            WriteLogToCache.Instance.WriteToCache("Login", localID);
 
             timer1.Interval = 10 * 1000;
             timer1.Tick += tickEventShow;

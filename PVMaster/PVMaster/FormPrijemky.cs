@@ -33,12 +33,8 @@ namespace PVMaster
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            //this.Text = "PVMaster v2a.280521 "+ SendToFormMain.ToString();
-            //this.Text = "PVMaster v2b.230621 "+ SendToFormMain.ToString();
-            //this.Text = "PVMaster v2c.240621 " + SendToFormMain.ToString();
-            //this.Text = "PVMaster v2d.290621 Prijemky " + SendToFormMain.ToString();
-            //this.Text = "PVMaster v3b.140721 Prijemky " + SendToFormMain.ToString();
-           
+            WriteLogToCache.Instance.WriteToCache($"Prijemky {SendToFormPrijemka}", ClassLocalId.GlobalLocalid);
+
             this.Text = "PVMaster Prijemky " + SendToFormPrijemka.ToString();
             this.WindowState = FormWindowState.Maximized;
             dateTimePicker1from.Format = DateTimePickerFormat.Custom;
@@ -596,11 +592,13 @@ namespace PVMaster
             if (cr12.Parameter_Dodavatel!= null)
             {
                 crystalReportViewer1.ReportSource = cr12;
+                WriteLogToCache.Instance.WriteToCache($"Find obj {textBox1.Text}", ClassLocalId.GlobalLocalid);
             }
         } 
         private void pictureBox4_Click(object sender, EventArgs e) // picture in
         {
             crystalReportViewer1.PrintReport();
+            WriteLogToCache.Instance.WriteToCache($"Show obj {textBox1.Text}", ClassLocalId.GlobalLocalid);
         }              
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

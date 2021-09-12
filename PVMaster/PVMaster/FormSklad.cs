@@ -43,9 +43,8 @@ namespace PVMaster
         }
         private void FormSklad_Load(object sender, EventArgs e)
         {
-            this.Text = $"PVMaster Sklad {_branchToFormSklad}";
-            //this.WindowState = FormWindowState.Maximized;
-
+            WriteLogToCache.Instance.WriteToCache($"Sklad {_branchToFormSklad}", ClassLocalId.GlobalLocalid);
+            this.Text = $"PVMaster Sklad {_branchToFormSklad}";            
             progressBar_left.Visible = true;
             progressBar_left.Style = ProgressBarStyle.Marquee;
             progressBar_left.MarqueeAnimationSpeed = 1;
@@ -122,10 +121,8 @@ namespace PVMaster
                 {
                     prijem += decimal.Parse(TB_Prijem.Rows[j][1].ToString());
                 }
-            }
-            
-            label5Prijem.Text = $"Příjem( do 90 dnů): {prijem.ToString("00")} ks";
-
+            }            
+            label5Prijem.Text = $"Příjem( do 60 dnů): {prijem.ToString("00")} ks";
 
             if (TB_Vydej.Rows.Count > 0)
             {
@@ -147,7 +144,9 @@ namespace PVMaster
                     vydej += decimal.Parse(TB_Vydej.Rows[j][2].ToString());
                 }
             }
-            label1Vydej.Text = $"Výdej( do 90 dnů): {vydej.ToString("00")} ks";
+            label1Vydej.Text = $"Výdej( do 60 dnů): {vydej.ToString("00")} ks";
+
+            WriteLogToCache.Instance.WriteToCache($"Find kod zbozi {_kod_zbozi}",ClassLocalId.GlobalLocalid);
         }
         private void Load_PrijemVydej(string _mnb)
         {
@@ -170,7 +169,7 @@ namespace PVMaster
                             from tb_hmvtre 
                             where hr_cproin='{_mnb}')
                             select kz,Mnozstvi,Dok,Datum,Cislo_obj,Kod_palet from bang_nhap
-                            where   TO_DATE(Datum,'DD-MM-YYYY') >= TO_DATE(SYSDATE-90, 'DD-MM-YYYY') 
+                            where   TO_DATE(Datum,'DD-MM-YYYY') >= TO_DATE(SYSDATE-60, 'DD-MM-YYYY') 
                             order by Datum desc";
 
 
@@ -465,7 +464,7 @@ namespace PVMaster
                     #region Sheet2
                     p.Workbook.Worksheets.Add("sheet2");  //Tạo một sheet để làm việc trên đó                   
                     ExcelWorksheet ws2 = p.Workbook.Worksheets[2]; // lấy sheet vừa add ra để thao tác
-                    ws2.Name = "Příjem (do 90 dnů)";  // đặt tên cho sheet                 
+                    ws2.Name = "Příjem (do 60 dnů)";  // đặt tên cho sheet                 
                     ws2.Cells.Style.Font.Size = 11;   // fontsize mặc định cho cả sheet                
                     ws2.Cells.Style.Font.Name = "Calibri";    // font family mặc định cho cả sheet
                     ws2.Row(1).Height = 3 * ws2.Row(1).Height;
@@ -496,7 +495,7 @@ namespace PVMaster
                     #region Sheet3
                     p.Workbook.Worksheets.Add("sheet3");  //Tạo một sheet để làm việc trên đó                   
                     ExcelWorksheet ws3 = p.Workbook.Worksheets[3]; // lấy sheet vừa add ra để thao tác
-                    ws3.Name = "Výdej (do 90 dnů)";  // đặt tên cho sheet                 
+                    ws3.Name = "Výdej (do 60 dnů)";  // đặt tên cho sheet                 
                     ws3.Cells.Style.Font.Size = 11;   // fontsize mặc định cho cả sheet                
                     ws3.Cells.Style.Font.Name = "Calibri";    // font family mặc định cho cả sheet
                     ws3.Row(1).Height = 3 * ws3.Row(1).Height;

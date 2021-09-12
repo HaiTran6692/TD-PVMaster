@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BranchInfor.cs" />
+    <Compile Include="ClassLocalId.cs" />
     <Compile Include="CrystalReport_Vydejky.cs">
       <DependentUpon>CrystalReport_Vydejky.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -132,6 +133,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WriteLogToCache.cs" />
     <EmbeddedResource Include="CrystalReport_Vydejky.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport_Vydejky.cs</LastGenOutput>

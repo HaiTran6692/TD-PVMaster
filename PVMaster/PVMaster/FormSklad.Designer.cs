@@ -109,7 +109,7 @@ namespace PVMaster
             this.label1Vydej.Name = "label1Vydej";
             this.label1Vydej.Size = new System.Drawing.Size(153, 23);
             this.label1Vydej.TabIndex = 7;
-            this.label1Vydej.Text = "Výdej( do 90 dnů):";
+            this.label1Vydej.Text = "Výdej( do 60 dnů):";
             // 
             // label3Celkem
             // 
@@ -131,7 +131,7 @@ namespace PVMaster
             this.label5Prijem.Name = "label5Prijem";
             this.label5Prijem.Size = new System.Drawing.Size(159, 23);
             this.label5Prijem.TabIndex = 7;
-            this.label5Prijem.Text = "Příjem( do 90 dnů):";
+            this.label5Prijem.Text = "Příjem( do 60 dnů):";
             // 
             // pictureBox1
             // 

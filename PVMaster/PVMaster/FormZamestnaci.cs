@@ -51,6 +51,7 @@ namespace PVMaster
 
         private void FormZamestnaci_Load(object sender, EventArgs e)
         {
+            WriteLogToCache.Instance.WriteToCache($"Zamestnaci {_branchToFormZamestnaci}", ClassLocalId.GlobalLocalid);
             this.Text = $"PVMaster Zaměstnaci {_branchToFormZamestnaci}";
             if (!worker.IsBusy)
             {
@@ -83,6 +84,7 @@ namespace PVMaster
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             ExportDTGVToExcel.Instance.ExportToExcel(dataGridView1);
+            WriteLogToCache.Instance.WriteToCache("Export Excel seznam zamestnaci", ClassLocalId.GlobalLocalid);
         }
         private void CapNhatLai()
         {
@@ -127,6 +129,7 @@ namespace PVMaster
             {
                 dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
             }
+            WriteLogToCache.Instance.WriteToCache("Print seznam zamestnaci",ClassLocalId.GlobalLocalid);
             DGVPrinter printer = new DGVPrinter();
             printer.Title = $"Seznam zaměstnaců {_branchToFormZamestnaci}";//Header
             printer.SubTitle = string.Format("Dne  {0}", DateTime.Now.ToString("dd.MM.yyyy-HH:mm"));

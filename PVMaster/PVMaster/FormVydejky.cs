@@ -99,10 +99,11 @@ namespace PVMaster
         {
             progressBar_right.Visible = false;
             crystalReportViewer1.ReportSource = cr_vydejky;
+            WriteLogToCache.Instance.WriteToCache($"Find vydejka {textBox1.Text}", ClassLocalId.GlobalLocalid);
         }
         private void FormVydejky_Load(object sender, EventArgs e)
         {
-            //this.Text = "PVMaster v2e.090721 Vydejky " + SendToFormVydejky.ToString();
+            WriteLogToCache.Instance.WriteToCache($"Vydejky {SendToFormVydejky}", ClassLocalId.GlobalLocalid);
             this.Text = "PVMaster Vydejky " + SendToFormVydejky.ToString(); // thêm thông tin informace pokladna, cislo uctenka
 
             this.WindowState = FormWindowState.Maximized;
@@ -406,14 +407,14 @@ namespace PVMaster
                                        where faktura='{faktura_cislo}' ";
 
 
-            string _dph21 = "0,00";
-            string _dph21_z = "0,00";
-            string _dph15 = "0,00";
-            string _dph15_z = "0,00";
-            string _dph10 = "0,00";
-            string _dph10_z = "0,00";
-            string _dph0_z = "0,00";
-            string _celkem = "0,00";
+            string _dph21 = "0.00";
+            string _dph21_z = "0.00";
+            string _dph15 = "0.00";
+            string _dph15_z = "0.00";
+            string _dph10 = "0.00";
+            string _dph10_z = "0.00";
+            string _dph0_z = "0.00";
+            string _celkem = "0.00";
 
             DataTable TB_celkem = new DataTable();
             DataTable TB= new DataTable();
@@ -598,12 +599,11 @@ namespace PVMaster
             }
             return _load_m_kus;
         }
-
         private void pictureBox4_Click(object sender, EventArgs e)
         {
            crystalReportViewer1.PrintReport();
+           WriteLogToCache.Instance.WriteToCache($"Print vydejka {textBox1.Text}", ClassLocalId.GlobalLocalid);
         }
-
         private void pictureBox2_Click(object sender, EventArgs e)
         {
             if (placeHolderTextBox1.TextLength >= 5)
@@ -625,7 +625,6 @@ namespace PVMaster
                 MessageBox.Show("Zadejte min. 5 čísel!");
             }
         }
-
         private void placeHolderTextBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode==Keys.Enter)
