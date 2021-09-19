@@ -31,8 +31,10 @@ namespace PVMaster
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormZamestnaci));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.textBox1_PC_Name = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
@@ -52,8 +54,10 @@ namespace PVMaster
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.textBox1_PC_Name);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.pictureBox3);
@@ -63,6 +67,17 @@ namespace PVMaster
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(990, 79);
             this.panel1.TabIndex = 8;
+            // 
+            // textBox1_PC_Name
+            // 
+            this.textBox1_PC_Name.BackColor = System.Drawing.SystemColors.Menu;
+            this.textBox1_PC_Name.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1_PC_Name.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.textBox1_PC_Name.Location = new System.Drawing.Point(75, 59);
+            this.textBox1_PC_Name.Name = "textBox1_PC_Name";
+            this.textBox1_PC_Name.Size = new System.Drawing.Size(126, 13);
+            this.textBox1_PC_Name.TabIndex = 4;
+            this.textBox1_PC_Name.Text = "TAMDA-B-TRACK";
             // 
             // label4
             // 
@@ -83,6 +98,17 @@ namespace PVMaster
             this.label3.Size = new System.Drawing.Size(33, 13);
             this.label3.TabIndex = 3;
             this.label3.Text = "Excel";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label5.Location = new System.Drawing.Point(17, 59);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(55, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "PC Name:";
             // 
             // label2
             // 
@@ -197,5 +223,7 @@ namespace PVMaster
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.TextBox textBox1_PC_Name;
+        private System.Windows.Forms.Label label5;
     }
 }

@@ -26,11 +26,11 @@ namespace PVMaster
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
             _branchToFormZamestnaci = branchToFormZamestnaci;
             label1.Text = $"Seznam zaměstnaci {_branchToFormZamestnaci} dne {DateTime.Today.ToString("dd.MM.yyyy")}";
-           
+
         }
         void worker_DoWork(object sender, DoWorkEventArgs e)
-        {          
-            CapNhatLai();    
+        {
+            CapNhatLai();
         }
         void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
@@ -53,6 +53,20 @@ namespace PVMaster
         {
             WriteLogToCache.Instance.WriteToCache($"Zamestnaci {_branchToFormZamestnaci}", ClassLocalId.GlobalLocalid);
             this.Text = $"PVMaster Zaměstnaci {_branchToFormZamestnaci}";
+            if (_branchToFormZamestnaci == "DC - Morava")
+            { 
+                textBox1_PC_Name.Text = "DCMO-ANNINH"; 
+            }
+            else if (_branchToFormZamestnaci == "TD - Brno")
+            {
+                textBox1_PC_Name.Text = "TAMDA-B-TRACK";
+            }
+            else
+            {
+                textBox1_PC_Name.Text = label5.Text= "";
+            }
+
+
             if (!worker.IsBusy)
             {
                 pictureBox1.Enabled = false;
@@ -77,7 +91,7 @@ namespace PVMaster
                 progressBar1.MarqueeAnimationSpeed = 1;
                 worker.RunWorkerAsync();
             }
-           
+
 
         }
 
@@ -102,20 +116,34 @@ namespace PVMaster
 						  ROW_NUMBER() OVER( ORDER BY ID_TD) as R#,* 						  
 						  FROM BANG1
 						  order by  ID_TD";
+
+            string sql2 = $@"WITH BANG1 AS (SELECT distinct(pwa.[IDParttimeWorker]) as ID_Z  
+	                          ,ISNULL(zam.Stt,pwa.[IDParttimeWorker]) as ID_TD ,pwa.[Name] as Jmeno_Prijmeni
+	                          ,ISNULL(Firma,Agency) as Firma
+	                          ,ISNULL([Pracovní pozice],'Skladník') as Pozice 
+                              ,case when pc_des='DCMO-ANNINH' then 'DC-MORAVA' ELSE 'TD-BRNO' END AS Pobocka
+                          FROM [HumanResourceManagement].[dbo].[ParttimeWorkerActivity] pwa
+                          left join [HumanResourceManagement].[dbo].[ParttimeWorker] pw on pwa.IDParttimeWorker=pw.IDParttimeWorker
+                          left join [TamdaSW].dbo.View_PVReport_PamZamStt zam on TRY_CONVERT(INT,pw.CardID)=zam.Stt --collate DATABASE_default
+                          where DATEDIFF(Day,[WorkedDate],getdate())=0 and [Druh poměru] is not null and pc_des='{textBox1_PC_Name.Text}' )                     
+                           SELECT 
+						  ROW_NUMBER() OVER( ORDER BY ID_TD) as R#,* 						  
+						  FROM BANG1
+						  order by  ID_TD";
+
             try
             {
-               
-                if (_branchToFormZamestnaci== "DC - Morava")
+
+                if (_branchToFormZamestnaci == "DC - Morava" || _branchToFormZamestnaci == "TD - Brno")
                 {
-                    DataProvider.SetConnectString = $@"Data Source=192.168.5.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
-                    TB = DataProvider.Instance.ExecuteQuery(sql1);
-                    DataProvider.SetConnectString = $@"Data Source=192.168.89.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";
+                    DataProvider.SetConnectString = $@"Data Source=192.168.5.100,1434;Initial Catalog=TamdaSW;User ID=admin;Password=c81a57305c570bb51ba0f4a6d048274c;";                  
+                    TB = DataProvider.Instance.ExecuteQuery(sql2);                    
                 }
                 else
                 {
                     TB = DataProvider.Instance.ExecuteQuery(sql1);
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -129,7 +157,7 @@ namespace PVMaster
             {
                 dataGridView1.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
             }
-            WriteLogToCache.Instance.WriteToCache("Print seznam zamestnaci",ClassLocalId.GlobalLocalid);
+            WriteLogToCache.Instance.WriteToCache("Print seznam zamestnaci", ClassLocalId.GlobalLocalid);
             DGVPrinter printer = new DGVPrinter();
             printer.Title = $"Seznam zaměstnaců {_branchToFormZamestnaci}";//Header
             printer.SubTitle = string.Format("Dne  {0}", DateTime.Now.ToString("dd.MM.yyyy-HH:mm"));
