@@ -21,6 +21,10 @@ namespace PVMaster
         string odb_numb = "";
         string datum_vydejky = "";
         string informace_kasa = "";
+        string datum_UZP = "";
+        string datum_Splatnosti = "";
+        string platba = "";
+
 
 
         private string sendToFormVydejky;
@@ -127,6 +131,10 @@ namespace PVMaster
                                                   ,case when len(isnull(odberatel,'0'))=0 then '0' else isnull(odberatel,'0') end  AS odberatel
                                                   ,faktura,concat('FAKTURA č. ',faktura,' - ',text_pred) as info
                                                   --,concat('FAKTURA č. ',faktura,' - user: ',user_id,'- ',text_pred) as info
+                                                  ,format(convert(datetime,[duzp]),'dd.MM.yyyy') as duzp
+                                                  ,format(convert(datetime,[splatnost]),'dd.MM.yyyy') as splatnost
+                                                  ,case when [platba]=1 then 'Hotově' else 'Příkazem' end as platba
+
                                                   from [TDFaktury].[dbo].[FakVyd] fv
                                                   where pobocka = '{DataProvider.GetBranch}' and id like'%{_input_cislo_vydejky}%'     
                                                         and DATEDIFF(day,convert(datetime,'{dateTimePicker1from.Value.ToString("dd.MM.yyyy")}',104), cast(left(vystavena,8) as date))>=0                                                                      
@@ -136,7 +144,10 @@ namespace PVMaster
                                                                                                 ,porizeno AS Datum
                                                                                                 ,case when len(isnull(odb,'0'))=0 then '0' else isnull(odb,'0') end  AS odberatel
                                                                                                 ,fa,concat(N'UČTENKA č. ',ic,' - Pokladna:',pok) as info            
-                                                                                               -- ,concat(N'Učtenka: ',ic,' - user: ',user_id,'- Pokladna:',pok) as info                                            
+                                                                                               -- ,concat(N'Učtenka: ',ic,' - user: ',user_id,'- Pokladna:',pok) as info  
+                                                                                                ,format([porizeno],'dd.MM.yyyy') as duzp
+                                                                                                ,format([porizeno],'dd.MM.yyyy') as splatnost
+                                                                                                ,'Hotově' as platba
                                                                                                 FROM [TDFaktury].[dbo].[Archiv]
 			   								                                                    WHERE pob = '{DataProvider.GetBranch}' and fa=0   
                                                   and id like'%{_input_cislo_vydejky}%'   
@@ -164,7 +175,11 @@ namespace PVMaster
                 odb_numb = row.Cells[3].Value.ToString();
                 datum_vydejky = row.Cells[2].Value.ToString();
                 informace_kasa = row.Cells[5].Value.ToString();
-             
+                datum_UZP = row.Cells[6].Value.ToString();
+                datum_Splatnosti = row.Cells[7].Value.ToString();
+                platba = row.Cells[8].Value.ToString();
+
+
             }
             catch (Exception)
             {
@@ -173,11 +188,15 @@ namespace PVMaster
                 odb_numb = "0";
                 datum_vydejky = "";
                 informace_kasa="";
+                datum_UZP = "";
+                datum_Splatnosti = "";
+                platba = "";
+
             }
         }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 6)
+            if (e.ColumnIndex == 9)
             {
                 try
                 {
@@ -302,7 +321,7 @@ namespace PVMaster
                     string city = "";
                     string obj = "";
                     string prijemka = "";
-                    string datumPrijmuD = "";
+                    string datumVystaveni = "";
 
                     if (int.Parse(faktura_cislo) > 0 && TB_odb.Rows.Count > 0)
                     {                       
@@ -315,7 +334,7 @@ namespace PVMaster
                        // obj = "Objednávka č." + vydejka_cislo;
                         obj = "" ;
                         prijemka = "Výdejka č. " + vydejka_cislo;
-                        datumPrijmuD = datum_vydejky;
+                        datumVystaveni = datum_vydejky;
 
                         cr_vydejky.SetDataSource(_List);
                         Zen.Barcode.Code128BarcodeDraw bar1 = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
@@ -329,11 +348,14 @@ namespace PVMaster
                         cr_vydejky.SetParameterValue("streetD", street);
                         cr_vydejky.SetParameterValue("icD", ico);
                         cr_vydejky.SetParameterValue("dicD", dic);
-                        cr_vydejky.SetParameterValue("dicD", dic);
-                        cr_vydejky.SetParameterValue("datumPrijmuD", datumPrijmuD);
+                        cr_vydejky.SetParameterValue("datumVystaveni", datumVystaveni);
                         cr_vydejky.SetParameterValue("celk_m", celkem_m.ToString("0.000"));
                         cr_vydejky.SetParameterValue("celk_V", celkem_V.ToString("0.000"));
-                        cr_vydejky.SetParameterValue("informace_kasa", informace_kasa);
+                        cr_vydejky.SetParameterValue("informace_kasa", informace_kasa);  
+                        cr_vydejky.SetParameterValue("datumUZP", datum_UZP);
+                        cr_vydejky.SetParameterValue("datumSplatnosti", datum_Splatnosti);
+                        cr_vydejky.SetParameterValue("platba", "Způsob úhrady: "+platba);
+                      
                         SetBranchToCReport();
                         Set_Cena_a_DPH(vydejka_cislo, faktura_cislo);
                     }
@@ -348,7 +370,7 @@ namespace PVMaster
                        //obj = "Objednávka č." + vydejka_cislo;
                         obj = "";
                         prijemka = "Výdejka č. " + vydejka_cislo;                       
-                        datumPrijmuD = datum_vydejky;
+                        datumVystaveni = datum_vydejky;
 
                         cr_vydejky.SetDataSource(_List);
                         Zen.Barcode.Code128BarcodeDraw bar1 = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
@@ -362,11 +384,13 @@ namespace PVMaster
                         cr_vydejky.SetParameterValue("streetD", street);
                         cr_vydejky.SetParameterValue("icD", ico);
                         cr_vydejky.SetParameterValue("dicD", dic);
-                        cr_vydejky.SetParameterValue("dicD", dic);
-                        cr_vydejky.SetParameterValue("datumPrijmuD", datumPrijmuD);
+                        cr_vydejky.SetParameterValue("datumVystaveni", datumVystaveni);
                         cr_vydejky.SetParameterValue("celk_m", celkem_m.ToString("0.000"));
                         cr_vydejky.SetParameterValue("celk_V", celkem_V.ToString("0.000"));
                         cr_vydejky.SetParameterValue("informace_kasa", informace_kasa);
+                        cr_vydejky.SetParameterValue("datumUZP", datum_UZP);
+                        cr_vydejky.SetParameterValue("datumSplatnosti", datum_Splatnosti);
+                        cr_vydejky.SetParameterValue("platba", "Způsob úhrady: " + platba);
                         SetBranchToCReport();
                         Set_Cena_a_DPH(vydejka_cislo, faktura_cislo);
                     }
@@ -483,6 +507,7 @@ namespace PVMaster
                 cr_vydejky.SetParameterValue("Branch_tel", BranchInfor.TDB_tel);
                 cr_vydejky.SetParameterValue("Branch_ico", BranchInfor.TDB_ico);
                 cr_vydejky.SetParameterValue("Branch_dic", BranchInfor.TDB_dic);
+                cr_vydejky.SetParameterValue("razitko", Application.StartupPath + "\\cache\\razitkoBrno.jpg"); //location  
             }
             else if (SendToFormVydejky == "TD - Usti")
             {
@@ -493,6 +518,7 @@ namespace PVMaster
                 cr_vydejky.SetParameterValue("Branch_tel", BranchInfor.TDU_tel);
                 cr_vydejky.SetParameterValue("Branch_ico", BranchInfor.TDU_ico);
                 cr_vydejky.SetParameterValue("Branch_dic", BranchInfor.TDU_dic);
+                cr_vydejky.SetParameterValue("razitko", Application.StartupPath + "\\cache\\razitkoUsti.jpg"); //location  
             }
             else
             {
@@ -503,6 +529,7 @@ namespace PVMaster
                 cr_vydejky.SetParameterValue("Branch_tel", BranchInfor.TDF_tel);
                 cr_vydejky.SetParameterValue("Branch_ico", BranchInfor.TDF_ico);
                 cr_vydejky.SetParameterValue("Branch_dic", BranchInfor.TDF_dic);
+                cr_vydejky.SetParameterValue("razitko", Application.StartupPath + "\\cache\\razitkoPraha.jpg"); //location  
             }
         }
         private void RunAsyn_Right()
