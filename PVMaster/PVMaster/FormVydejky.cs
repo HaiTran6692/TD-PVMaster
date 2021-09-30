@@ -417,7 +417,7 @@ namespace PVMaster
                                            AND Isnumeric(kod_zbozi) = 1
                                     GROUP  BY sazba_dph
                                     ORDER  BY sazba_dph  desc";
-            string sql_celkem = $@"SELECT celk  FROM [TDFaktury].[dbo].[Archiv] where id='{vydejka_cislo}' ";
+            string sql_celkem = $@"SELECT FORMAT(ROUND(celk, 0), N'# ##0 Kč')   FROM [TDFaktury].[dbo].[Archiv] where id='{vydejka_cislo}' ";
 
 
 
@@ -427,7 +427,7 @@ namespace PVMaster
                                  from [TDFaktury].[dbo].[FakVydPol] where faktura='{faktura_cislo}'
                                  group by [dph]
                                  ORDER  BY [dph]  desc";
-            string sql_celkem_fak = $@"SELECT castka from [TDFaktury].[dbo].[FakVyd]
+            string sql_celkem_fak = $@"SELECT FORMAT(ROUND(castka, 0), N'# ##0 Kč') AS total from [TDFaktury].[dbo].[FakVyd]
                                        where faktura='{faktura_cislo}' ";
 
 
@@ -438,7 +438,7 @@ namespace PVMaster
             string _dph10 = "0.00";
             string _dph10_z = "0.00";
             string _dph0_z = "0.00";
-            string _celkem = "0.00";
+            string _celkem = "0 Kč";
 
             DataTable TB_celkem = new DataTable();
             DataTable TB= new DataTable();

@@ -33,6 +33,7 @@ namespace PVMaster
             this.panel1 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.placeHolderTextBox1 = new PVMaster.PlaceHolderTextBox();
             this.progressBar_left = new System.Windows.Forms.ProgressBar();
             this.progressBar_right = new System.Windows.Forms.ProgressBar();
             this.label5 = new System.Windows.Forms.Label();
@@ -49,7 +50,6 @@ namespace PVMaster
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.crystalReportViewer1 = new CrystalDecisions.Windows.Forms.CrystalReportViewer();
             this.label6 = new System.Windows.Forms.Label();
-            this.placeHolderTextBox1 = new PVMaster.PlaceHolderTextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -103,6 +103,18 @@ namespace PVMaster
             this.label3.TabIndex = 11;
             this.label3.Text = "Počet výdejky:";
             // 
+            // placeHolderTextBox1
+            // 
+            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
+            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
+            this.placeHolderTextBox1.Location = new System.Drawing.Point(457, 31);
+            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
+            this.placeHolderTextBox1.PlaceHolderText = "Zadejte Číslo výdejky...";
+            this.placeHolderTextBox1.Size = new System.Drawing.Size(223, 20);
+            this.placeHolderTextBox1.TabIndex = 10;
+            this.placeHolderTextBox1.Text = "Zadejte Číslo výdejky...";
+            this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
+            // 
             // progressBar_left
             // 
             this.progressBar_left.Location = new System.Drawing.Point(5, 57);
@@ -142,10 +154,10 @@ namespace PVMaster
             // 
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Font = new System.Drawing.Font("Calibri", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.textBox1.Location = new System.Drawing.Point(1349, 12);
+            this.textBox1.Location = new System.Drawing.Point(1357, 13);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(210, 24);
+            this.textBox1.Size = new System.Drawing.Size(233, 24);
             this.textBox1.TabIndex = 6;
             // 
             // textBox2
@@ -267,18 +279,6 @@ namespace PVMaster
             this.label6.Size = new System.Drawing.Size(203, 13);
             this.label6.TabIndex = 12;
             this.label6.Text = "press F1 to see Detail | F5 Export to Excel";
-            // 
-            // placeHolderTextBox1
-            // 
-            this.placeHolderTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
-            this.placeHolderTextBox1.ForeColor = System.Drawing.Color.Gray;
-            this.placeHolderTextBox1.Location = new System.Drawing.Point(457, 31);
-            this.placeHolderTextBox1.Name = "placeHolderTextBox1";
-            this.placeHolderTextBox1.PlaceHolderText = "Zadejte Číslo výdejky...";
-            this.placeHolderTextBox1.Size = new System.Drawing.Size(223, 20);
-            this.placeHolderTextBox1.TabIndex = 10;
-            this.placeHolderTextBox1.Text = "Zadejte Číslo výdejky...";
-            this.placeHolderTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.placeHolderTextBox1_KeyDown);
             // 
             // FormVydejky
             // 
