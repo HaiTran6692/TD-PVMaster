@@ -138,7 +138,7 @@
             // 
             this.radioButton1_Prijemky.AutoSize = true;
             this.radioButton1_Prijemky.Checked = true;
-            this.radioButton1_Prijemky.Location = new System.Drawing.Point(413, 203);
+            this.radioButton1_Prijemky.Location = new System.Drawing.Point(417, 203);
             this.radioButton1_Prijemky.Name = "radioButton1_Prijemky";
             this.radioButton1_Prijemky.Size = new System.Drawing.Size(67, 17);
             this.radioButton1_Prijemky.TabIndex = 24;
@@ -155,11 +155,12 @@
             this.radioButton2_Vydejky.TabIndex = 24;
             this.radioButton2_Vydejky.Text = "Výdejky";
             this.radioButton2_Vydejky.UseVisualStyleBackColor = true;
+            this.radioButton2_Vydejky.Visible = false;
             // 
             // radioButton3_Sklad
             // 
             this.radioButton3_Sklad.AutoSize = true;
-            this.radioButton3_Sklad.Location = new System.Drawing.Point(413, 230);
+            this.radioButton3_Sklad.Location = new System.Drawing.Point(417, 230);
             this.radioButton3_Sklad.Name = "radioButton3_Sklad";
             this.radioButton3_Sklad.Size = new System.Drawing.Size(52, 17);
             this.radioButton3_Sklad.TabIndex = 24;
@@ -199,7 +200,7 @@
             this.MinimizeBox = false;
             this.Name = "FormLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PVMaster v4c.24092021 Login";
+            this.Text = "PVMaster v4d.09102021 Login";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormLogin_FormClosed);
             this.Load += new System.EventHandler(this.FormLogin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
